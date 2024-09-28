@@ -10,7 +10,7 @@ import React, { useState } from "react";
 import { AnnouncementType } from "../../model/Board";
 import styled from "@emotion/styled";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
-import { useQuery } from "@tanstack/react-query";
+import { BoardEditor } from "./BoardEditor";
 
 const announcementDummy = [
   {
@@ -21,7 +21,7 @@ const announcementDummy = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     category: "announcement",
     important: true,
-    insertDate: "2023.03.03 12:23",
+    insertDate: "2023.03.03",
     insertId: "NaNa",
     updateDate: null,
     updateId: null,
@@ -34,7 +34,7 @@ const announcementDummy = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     category: "announcement",
     important: false,
-    insertDate: "2023.03.03 12:23",
+    insertDate: "2023.03.03",
     insertId: "NaNa",
     updateDate: null,
     updateId: null,
@@ -47,7 +47,7 @@ const announcementDummy = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     category: "announcement",
     important: false,
-    insertDate: "2023.03.03 12:23",
+    insertDate: "2023.03.03",
     insertId: "NaNa",
     updateDate: null,
     updateId: null,
@@ -60,7 +60,7 @@ const announcementDummy = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     category: "announcement",
     important: false,
-    insertDate: "2023.03.03 12:23",
+    insertDate: "2023.03.03",
     insertId: "NaNa",
     updateDate: null,
     updateId: null,
@@ -77,7 +77,7 @@ export function BoardList() {
     () => [
       {
         id: "index",
-        header: "No.",
+        header: "번호",
         size: 100,
         minSize: 50,
         accessorKey: "boardId",
@@ -103,7 +103,12 @@ export function BoardList() {
         size: 800,
       },
       { id: "writer", header: "작성자", accessorKey: "writer" },
-      { id: "insertDate", header: "작성일", accessorKey: "insertDate" },
+      {
+        id: "insertDate",
+        header: "작성일",
+        accessorKey: "insertDate",
+        size: 150,
+      },
     ],
     [data],
   );
@@ -123,7 +128,7 @@ export function BoardList() {
     <TableContainer>
       <TableHeader
         table={table}
-        headerBorder={"1px solid #114F33"}
+        headerBorder={"1px solid #ffffff"}
         columnResizeMode={columnResizeMode}
       ></TableHeader>
       <TableBody table={table}></TableBody>

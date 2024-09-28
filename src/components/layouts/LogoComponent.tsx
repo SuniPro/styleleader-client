@@ -17,3 +17,7 @@ export default function Logo({ className }: LogoProps): React.ReactElement {
 
   return <LogoComponent className={className} width={200} />;
 }
+
+export function NavigationLinkItem() {
+  return <></>;
+}

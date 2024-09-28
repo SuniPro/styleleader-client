@@ -4,11 +4,25 @@ import styled from "@emotion/styled";
 import Logo from "./LogoComponent";
 import { css } from "@emotion/react";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export function Header() {
+  const location = useLocation();
+
+  const [position, setPosition] = useState(0);
+  function onScroll() {
+    setPosition(window.scrollY);
+  }
+  useEffect(() => {
+    window.addEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
   return (
-    <HeaderContainer>
+    <HeaderContainer scrollMove={position !== 0}>
       <Link to={"/"}>
         <Logo
           css={css`
@@ -21,14 +35,17 @@ export function Header() {
         <HeaderLinkItem
           to="company"
           label={<HeaderLinkLabel>COMPANY</HeaderLinkLabel>}
+          isActive={location.pathname === "/company" && position === 0}
         />
         <HeaderLinkItem
           to="brand"
           label={<HeaderLinkLabel>BRAND</HeaderLinkLabel>}
+          isActive={location.pathname === "/brand" && position === 0}
         />
         <HeaderLinkItem
           to="service"
           label={<HeaderLinkLabel>SERVICE</HeaderLinkLabel>}
+          isActive={location.pathname === "/service" && position === 0}
         />
       </HeaderNavigation>
       <PersonalInfo>
@@ -38,16 +55,20 @@ export function Header() {
   );
 }
 
-const HeaderContainer = styled.header`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+const HeaderContainer = styled.header<{ scrollMove: boolean }>(
+  ({ scrollMove }) => css`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 
-  padding: 30px 0;
-  position: fixed;
-  z-index: 2;
-`;
+    padding: 15px 0;
+    position: fixed;
+    z-index: 2;
+
+    background-color: ${scrollMove ? "black" : "rgba(255, 255, 255, 0)"};
+  `,
+);
 
 const HeaderLinkLabel = styled.div`
   font-family: Roboto, sans-serif;

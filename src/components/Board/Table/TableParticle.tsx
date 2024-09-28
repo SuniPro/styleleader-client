@@ -15,7 +15,7 @@ export function TableHeader(props: {
   return (
     <thead>
       {table.getHeaderGroups().map((headerGroup: any) => (
-        <TableHeaderTr border={headerBorder} key={`headerGroup.id ${uid()}`}>
+        <TableHeaderTr border={headerBorder} key={`${uid()}`}>
           {headerGroup.headers.map((header: any) => (
             <TableHeaderTh
               {...{
@@ -65,7 +65,7 @@ export function TableBody(props: { table: any }) {
   return (
     <tbody>
       {table.getRowModel().rows.map((row: any) => (
-        <tr key={row.id}>
+        <TableBodyTr key={row.id}>
           {row.getVisibleCells().map((cell: any) => {
             const originalId = cell.id; // 예시로 주어진 문자열
             const modifiedId = originalId.replace(/^[0-9]+_/, ""); // 숫자로 시작하는 모든 접두사를 제거한 문자열
@@ -83,7 +83,7 @@ export function TableBody(props: { table: any }) {
               </td>
             );
           })}
-        </tr>
+        </TableBodyTr>
       ))}
     </tbody>
   );
@@ -229,24 +229,10 @@ export function PageNation(props: PageNationProps) {
 
 const TableHeaderTr = styled.tr<{ border?: string }>(
   ({ border }) => css`
-    td:first-child,
-    th:first-child {
-      border-top-left-radius: 5px;
-      border-bottom-left-radius: 5px;
-      border-left: ${border}; /* 셀 왼쪽에 border 추가 */
-    }
-
-    td:last-child,
-    th:last-child {
-      border-top-right-radius: 5px;
-      border-bottom-right-radius: 5px;
-      border-right: ${border}; /* 셀 오른쪽에 border 추가 */
-    }
-
     td,
     th {
-      border-top: ${border}; /* 상단에 border 추가 */
       border-bottom: ${border}; /* 하단에 border 추가 */
+      padding-bottom: 16px;
     }
   `,
 );
@@ -254,4 +240,9 @@ const TableHeaderTr = styled.tr<{ border?: string }>(
 const TableHeaderTh = styled.th`
   padding: 8px 0 9px 0;
   height: 14px;
+`;
+
+const TableBodyTr = styled.tr`
+  font-size: 20px;
+  font-family: Roboto;
 `;
