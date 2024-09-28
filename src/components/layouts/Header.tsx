@@ -32,7 +32,6 @@ export function Header() {
         />
       </HeaderNavigation>
       <PersonalInfo>
-        <Username>Nana.</Username>
         <LogoutIcon fontSize={"medium"} sx={{ color: "#ffffff" }} />
       </PersonalInfo>
     </HeaderContainer>
@@ -46,11 +45,13 @@ const HeaderContainer = styled.header`
   justify-content: center;
 
   padding: 30px 0;
-  border-bottom: 1px solid #d7bc6a;
+  position: fixed;
+  z-index: 2;
 `;
 
 const HeaderLinkLabel = styled.div`
-  font-weight: 400;
+  font-family: Roboto, sans-serif;
+  font-weight: 500;
 `;
 
 const HeaderNavigation = styled.nav`
@@ -65,7 +66,6 @@ const PersonalInfo = styled.div`
   align-items: center;
   position: absolute;
   right: 30px;
-  top: 30px;
   gap: 8px;
 `;
 

@@ -49,6 +49,8 @@ const TabMenuContainer = styled.div`
   padding: 1rem 2rem;
   background-color: var(--color-secondary);
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+
+  margin-top: 50px;
 `;
 
 const TabMenuUnorderedList = styled.ul`
@@ -88,5 +90,6 @@ const TabMenuContent = styled.span<{ isActive?: boolean }>(
     display: ${isActive ? "block" : "none"};
     color: white;
     font-weight: normal;
+    font-family: Gothic, sans-serif;
   `,
 );

@@ -3,7 +3,6 @@ import ApartmentIcon from "@mui/icons-material/Apartment";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MicIcon from "@mui/icons-material/Mic";
 import { useState } from "react";
-import { BoardList } from "../components/Board/BoardList";
 import { Board } from "../components/Board/Board";
 
 export function Company() {

@@ -24,10 +24,6 @@ export function Brand() {
     setActiveIndex(index);
   };
 
-  useEffect(() => {
-    console.log(activeIndex);
-  }, [activeIndex]);
-
   return (
     <CarouselWrapper>
       <Carousel
@@ -88,7 +84,7 @@ export function Brand() {
             rgba(255, 255, 255, 0)
           );
           width: 100%;
-          height: 10px;
+          height: 20px;
         `}
       />
     </CarouselWrapper>

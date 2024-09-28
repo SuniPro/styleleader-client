@@ -29,16 +29,14 @@ const StyledButton = styled.button<{ isActive?: boolean }>(
     font-weight: bold;
     border: 0;
     font-size: 20px;
-    background-color: black;
+    background-color: rgb(255, 255, 255, 0);
     ${isActive &&
     css`
       color: blue;
-      font-weight: bold;
     `}
     ${!isActive &&
     css`
-      color: white;
-      font-weight: bold;
+      color: #ffffff;
     `}
   `,
 );

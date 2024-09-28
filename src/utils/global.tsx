@@ -8,6 +8,13 @@ const style = css`
     font-weight: bold;
     font-style: normal;
   }
+
+  @font-face {
+    font-family: "Gothic";
+    src: url("/src/assets/font/gothic/GothicA1-Bold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+  }
 `;
 
 function GlobalStyle() {
