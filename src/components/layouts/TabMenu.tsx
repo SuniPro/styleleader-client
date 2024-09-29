@@ -66,7 +66,9 @@ const TabMenuList = styled.li<{ isActive?: boolean }>(
     border-radius: 4rem;
     font-size: 1.2rem;
     padding: 1rem;
-    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition:
+      background-position 1s cubic-bezier(0.165, 0.84, 0.44, 1),
+      all 1s ease;
     cursor: pointer;
     ${isActive && "background: linear-gradient(to bottom,#D7BC6A,#FFE9A6);"};
 

@@ -7,7 +7,7 @@ export function Board() {
   return (
     <Container>
       <BoardList></BoardList>
-      <BoardEditor />
+      {/*<BoardEditor />*/}
     </Container>
   );
 }

@@ -35,17 +35,17 @@ export function Header() {
         <HeaderLinkItem
           to="company"
           label={<HeaderLinkLabel>COMPANY</HeaderLinkLabel>}
-          isActive={location.pathname === "/company" && position === 0}
+          isActive={location.pathname === "/company"}
         />
         <HeaderLinkItem
           to="brand"
           label={<HeaderLinkLabel>BRAND</HeaderLinkLabel>}
-          isActive={location.pathname === "/brand" && position === 0}
+          isActive={location.pathname === "/brand"}
         />
         <HeaderLinkItem
           to="service"
           label={<HeaderLinkLabel>SERVICE</HeaderLinkLabel>}
-          isActive={location.pathname === "/service" && position === 0}
+          isActive={location.pathname === "/service"}
         />
       </HeaderNavigation>
       <PersonalInfo>

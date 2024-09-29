@@ -222,7 +222,7 @@ const SlideItemImgLink = styled.div`
       0.5
     ); /* rgba(black, 0.5)는 rgba(0,0,0,0.5)로 변경 */
     color: white;
-    content: "read more";
+    content: "READ MORE";
     display: flex;
     height: 100%;
     justify-content: center;
@@ -251,7 +251,7 @@ const CarouselSlideItemBody = styled.div`
   }
 
   p {
-    font-size: 0.8rem;
+    font-size: 16px;
     line-height: 1.3;
     color: white;
   }
