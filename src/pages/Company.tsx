@@ -1,8 +1,9 @@
 import { TabMenu } from "../components/layouts/TabMenu";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Board } from "../components/Board/Board";
 import { Introduce } from "../components/Introduce";
 import styled from "@emotion/styled";
+import { PageContainer } from "../components/layouts/PageLayouts";
 
 export function Company() {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -19,25 +20,16 @@ export function Company() {
   }
 
   return (
-    <Container>
+    <PageContainer>
       <Title>Company</Title>
       <TabMenu
         menuList={companyMenu}
         activeFunction={{ selectedIndex, setSelectedIndex }}
       />
       {CompanyContents(selectedIndex)}
-    </Container>
+    </PageContainer>
   );
 }
-
-const Container = styled.div`
-  width: 80%;
-  color: white;
-  margin-top: 10rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`;
 
 const Title = styled.div`
   font-size: 40px;

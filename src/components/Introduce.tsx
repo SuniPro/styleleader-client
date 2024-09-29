@@ -69,10 +69,7 @@ export function Introduce() {
           </Card>
         </div>
         <div className="item-3">
-          <Card
-            href="https://design.tutsplus.com/articles/envato-tuts-community-challenge-created-by-you-july-edition--cms-26724"
-            className="card"
-          >
+          <Card className="card">
             <Thumb
               className="thumb"
               css={css`
@@ -90,10 +87,7 @@ export function Introduce() {
           </Card>
         </div>
         <div className="item-4">
-          <Card
-            href="https://webdesign.tutsplus.com/tutorials/how-to-code-a-scrolling-alien-lander-website--cms-26826"
-            className="card"
-          >
+          <Card className="card">
             <Thumb
               className="thumb"
               css={css`
@@ -112,10 +106,7 @@ export function Introduce() {
           </Card>
         </div>
         <div className="item-5">
-          <Card
-            href="https://design.tutsplus.com/tutorials/stranger-things-inspired-text-effect--cms-27139"
-            className="card"
-          >
+          <Card className="card">
             <Thumb
               className="thumb"
               css={css`
@@ -131,10 +122,7 @@ export function Introduce() {
           </Card>
         </div>
         <div className="item-6">
-          <Card
-            href="https://photography.tutsplus.com/articles/5-inspirational-business-portraits-and-how-to-make-your-own--cms-27338"
-            className="card"
-          >
+          <Card className="card">
             <Thumb
               className="thumb"
               css={css`
@@ -150,10 +138,7 @@ export function Introduce() {
           </Card>
         </div>
         <div className="item-7">
-          <Card
-            href="https://webdesign.tutsplus.com/articles/notes-from-behind-the-firewall-the-state-of-web-design-in-china--cms-22281"
-            className="card"
-          >
+          <Card className="card">
             <Thumb
               className="thumb"
               css={css`

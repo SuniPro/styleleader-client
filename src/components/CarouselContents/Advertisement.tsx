@@ -16,7 +16,7 @@ interface CarouselSlideItemType {
   description: string;
 }
 
-export function Brand() {
+export function BrandCatalog() {
   const images = [DoxaImageGold, DoxaImageGreen, FrederiqueConstantBlack];
   const [activeIndex, setActiveIndex] = useState(0);
 

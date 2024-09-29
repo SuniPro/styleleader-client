@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import {
-  Brand,
+  BrandCatalog,
   ClockShowcase,
 } from "../components/CarouselContents/Advertisement";
 import React from "react";
@@ -14,7 +14,7 @@ const CARDS = 10;
 export function StyleLeaderDisplay() {
   return (
     <StyleLeaderDisplaySection>
-      <Brand />
+      <BrandCatalog />
       <ClockShowcase />
       <div
         css={css`
