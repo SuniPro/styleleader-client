@@ -245,4 +245,11 @@ const TableHeaderTh = styled.th`
 const TableBodyTr = styled.tr`
   font-size: 20px;
   font-family: Roboto;
+
+  td p {
+    max-width: 800px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 `;

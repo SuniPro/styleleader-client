@@ -1,6 +1,5 @@
 import { BoardList } from "./BoardList";
 import styled from "@emotion/styled";
-import { BoardEditor } from "./BoardEditor";
 import React from "react";
 
 export function Board() {

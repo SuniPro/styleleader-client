@@ -1,20 +1,16 @@
 import styled from "@emotion/styled";
 import { IconTypcnChevronLeftOutline } from "../../assets/Icons/ChevronOutlineArrow";
 import { IconTypcnChevronRightOutline } from "../../assets/Icons/ChevronOutlineArrow";
-import React, { Children, useState } from "react";
+import React, { Children, ReactNode, useState } from "react";
 import { css } from "@emotion/react";
 
-const COLOR_PURPLE = "#8B5CF6";
-const COLOR_PINK = "#EC4899";
 const COLOR_GRAY = "#9CA3AF";
 const COLOR_BLACK = "#1F2937";
 const COLOR_SIZE = 23;
 
-const MAX_VISIBILITY = 3;
-
-export function CardFeed(props: { children: any }) {
-  const { children } = props;
-  const [active, setActive] = useState(2);
+export function CardFeed(props: { children: any; cardLength: number }) {
+  const { children, cardLength } = props;
+  const [active, setActive] = useState(cardLength - 1);
   const count = Children.count(children);
 
   return (
@@ -50,7 +46,7 @@ export function CardFeed(props: { children: any }) {
   );
 }
 
-export function CardContents(props: { title: string; content: string }) {
+export function CardContents(props: { title: string; content: ReactNode }) {
   const { title, content } = props;
   return (
     <CardCase colorGray={COLOR_GRAY} colorBlack={COLOR_BLACK}>

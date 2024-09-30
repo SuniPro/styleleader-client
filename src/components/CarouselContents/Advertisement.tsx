@@ -1,14 +1,78 @@
 /** @jsxImportSource @emotion/react */
+//BrandImageList
 import DoxaImageGreen from "../../assets/BrandImage/doxa-image-green.png";
-import DoxaImageYellow from "../../assets/BrandImage/doxa-image-yellow.png";
-import DoxaImageGold from "../../assets/BrandImage/doxa-image-gold.webp";
 import DoxaImageOrange from "../../assets/BrandImage/doxa-image-orange.webp";
 import FrederiqueConstantBlack from "../../assets/BrandImage/frederique-constant-image-black.png";
+import GagaMilano from "../../assets/BrandImage/gaga-milano.jpg";
+import Alpina from "../../assets/BrandImage/alpina.jpg";
+
+//CollectionImageList
+import DoxaAquamarine from "../../assets/CollectionImage/DOXA_SUB300T-aquamarine.png";
+import DoxaDivingStar from "../../assets/CollectionImage/DOXA_SUB-200T-divingstar.png";
+import DoxaCarbon from "../../assets/CollectionImage/DOXA_SUB-300-CARBON.png";
+
+import FcClassics from "../../assets/CollectionImage/FC_COLLECTION-CLASSICS-GENTS.jpeg";
+import FcHighLife from "../../assets/CollectionImage/FC_COLLECTION-HIGHLIFE-GENTS.jpeg";
+import FcManufacture from "../../assets/CollectionImage/FC_COLLECTION-MANUFACTURE.jpeg";
+
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import styled from "@emotion/styled";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { css } from "@emotion/react";
+import { Box, Modal, Typography } from "@mui/material";
+import { ModalBoxStyle } from "../../pages/StyleLeaderDisplay";
+
+const DOXA_LINK =
+  "https://department.ssg.com/disp/brandShop.ssg?brandId=3000081880&ctgId=6000201050&n_media=27758&n_query=DOXA&n_rank=1&n_ad_group=grp-a001-04-000000041548489&n_ad=nad-a001-04-000000315007690&n_keyword_id=nkw-a001-04-000006147729761&n_keyword=DOXA&n_campaign_type=4&n_contract=tct-a001-04-000000000956435&n_ad_group_type=5&NaPm=ct%3Dm1oep43c%7Cci%3D0z40002%5F4dDAVCvt8KX1%7Ctr%3Dbrnd%7Chk%3D8679743176426dfe6f704fcc2b9220423d99128e%7Cnacn%3DTKevDogwM0ONA";
+const FREDERIQUECONSTANT_LINK = "https://brand.naver.com/frederiqueconstant";
+const GAGAMILANO_LINK = "https://www.gagamilano.com/en/home";
+const ALPINA_LINK = "https://alpinawatches.com/";
+
+const BRAND_LIST = [
+  [
+    {
+      image: FcManufacture,
+      title: "COLLECTION MANUFACTURE",
+      description:
+        "In 2004, Frederique Constant entered the elite circle of Swiss watchmaking brands that develop and produce their own in-house caliber. Consequently, the company became a “Manufacture”: in-house developed, in-house produced, in-house assembled. Frederique Constant has gradually become an important player within the watchmaking industry. With the ambition to offer the best quality at the most appropriate price, the Maison hasn’t stopped investing in production equipment. Offering today 31 in-house calibers, and besides surrounding ourselves with highly qualified watchmakers, we have developed all our departments to be able to control the various stages of the production of our watches, from initial conception to the final quality control, including assembly.",
+    },
+    {
+      image: FcHighLife,
+      title: "COLLECTION HIGHLIFE GENTS",
+      description:
+        "In 1999, Frederique Constant launched the first models of its Highlife collection. Embodied in a unique design, they were characterized by their integrated strap. Since 2020, the Maison perpetuated this ingenious concept, and brought this collection back in the spotlights with several models fitted with this intelligent feature.",
+    },
+    {
+      image: FcClassics,
+      title: "COLLECTION CLASSICS GENTS",
+      description:
+        "Frederique Constant is known for its classical and refined timepieces of exceptional value. Pure lines and a timeless design are the hallmarks of every watch within the Classics collection. Other attributes that never go out of fashion include reliability and durability. Every timepiece within the Classics collection has been engineered to the most exacting standards. The Brand’s philosophy of providing luxury watches at affordable prices holds true across the range.",
+    },
+  ],
+  [
+    {
+      image: DoxaDivingStar,
+      title: "SUB 200T divingstar",
+      description:
+        "Introducing a new chapter for SUB diving watches, marked by a contemporary shift in size. Embracing a sleeker diameter of 39 mm, this timepiece captures the essence of modernity and adaptability. It also marks the introduction of a new dial color: Sea Emerald Green.\n" +
+        "\n" +
+        "With a choice of dials, Iconic or Sunray, and the option of a rubber strap or the hallmark ‘beads of rice’ bracelet in stainless steel, the SUB 200T is available in a host of variants, boasting all the technical attributes that made SUBs famous since they were first introduced in 1967.",
+    },
+    {
+      image: DoxaAquamarine,
+      title: "SUB 300T aquamarine",
+      description:
+        "This reinterpretation of the 1968 SUB 300T Conquistador comes in a choice of 8 colors. Equipped with the patented unidirectional bezel with diving table and a case rated to a depth of 1200 meters, it is up to any challenge. All dive markings feature Super-LumiNova® inserts.",
+    },
+    {
+      image: DoxaCarbon,
+      title: "SUB 300 CARBON",
+      description:
+        "With its forged carbon case, a titanium chamber to ensure resistance to pressure, and a dial available in 8 colors along with tone-on-tone rubber straps, the ultra-lightweight SUB 300 Carbon offers a fascinating combination of cutting edge technology and aesthetics with the legendary style of the iconic SUB 300.",
+    },
+  ],
+];
 
 interface CarouselSlideItemType {
   image: string;
@@ -16,8 +80,40 @@ interface CarouselSlideItemType {
   description: string;
 }
 
+interface CollectionModalType {
+  open: boolean;
+  modalOpen: () => void;
+  modalClose: () => void;
+}
+
 export function BrandCatalog() {
-  const images = [DoxaImageGold, DoxaImageGreen, FrederiqueConstantBlack];
+  const catalogList: CarouselSlideItemType[] = [
+    {
+      image: FrederiqueConstantBlack,
+      title: "CLASSICS Moneta Moonphase",
+      description: FREDERIQUECONSTANT_LINK,
+    },
+    {
+      image: DoxaImageOrange,
+      title: "SUB 300T Aristera Limited Edition",
+      description: DOXA_LINK,
+    },
+    {
+      image: DoxaImageGreen,
+      title: "New Sea Emeralds",
+      description: DOXA_LINK,
+    },
+    {
+      image: Alpina,
+      title: "Pilot Quartz Worldtimer",
+      description: ALPINA_LINK,
+    },
+    {
+      image: GagaMilano,
+      title: "GaGa Milano MANUALE 5015S",
+      description: GAGAMILANO_LINK,
+    },
+  ];
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handleSlideChange = (index: number) => {
@@ -25,7 +121,7 @@ export function BrandCatalog() {
   };
 
   return (
-    <CarouselWrapper>
+    <CollectionWrapper>
       <Carousel
         showArrows={false}
         showStatus={false}
@@ -37,44 +133,22 @@ export function BrandCatalog() {
         showThumbs={false}
         onChange={handleSlideChange}
       >
-        <ImageCase>
-          <BrandImage src={DoxaImageOrange} alt="Doxa Image Orange" />
-          <BrandExplain isActive={activeIndex === 0}>
-            SUB 300T Aristera Limited Edition
-            <BrandSellButton>지금 구매하기</BrandSellButton>
-          </BrandExplain>
-        </ImageCase>
-        <ImageCase>
-          <BrandImage src={DoxaImageGold} alt="Doxa Image Gold" />
-          <BrandExplain isActive={activeIndex === 1}>
-            SUB 300T Clive Cussler
-            <BrandSellButton>지금 구매하기</BrandSellButton>
-          </BrandExplain>
-        </ImageCase>
-        <ImageCase>
-          <BrandImage src={DoxaImageGreen} alt="Doxa Image Green" />
-          <BrandExplain isActive={activeIndex === 2}>
-            New Sea Emeralds
-            <BrandSellButton>지금 구매하기</BrandSellButton>
-          </BrandExplain>
-        </ImageCase>
-        <ImageCase>
-          <BrandImage src={DoxaImageYellow} alt="Doxa Image Yellow" />
-          <BrandExplain isActive={activeIndex === 3}>
-            SUB 200T
-            <BrandSellButton>지금 구매하기</BrandSellButton>
-          </BrandExplain>
-        </ImageCase>
-        <ImageCase>
-          <BrandImage
-            src={FrederiqueConstantBlack}
-            alt="FrederiqueConstantBlack"
-          />
-          <BrandExplain isActive={activeIndex === 4}>
-            CLASSICS Moneta Moonphase
-            <BrandSellButton>지금 구매하기</BrandSellButton>
-          </BrandExplain>
-        </ImageCase>
+        {catalogList.map((item, index) => (
+          <ImageCase>
+            <BrandImage src={item.image} alt={item.title} />
+            <BrandExplain isActive={activeIndex === index}>
+              {item.title}
+              <BrandSellButton
+                onClick={() =>
+                  // eslint-disable-next-line no-restricted-globals
+                  location.replace(item.description)
+                }
+              >
+                지금 구매하기
+              </BrandSellButton>
+            </BrandExplain>
+          </ImageCase>
+        ))}
       </Carousel>
       <div
         css={css`
@@ -87,14 +161,31 @@ export function BrandCatalog() {
           height: 20px;
         `}
       />
-    </CarouselWrapper>
+    </CollectionWrapper>
   );
 }
 
-function CarouselSlideItem({ items }: { items: CarouselSlideItemType[] }) {
+function CollectionItems(props: {
+  items: CarouselSlideItemType[];
+  modalParticle: CollectionModalType;
+  description: string;
+  setDescription: React.Dispatch<React.SetStateAction<string>>;
+  activeIndex: number;
+  setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+}) {
+  const {
+    items,
+    modalParticle,
+    description,
+    setDescription,
+    activeIndex,
+    setActiveIndex,
+  } = props;
+  const { open, modalOpen, modalClose } = modalParticle;
+
   return (
     <>
-      <CarouselSlideItemList>
+      <CollectionItemContainer>
         {items.map((item, index) => (
           <div
             key={index}
@@ -103,83 +194,107 @@ function CarouselSlideItem({ items }: { items: CarouselSlideItemType[] }) {
               flex-direction: column;
             `}
           >
-            <SlideItemImgLink>
-              <img src={item.image} alt={item.title} />
-            </SlideItemImgLink>
+            <CollectionReadMoreModal
+              onClick={() => {
+                modalOpen();
+                setDescription(item.description);
+                setActiveIndex(index);
+              }}
+            >
+              <img src={item.image} width={200} alt={item.title} />
+            </CollectionReadMoreModal>
             <CarouselSlideItemBody className="carousel-slide-item__body">
-              <h4>{item.title}</h4>
-              <p>{item.description}</p>
+              <h4
+                css={css`
+                  text-transform: uppercase;
+                `}
+              >
+                {item.title}
+              </h4>
+              <p
+                css={css`
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  width: 250px;
+                `}
+              >
+                {item.description}
+              </p>
             </CarouselSlideItemBody>
           </div>
         ))}
-      </CarouselSlideItemList>
+      </CollectionItemContainer>
+      <Modal
+        open={open}
+        onClose={modalClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        {CollectionModal(items[activeIndex].title, description)}
+      </Modal>
     </>
   );
 }
 
 export function ClockShowcase() {
-  const brandList = [
-    [
-      {
-        image: DoxaImageGreen,
-        title: "Doxa Watch",
-        description: "A beautiful Doxa watch.",
-      },
-      {
-        image: DoxaImageGreen,
-        title: "Green Doxa Watch",
-        description: "A stylish green Doxa watch.",
-      },
-      {
-        image: DoxaImageGreen,
-        title: "Classic Doxa Watch",
-        description: "A timeless classic Doxa watch.",
-      },
-    ],
-    [
-      {
-        image: FrederiqueConstantBlack,
-        title: "Frederique ConstantBlack Watch",
-        description: "A beautiful Doxa watch.",
-      },
-      {
-        image: FrederiqueConstantBlack,
-        title: "Frederique ConstantBlack Watch",
-        description: "A stylish green Doxa watch.",
-      },
-      {
-        image: FrederiqueConstantBlack,
-        title: "Frederique ConstantBlack Watch",
-        description: "A timeless classic Doxa watch.",
-      },
-    ],
-  ];
+  const [open, setOpen] = useState<boolean>(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const modalClose = () => setOpen(false);
+  const modalOpen = () => setOpen(true);
+
+  const [description, setDescription] = useState<string>("");
 
   return (
-    <CarouselWrapper
+    <CollectionWrapper
       css={css`
         display: flex;
         flex-direction: column;
       `}
     >
-      <CarouselTitle>GALLERY</CarouselTitle>
-      {/*<Carousel showArrows={true} infiniteLoop={true} stopOnHover={true}>*/}
-      {brandList.map((items, index) => (
-        <CarouselSlideItem key={index} items={items} />
+      <CollectionTitle>COLLECTION</CollectionTitle>
+      {BRAND_LIST.map((items, index) => (
+        <CollectionItems
+          key={index}
+          items={items}
+          modalParticle={{ open, modalOpen, modalClose }}
+          description={description}
+          setDescription={setDescription}
+          activeIndex={activeIndex}
+          setActiveIndex={setActiveIndex}
+        />
       ))}
-      {/*</Carousel>*/}
-    </CarouselWrapper>
+    </CollectionWrapper>
   );
 }
 
-const CarouselWrapper = styled.div`
+function CollectionModal(title: string, contents: string) {
+  return (
+    <Box sx={ModalBoxStyle}>
+      <Typography id="modal-modal-title" variant="h6" component="h2">
+        <h2
+          css={css`
+            color: #d7bc6a;
+            text-transform: uppercase;
+          `}
+        >
+          {title}
+        </h2>
+        <p>{contents}</p>
+      </Typography>
+      <Typography id="modal-modal-description" sx={{ mt: 2 }}></Typography>
+    </Box>
+  );
+}
+
+const CollectionWrapper = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
 `;
 
-const CarouselTitle = styled.h1`
+const CollectionTitle = styled.h1`
   font-family: Montserrat, sans-serif;
   font-size: 1.875rem;
   font-weight: bold;
@@ -188,7 +303,7 @@ const CarouselTitle = styled.h1`
   color: white;
 `;
 
-const CarouselSlideItemList = styled.li`
+const CollectionItemContainer = styled.li`
   margin: 0;
   padding: 1rem;
   transition: all 0.3s;
@@ -199,12 +314,12 @@ const CarouselSlideItemList = styled.li`
   justify-content: center;
 `;
 
-const SlideItemImgLink = styled.div`
+const CollectionReadMoreModal = styled.div`
   cursor: zoom-in;
   display: flex;
   overflow: hidden;
   position: relative;
-  width: 100%;
+  width: 250px;
 
   img {
     height: 100%;
@@ -244,6 +359,7 @@ const SlideItemImgLink = styled.div`
 `;
 
 const CarouselSlideItemBody = styled.div`
+  width: 100%;
   h4 {
     text-transform: uppercase;
     font-size: 1rem;

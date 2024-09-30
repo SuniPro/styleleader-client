@@ -10,56 +10,17 @@ import React, { useState } from "react";
 import { AnnouncementType } from "../../model/Board";
 import styled from "@emotion/styled";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
-import { BoardEditor } from "./BoardEditor";
 
 const announcementDummy = [
   {
     boardId: 1,
     writer: "nana",
-    title: "test입니다.",
+    title:
+      "사무실을 이전합니다. 서울시 강남구 강남대로 126길 26 (논현동 145-8) SL 빌딩 3층 스타일리더 고객센터",
     content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "사무실을 이전합니다. 서울시 강남구 강남대로 126길 26 (논현동 145-8) SL 빌딩 3층 스타일리더 고객센터",
     category: "announcement",
     important: true,
-    insertDate: "2023.03.03",
-    insertId: "NaNa",
-    updateDate: null,
-    updateId: null,
-  },
-  {
-    boardId: 2,
-    writer: "nana",
-    title: "test입니다.",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    category: "announcement",
-    important: false,
-    insertDate: "2023.03.03",
-    insertId: "NaNa",
-    updateDate: null,
-    updateId: null,
-  },
-  {
-    boardId: 3,
-    writer: "nana",
-    title: "test입니다.",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    category: "announcement",
-    important: false,
-    insertDate: "2023.03.03",
-    insertId: "NaNa",
-    updateDate: null,
-    updateId: null,
-  },
-  {
-    boardId: 4,
-    writer: "nana",
-    title: "test입니다.",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    category: "announcement",
-    important: false,
     insertDate: "2023.03.03",
     insertId: "NaNa",
     updateDate: null,
@@ -142,7 +103,6 @@ const TableContainer = styled.table`
 
 const TableTitle = styled.p`
   text-align: left;
-
   white-space: nowrap;
   text-overflow: ellipsis;
 `;

@@ -21,9 +21,10 @@ export default function Footer() {
             font-style: inherit;
           `}
         >
-          스타일리더 | 서울특별시 강남구 도산대로 456 일진청담빌딩 9층
+          스타일리더 | 서울시 강남구 강남대로 126길 26 (논현동 145-8) SL 빌딩
+          3층 스타일리더 고객센터
         </address>
-        <div>02-2235-3573 | example@example.com</div>
+        <div>02-2235-3573 | cs@styleleader.co.kr</div>
         <FooterButtons>
           <InstagramIcon href="https://about.codle.io" />
           <LocalMallIcon href="https://about.codle.io" />

@@ -4,6 +4,12 @@ import { css } from "@emotion/react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { ReactComponent as StyleLeaderLogo } from "../assets/Icons/styleLeader-ci-trandy.svg";
 
+import KlpgaLogo from "../assets/Icons/klpga.png";
+import KoreaHeartsLogo from "../assets/Icons/koreaHearts.png";
+import ShinsegaeLogo from "../assets/Icons/shinsegae.png";
+import LotteLogo from "../assets/Icons/lotte.png";
+import HyundaiLogo from "../assets/Icons/hyundai.png";
+
 export function Introduce() {
   return (
     <>
@@ -56,6 +62,7 @@ export function Introduce() {
           <Card className="card">
             <Thumb className="thumb">
               <StyleLeaderLogo
+                width={200}
                 css={css`
                   padding: 20px;
                 `}
@@ -63,93 +70,79 @@ export function Introduce() {
             </Thumb>
 
             <article>
-              <h1>우리는 스위스 명품 시계의 품위를 다룹니다.</h1>
-              <span>Harry Brignull</span>
+              <h1>
+                우리는 스위스 명품시계의 <br />
+                품위를 다룹니다.
+              </h1>
+              <span>STYLE LEADER</span>
             </article>
           </Card>
         </div>
         <div className="item-3">
           <Card className="card">
-            <Thumb
-              className="thumb"
-              css={css`
-                background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/flex-5.jpg);
-              `}
-            />
+            <img width={150} src={KlpgaLogo} />
             <article>
-              <h1>Created by You, July Edition</h1>
+              <h1>파트너사</h1>
               <p>
-                Welcome to our monthly feature of fantastic tutorial results
-                created by you, the Envato Tuts+ community!{" "}
+                Korea Ladies Professional Golf Association 한국여자프로골프 공식
+                파트너사입니다.
               </p>
-              <span>Melody Nieves</span>
+              <span>K LPGA</span>
             </article>
           </Card>
         </div>
         <div className="item-4">
           <Card className="card">
-            <Thumb
-              className="thumb"
-              css={css`
-                background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/landing.png);
-              `}
-            />
+            <img width={150} src={KoreaHeartsLogo} />
             <article>
-              <h1>How to Code a Scrolling “Alien Lander” Website</h1>
+              <h1>후원사</h1>
               <p>
-                We’ll be putting things together so that as you scroll down from
-                the top of the page you’ll see an “Alien Lander” making its way
-                to touch down.
+                2014년부터 한국심장재단과 따뜻한 동행을 시작한 후원사입니다.
               </p>
-              <span>Kezz Bracey</span>
+              <span>@koreaheartfoundation</span>
             </article>
           </Card>
         </div>
         <div className="item-5">
           <Card className="card">
-            <Thumb
-              className="thumb"
-              css={css`
-                background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/strange.jpg);
-              `}
-            />
+            <img width={150} src={ShinsegaeLogo} />
             <article>
-              <h1>
-                How to Create a “Stranger Things” Text Effect in Adobe Photoshop
-              </h1>
-              <span>Rose</span>
+              <h1>매장 위치</h1>
+              <p>
+                본점 02-310-1970
+                <br />
+                하남점 031- 8072-1870
+                <br />
+                경기점 031-695-1655
+              </p>
+              <span>SHINSEGAE DEPARTMENT</span>
             </article>
           </Card>
         </div>
         <div className="item-6">
           <Card className="card">
-            <Thumb
-              className="thumb"
-              css={css`
-                background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/flor.jpg);
-              `}
-            />
+            <img width={150} src={LotteLogo} />
             <article>
-              <h1>
-                5 Inspirational Business Portraits and How to Make Your Own
-              </h1>
-              <span>Marie Gardiner</span>
+              <h1>매장 위치</h1>
+              <p>
+                본점 에비뉴엘 02-2118-6124 <br />
+                잠실점 02-2143-7122 <br /> 강남점 02-531-2287
+              </p>
+              <span>LOTTE DEPARTMENT</span>
             </article>
           </Card>
         </div>
         <div className="item-7">
           <Card className="card">
-            <Thumb
-              className="thumb"
-              css={css`
-                background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/china.png);
-              `}
-            />
+            <img width={125} src={HyundaiLogo} />
             <article>
-              <h1>
-                Notes From Behind the Firewall: The State of Web Design in China
-              </h1>
-              <span>Kendra Schaefer</span>
+              <h1>매장 위치</h1>
+              <p>
+                판교점 031-5170-2246
+                <br />
+                대전점 042- 332- 2216
+              </p>
+              <span>HYUNDAI DEPARTMENT</span>
             </article>
           </Card>
         </div>
@@ -196,6 +189,9 @@ const Card = styled.a`
   background-size: cover;
   background-position: center center;
 
+  align-items: center;
+  justify-content: center;
+
   :hover {
     top: -2px;
     box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
@@ -222,6 +218,10 @@ const Card = styled.a`
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin: 2em 0 0 0;
+  }
+
+  img {
+    padding: 20px;
   }
 `;
 
