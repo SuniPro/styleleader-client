@@ -48,15 +48,21 @@ export function BoardEditor() {
 
             console.log("이미지가 업로드 됐습니다.");
 
-            await axios.post(`{저장할 서버 api}`, formData, {
-              headers: { "content-type": "multipart/formdata" },
-              withCredentials: true,
-            });
+            const { data: filename } = await axios.post(
+              `file/upload`,
+              formData,
+              {
+                headers: { "content-type": "multipart/formdata" },
+                withCredentials: true,
+              },
+            );
 
-            const imageUrl = "저장된 서버 주소" + blob.name;
+            console.log("formData  ", formData);
 
-            setImages([...images, imageUrl]);
-            callback(imageUrl, "image");
+            const imageUrl = "http://localhost:8080/image/add/" + filename;
+
+            // Image 를 가져올 수 있는 URL 을 callback 메서드에 넣어주면 자동으로 이미지를 가져온다.
+            callback(imageUrl, "iamge");
           })();
 
           return false;
@@ -78,18 +84,6 @@ export function BoardEditor() {
         initialEditType="wysiwyg"
         useCommandShortcut={false}
         toolbarItems={toolbar}
-        // hooks 에서 addImageBlobHook 를 주물러 주면 된다.
-        hooks={{
-          addImageBlobHook: async (blob, callback) => {
-            console.log(blob); // File {name: '카레유.png', ... }
-
-            // 1. 첨부된 이미지 파일을 서버로 전송후, 이미지 경로 url을 받아온다.
-            // const imgUrl = await .... 서버 전송 / 경로 수신 코드 ...
-
-            // 2. 첨부된 이미지를 화면에 표시(경로는 임의로 넣었다.)
-            callback("http://localhost:5000/img/카레유.png", "카레유");
-          },
-        }}
       />
     </EditorContainer>
   );
