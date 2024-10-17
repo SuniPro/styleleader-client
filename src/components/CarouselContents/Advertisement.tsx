@@ -141,7 +141,7 @@ export function BrandCatalog() {
               <BrandSellButton
                 onClick={() =>
                   // eslint-disable-next-line no-restricted-globals
-                  location.replace(item.description)
+                  window.open(item.description)
                 }
               >
                 지금 구매하기
