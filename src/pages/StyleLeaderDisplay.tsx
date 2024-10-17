@@ -39,8 +39,8 @@ export function StyleLeaderDisplay() {
   const handleClose = () => setOpen(false);
 
   const feedList: NewsFeedType[] = [
-    { title: "사무실 이전 공지", contents: NoticeMove() },
     { title: "페이지 준비중", contents: NoticeReady() },
+    { title: "사무실 이전 공지", contents: NoticeMove() },
   ];
 
   return (

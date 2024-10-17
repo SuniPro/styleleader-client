@@ -36,7 +36,14 @@ export function Introduce() {
         `}
       >
         <div className="item-1">
-          <Card className="card">
+          <Card
+            className="card"
+            css={css`
+              img {
+                padding: 0;
+              }
+            `}
+          >
             <Map
               center={{ lat: 37.5097068966865, lng: 127.024670188825 }}
               className={"thumb"}
@@ -48,7 +55,7 @@ export function Introduce() {
             >
               <MapMarker
                 position={{ lat: 37.5097068966865, lng: 127.024670188825 }}
-              ></MapMarker>
+              />
             </Map>
             <article>
               <h1>STYLE LEADER</h1>
