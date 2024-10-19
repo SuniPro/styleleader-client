@@ -1,6 +1,5 @@
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import styled from "@emotion/styled";
-import { BoardEditor } from "../Board/BoardEditor";
 
 export function ReadyBanner(props: { title: string; description: string }) {
   const { title, description } = props;
