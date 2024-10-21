@@ -7,7 +7,7 @@ import {
   getCoreRowModel,
   ColumnResizeMode,
 } from "@tanstack/react-table";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AnnouncementType } from "../../model/Board";
 import styled from "@emotion/styled";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
@@ -15,26 +15,16 @@ import { Button } from "@mui/material";
 import { css } from "@emotion/react";
 import { Container } from "../layouts/LayoutLayer";
 import { BoardEditor } from "./BoardEditor";
-
-const announcementDummy = [
-  {
-    boardId: 1,
-    writer: "nana",
-    title:
-      "사무실을 이전합니다. 서울시 강남구 강남대로 126길 26 (논현동 145-8) SL 빌딩 3층 스타일리더 고객센터",
-    content:
-      "사무실을 이전합니다. 서울시 강남구 강남대로 126길 26 (논현동 145-8) SL 빌딩 3층 스타일리더 고객센터",
-    category: "announcement",
-    important: true,
-    insertDate: "2023.03.03",
-    insertId: "NaNa",
-    updateDate: null,
-    updateId: null,
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { getBoardList } from "../../api/boards";
 
 export function BoardList() {
-  const [data, setData] = useState<AnnouncementType[]>(announcementDummy);
+  const { data: boardList } = useQuery({
+    queryKey: ["getBoardList"],
+    queryFn: () => getBoardList(),
+    refetchInterval: 5000, // Options 객체로 refetchInterval 설정
+  });
+
   const [writing, setWriting] = useState<boolean>(true);
 
   const [columnResizeMode, setColumnResizeMode] =
@@ -77,11 +67,11 @@ export function BoardList() {
         size: 150,
       },
     ],
-    [data],
+    [boardList],
   );
 
-  const table = useReactTable({
-    data,
+  const table = useReactTable<AnnouncementType>({
+    data: boardList ?? [],
     columns,
     getPaginationRowModel: getPaginationRowModel(),
     getCoreRowModel: getCoreRowModel(),
