@@ -1,7 +1,5 @@
-import { env } from "../env";
-
 export function getMainServerUrl(): string {
-  return env.MAIN_SPRING_SERVER_URL;
+  return "http://localhost:8080";
 }
 
 function isLocalHostname(): boolean {

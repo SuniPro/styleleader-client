@@ -243,7 +243,7 @@ const TableHeaderTh = styled.th`
 `;
 
 const TableBodyTr = styled.tr`
-  font-size: 20px;
+  font-size: 16px;
   font-family: Roboto;
 
   td p {

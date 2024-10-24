@@ -7,7 +7,7 @@ import {
   getCoreRowModel,
   ColumnResizeMode,
 } from "@tanstack/react-table";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { AnnouncementType } from "../../model/Board";
 import styled from "@emotion/styled";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
@@ -17,6 +17,7 @@ import { Container } from "../layouts/LayoutLayer";
 import { BoardEditor } from "./BoardEditor";
 import { useQuery } from "@tanstack/react-query";
 import { getBoardList } from "../../api/boards";
+import { iso8601ToYYMMDDHHMM } from "../../utils/dateApi";
 
 export function BoardList() {
   const { data: boardList } = useQuery({
@@ -27,8 +28,7 @@ export function BoardList() {
 
   const [writing, setWriting] = useState<boolean>(true);
 
-  const [columnResizeMode, setColumnResizeMode] =
-    React.useState<ColumnResizeMode>("onChange");
+  const [columnResizeMode] = useState<ColumnResizeMode>("onChange");
 
   const columns = React.useMemo<ColumnDef<AnnouncementType>[]>(
     () => [
@@ -36,17 +36,21 @@ export function BoardList() {
         id: "index",
         header: "번호",
         size: 100,
-        minSize: 50,
         accessorKey: "boardId",
         cell: ({ row }) => {
           return (
-            <>
+            <span
+              css={css`
+                width: 10px;
+                height: 10px;
+              `}
+            >
               {row.original.important ? (
-                <PriorityHighIcon color={"warning"} />
+                <PriorityHighIcon fontSize={"small"} color={"warning"} />
               ) : (
                 row.original.boardId
               )}
-            </>
+            </span>
           );
         },
       },
@@ -64,6 +68,8 @@ export function BoardList() {
         id: "insertDate",
         header: "작성일",
         accessorKey: "insertDate",
+        cell: ({ row }) =>
+          iso8601ToYYMMDDHHMM(row.getValue<string>("insertDate")),
         size: 150,
       },
     ],
@@ -127,6 +133,7 @@ const TableTitle = styled.p`
 
 export const StyledWriteButton = styled(Button)(
   () => css`
+    margin-top: 20px;
     background: linear-gradient(to bottom, #d7bc6a, #ffe9a6);
     color: #000000;
     right: 0;
