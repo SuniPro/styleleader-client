@@ -15,30 +15,20 @@ import { Button } from "@mui/material";
 import { css } from "@emotion/react";
 import { Container } from "../layouts/LayoutLayer";
 import { BoardEditor } from "./BoardEditor";
-
-const announcementDummy = [
-  {
-    boardId: 1,
-    writer: "nana",
-    title:
-      "사무실을 이전합니다. 서울시 강남구 강남대로 126길 26 (논현동 145-8) SL 빌딩 3층 스타일리더 고객센터",
-    content:
-      "사무실을 이전합니다. 서울시 강남구 강남대로 126길 26 (논현동 145-8) SL 빌딩 3층 스타일리더 고객센터",
-    category: "announcement",
-    important: true,
-    insertDate: "2023.03.03",
-    insertId: "NaNa",
-    updateDate: null,
-    updateId: null,
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { getBoardList } from "../../api/boards";
+import { iso8601ToYYMMDDHHMM } from "../../utils/dateApi";
 
 export function BoardList() {
-  const [data, setData] = useState<AnnouncementType[]>(announcementDummy);
+  const { data: boardList } = useQuery({
+    queryKey: ["getBoardList"],
+    queryFn: () => getBoardList(),
+    refetchInterval: 5000, // Options 객체로 refetchInterval 설정
+  });
+
   const [writing, setWriting] = useState<boolean>(true);
 
-  const [columnResizeMode, setColumnResizeMode] =
-    React.useState<ColumnResizeMode>("onChange");
+  const [columnResizeMode] = useState<ColumnResizeMode>("onChange");
 
   const columns = React.useMemo<ColumnDef<AnnouncementType>[]>(
     () => [
@@ -46,17 +36,21 @@ export function BoardList() {
         id: "index",
         header: "번호",
         size: 100,
-        minSize: 50,
         accessorKey: "boardId",
         cell: ({ row }) => {
           return (
-            <>
+            <span
+              css={css`
+                width: 10px;
+                height: 10px;
+              `}
+            >
               {row.original.important ? (
-                <PriorityHighIcon color={"warning"} />
+                <PriorityHighIcon fontSize={"small"} color={"warning"} />
               ) : (
                 row.original.boardId
               )}
-            </>
+            </span>
           );
         },
       },
@@ -74,14 +68,16 @@ export function BoardList() {
         id: "insertDate",
         header: "작성일",
         accessorKey: "insertDate",
+        cell: ({ row }) =>
+          iso8601ToYYMMDDHHMM(row.getValue<string>("insertDate")),
         size: 150,
       },
     ],
-    [data],
+    [boardList],
   );
 
-  const table = useReactTable({
-    data,
+  const table = useReactTable<AnnouncementType>({
+    data: boardList ?? [],
     columns,
     getPaginationRowModel: getPaginationRowModel(),
     getCoreRowModel: getCoreRowModel(),
@@ -137,6 +133,7 @@ const TableTitle = styled.p`
 
 export const StyledWriteButton = styled(Button)(
   () => css`
+    margin-top: 20px;
     background: linear-gradient(to bottom, #d7bc6a, #ffe9a6);
     color: #000000;
     right: 0;

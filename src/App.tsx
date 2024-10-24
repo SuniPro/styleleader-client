@@ -7,20 +7,25 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Company } from "./pages/Company";
 import { Brand } from "./pages/Brand";
 import { Service } from "./pages/Service";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/" element={<StyleLeaderDisplay />} />
-          <Route path={"/company"} element={<Company />} />
-          <Route path={"/brand"} element={<Brand />} />
-          <Route path={"/service"} element={<Service />} />
-        </Routes>
-      </BrowserRouter>
-      <Footer />
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route path="/" element={<StyleLeaderDisplay />} />
+            <Route path={"/company"} element={<Company />} />
+            <Route path={"/brand"} element={<Brand />} />
+            <Route path={"/service"} element={<Service />} />
+          </Routes>
+        </BrowserRouter>
+        <Footer />
+      </QueryClientProvider>
     </div>
   );
 }
