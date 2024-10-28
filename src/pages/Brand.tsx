@@ -11,7 +11,7 @@ export function Brand() {
       `}
     >
       <ReadyBanner
-        title="브랜드"
+        title="브랜드 기능은 아직 준비중입니다"
         description="AS 및 구매 문의는 전화 (02-2235-3573) 로 부탁드립니다."
       />
     </PageContainer>

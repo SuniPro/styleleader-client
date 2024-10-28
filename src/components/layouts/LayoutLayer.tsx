@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
-import { Input } from "@mui/material";
+import { Input, SvgIconTypeMap } from "@mui/material";
 import { css } from "@emotion/react";
+import { OverridableComponent } from "@mui/material/OverridableComponent";
 
 export const Container = styled.div`
   display: flex;
@@ -8,11 +9,33 @@ export const Container = styled.div`
   width: 100%;
 `;
 
+export const Divider = styled.p`
+  border-top: 1px solid #595a5c;
+  width: 100%;
+`;
+
+export function IconButton(props: {
+  icon: OverridableComponent<SvgIconTypeMap> & { muiName: string };
+  func?: () => void;
+}) {
+  const { icon: Icon, func } = props;
+  return (
+    <IconWrapper onClick={func}>
+      <Icon />
+    </IconWrapper>
+  );
+}
+
+const IconWrapper = styled.div`
+  margin: 0;
+  padding: 0;
+`;
+
 export const UnderLineInput = styled(Input)<{
   underLineColor: string;
   isWrite?: boolean;
 }>(
-  ({ underLineColor, isWrite }) => css`
+  ({ underLineColor }) => css`
     padding-left: 5px;
     font-size: 1.2rem;
     font-weight: bold;

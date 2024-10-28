@@ -248,6 +248,7 @@ const TableBodyTr = styled.tr`
 
   td p {
     max-width: 800px;
+    height: 18px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

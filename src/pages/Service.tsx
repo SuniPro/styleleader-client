@@ -11,7 +11,7 @@ export function Service() {
       `}
     >
       <ReadyBanner
-        title="서비스"
+        title="서비스 기능은 아직 준비중입니다"
         description="AS 및 구매 문의는 전화 (02-2235-3573) 로 부탁드립니다."
       />
     </PageContainer>

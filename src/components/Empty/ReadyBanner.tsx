@@ -1,17 +1,20 @@
+/** @jsxImportSource @emotion/react */
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import styled from "@emotion/styled";
 
-export function ReadyBanner(props: { title: string; description: string }) {
-  const { title, description } = props;
+export function ReadyBanner(props: {
+  type?: string;
+  title: string;
+  description: string;
+}) {
+  const { type = "서비스 준비중", title, description } = props;
   return (
-    <>
-      <BannerContainer>
-        <WarningAmberIcon sx={{ fontSize: "60px", color: "#d7bc6a" }} />
-        <BannerTitle>서비스 준비중</BannerTitle>
-        <BannerDescription>{title} 기능은 아직 준비중입니다.</BannerDescription>
-        <BannerDescription>{description}</BannerDescription>
-      </BannerContainer>
-    </>
+    <BannerContainer>
+      <WarningAmberIcon sx={{ fontSize: "60px", color: "#d7bc6a" }} />
+      <BannerTitle>{type}</BannerTitle>
+      <BannerDescription>{title}</BannerDescription>
+      <BannerDescription>{description}</BannerDescription>
+    </BannerContainer>
   );
 }
 
@@ -35,4 +38,5 @@ const BannerTitle = styled.h1`
 
 const BannerDescription = styled.span`
   padding: 5px;
+  color: white;
 `;

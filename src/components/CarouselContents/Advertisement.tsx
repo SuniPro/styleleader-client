@@ -134,7 +134,7 @@ export function BrandCatalog() {
         onChange={handleSlideChange}
       >
         {catalogList.map((item, index) => (
-          <ImageCase>
+          <ImageCase key={index}>
             <BrandImage src={item.image} alt={item.title} />
             <BrandExplain isActive={activeIndex === index}>
               {item.title}

@@ -8,6 +8,9 @@ import { Company } from "./pages/Company";
 import { Brand } from "./pages/Brand";
 import { Service } from "./pages/Service";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BoardDetail } from "./pages/BoardDetail";
+import { Introduce } from "./components/Introduce";
+import { Board } from "./components/Board/Board";
 
 const queryClient = new QueryClient();
 
@@ -19,9 +22,13 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={<StyleLeaderDisplay />} />
-            <Route path={"/company"} element={<Company />} />
-            <Route path={"/brand"} element={<Brand />} />
-            <Route path={"/service"} element={<Service />} />
+            <Route path="company" element={<Company />}>
+              <Route path="info" element={<Introduce />} />
+              <Route path="board" element={<Board />} />
+              <Route path="board/:boardId" element={<BoardDetail />} />
+            </Route>
+            <Route path="/brand" element={<Brand />} />
+            <Route path="/service" element={<Service />} />
           </Routes>
         </BrowserRouter>
         <Footer />

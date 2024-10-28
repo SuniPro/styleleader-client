@@ -51,7 +51,7 @@ export function CardContents(props: { title: string; content: ReactNode }) {
   return (
     <CardCase colorGray={COLOR_GRAY} colorBlack={COLOR_BLACK}>
       <h2>{title}</h2>
-      <p>{content}</p>
+      <div>{content}</div>
     </CardCase>
   );
 }

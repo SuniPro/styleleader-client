@@ -7,7 +7,7 @@ import {
   getCoreRowModel,
   ColumnResizeMode,
 } from "@tanstack/react-table";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { AnnouncementType } from "../../model/Board";
 import styled from "@emotion/styled";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
@@ -18,6 +18,10 @@ import { BoardEditor } from "./BoardEditor";
 import { useQuery } from "@tanstack/react-query";
 import { getBoardList } from "../../api/boards";
 import { iso8601ToYYMMDDHHMM } from "../../utils/dateApi";
+import { useNavigate } from "react-router-dom";
+import { PageContainer } from "../layouts/PageLayouts";
+import { Spinner } from "../Spinner";
+import { ReadyBanner } from "../Empty/ReadyBanner";
 
 export function BoardList() {
   const { data: boardList } = useQuery({
@@ -26,11 +30,11 @@ export function BoardList() {
     refetchInterval: 5000, // Options 객체로 refetchInterval 설정
   });
 
+  const navigate = useNavigate();
   const [writing, setWriting] = useState<boolean>(true);
-
   const [columnResizeMode] = useState<ColumnResizeMode>("onChange");
 
-  const columns = React.useMemo<ColumnDef<AnnouncementType>[]>(
+  const columns = useMemo<ColumnDef<AnnouncementType>[]>(
     () => [
       {
         id: "index",
@@ -59,7 +63,13 @@ export function BoardList() {
         header: "제목",
         accessorKey: "title",
         cell: ({ row }) => (
-          <TableTitle>{row.getValue<string>("title")}</TableTitle>
+          <TableTitle
+            onClick={() => {
+              navigate(`${row.original.boardId}`);
+            }}
+          >
+            {row.getValue<string>("title")}
+          </TableTitle>
         ),
         size: 800,
       },
@@ -73,7 +83,7 @@ export function BoardList() {
         size: 150,
       },
     ],
-    [boardList],
+    [navigate],
   );
 
   const table = useReactTable<AnnouncementType>({
@@ -86,6 +96,26 @@ export function BoardList() {
     debugHeaders: true,
     debugColumns: true,
   });
+
+  if (!boardList) {
+    return (
+      <PageContainer>
+        <Spinner></Spinner>
+      </PageContainer>
+    );
+  }
+
+  if (boardList.length === 0) {
+    return (
+      <PageContainer>
+        <ReadyBanner
+          type="컨텐츠 없음"
+          title="자료가 없습니다."
+          description=""
+        />
+      </PageContainer>
+    );
+  }
 
   return (
     <>
@@ -125,10 +155,12 @@ const TableContainer = styled.table`
   border-spacing: 0;
 `;
 
-const TableTitle = styled.p`
-  text-align: left;
+const TableTitle = styled.div`
   white-space: nowrap;
   text-overflow: ellipsis;
+  height: 40px;
+  display: flex;
+  align-items: center;
 `;
 
 export const StyledWriteButton = styled(Button)(

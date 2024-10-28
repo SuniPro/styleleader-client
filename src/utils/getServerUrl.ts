@@ -1,5 +1,7 @@
+import "dotenv/config";
+
 export function getMainServerUrl(): string {
-  return "http://localhost:8080";
+  return process.env.MAIN_SPRING_SERVER_URL ?? "";
 }
 
 function isLocalHostname(): boolean {
