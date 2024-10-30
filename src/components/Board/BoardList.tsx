@@ -8,7 +8,7 @@ import {
   ColumnResizeMode,
 } from "@tanstack/react-table";
 import React, { useMemo, useState } from "react";
-import { AnnouncementType } from "../../model/Board";
+import { Board } from "../../model/Board";
 import styled from "@emotion/styled";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import { Button } from "@mui/material";
@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { PageContainer } from "../layouts/PageLayouts";
 import { Spinner } from "../Spinner";
 import { ReadyBanner } from "../Empty/ReadyBanner";
+import theme from "../../styles/theme";
 
 export function BoardList() {
   const { data: boardList } = useQuery({
@@ -34,7 +35,7 @@ export function BoardList() {
   const [writing, setWriting] = useState<boolean>(true);
   const [columnResizeMode] = useState<ColumnResizeMode>("onChange");
 
-  const columns = useMemo<ColumnDef<AnnouncementType>[]>(
+  const columns = useMemo<ColumnDef<Board>[]>(
     () => [
       {
         id: "index",
@@ -86,7 +87,7 @@ export function BoardList() {
     [navigate],
   );
 
-  const table = useReactTable<AnnouncementType>({
+  const table = useReactTable<Board>({
     data: boardList ?? [],
     columns,
     getPaginationRowModel: getPaginationRowModel(),
@@ -99,15 +100,24 @@ export function BoardList() {
 
   if (!boardList) {
     return (
-      <PageContainer>
-        <Spinner></Spinner>
+      <PageContainer
+        css={css`
+          margin: 10rem 0;
+          align-items: center;
+        `}
+      >
+        <Spinner />
       </PageContainer>
     );
   }
 
   if (boardList.length === 0) {
     return (
-      <PageContainer>
+      <PageContainer
+        css={css`
+          align-items: center;
+        `}
+      >
         <ReadyBanner
           type="컨텐츠 없음"
           title="자료가 없습니다."
@@ -133,7 +143,10 @@ export function BoardList() {
             />
             <TableBody table={table} />
           </TableContainer>
-          <StyledWriteButton onClick={() => setWriting((prev) => !prev)}>
+          <StyledWriteButton
+            tone={theme.colors.gradientGoldBottom}
+            onClick={() => setWriting((prev) => !prev)}
+          >
             Write
           </StyledWriteButton>
         </Container>
@@ -163,10 +176,10 @@ const TableTitle = styled.div`
   align-items: center;
 `;
 
-export const StyledWriteButton = styled(Button)(
-  () => css`
+export const StyledWriteButton = styled(Button)<{ tone: string }>(
+  ({ tone }) => css`
     margin-top: 20px;
-    background: linear-gradient(to bottom, #d7bc6a, #ffe9a6);
+    background: ${tone};
     color: #000000;
     right: 0;
   `,

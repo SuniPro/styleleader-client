@@ -15,11 +15,13 @@ import {
 } from "../components/layouts/LayoutLayer";
 import EditIcon from "@mui/icons-material/Edit";
 import ShareIcon from "@mui/icons-material/Share";
-import { useState } from "react";
+import React, { useState } from "react";
+import { BoardEditor } from "../components/Board/BoardEditor";
+import { Spinner } from "../components/Spinner";
 
 export function BoardDetail() {
   const { boardId } = useParams<{ boardId: string }>();
-  const [writing, setWriting] = useState<boolean>(true);
+  const [writing, setWriting] = useState<boolean>(false);
 
   const { data: board } = useQuery({
     queryKey: ["getBoard"],
@@ -29,7 +31,25 @@ export function BoardDetail() {
 
   if (!board) {
     return (
-      <PageContainer>
+      <PageContainer
+        css={css`
+          margin: 10rem 0;
+          align-items: center;
+        `}
+      >
+        <Spinner />
+      </PageContainer>
+    );
+  }
+
+  if (!board.title) {
+    return (
+      <PageContainer
+        css={css`
+          margin: 10rem 0;
+          align-items: center;
+        `}
+      >
         <ReadyBanner
           type="컨텐츠 없음"
           title="자료가 없습니다."
@@ -41,48 +61,57 @@ export function BoardDetail() {
 
   return (
     <Container>
-      <div
-        css={css`
-          gap: 20px;
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-        `}
-      >
-        <HeaderLine
-          css={css`
-            font-size: 30px;
-            font-weight: bold;
-            font-family: Roboto;
-          `}
-        >
+      {writing ? (
+        <BoardEditor writing={() => setWriting((prev) => !prev)} />
+      ) : (
+        <>
           <div
             css={css`
+              gap: 20px;
+              width: 100%;
               display: flex;
-              flex-direction: row;
-              align-items: center;
+              flex-direction: column;
             `}
           >
-            <PriorityHighIcon
-              fontSize="small"
-              color={board ? "info" : "warning"}
-            />
-            <div>{board.title}</div>
+            <HeaderLine
+              css={css`
+                font-size: 30px;
+                font-weight: bold;
+                font-family: Roboto, sans-serif;
+              `}
+            >
+              <HeaderItem>
+                <PriorityHighIcon
+                  fontSize="small"
+                  color={board ? "info" : "warning"}
+                />
+                <div>{board.title}</div>
+              </HeaderItem>
+            </HeaderLine>
+            <HeaderLine>
+              <HeaderItem>
+                작성 일자 : {iso8601ToYYMMDDHHMM(board.insertDate ?? "")}
+              </HeaderItem>
+              <HeaderItem
+                css={css`
+                  gap: 10px;
+                `}
+              >
+                <IconButton
+                  func={() => setWriting((prev) => !prev)}
+                  icon={EditIcon}
+                />
+                <IconButton icon={ShareIcon}></IconButton>
+              </HeaderItem>
+            </HeaderLine>
           </div>
-        </HeaderLine>
-        <HeaderLine>
-          <div>작성 일자 : {iso8601ToYYMMDDHHMM(board.insertDate)}</div>
-          <IconButton
-            func={() => setWriting((prev) => !prev)}
-            icon={EditIcon}
-          ></IconButton>
-          <IconButton icon={ShareIcon}></IconButton>
-        </HeaderLine>
-      </div>
-      <Divider />
-      <ContentArea>
-        <div dangerouslySetInnerHTML={{ __html: board.content }} />
-      </ContentArea>
+          <Divider />
+          <ContentArea>
+            <div dangerouslySetInnerHTML={{ __html: board.content }} />
+          </ContentArea>
+          <Divider />
+        </>
+      )}
     </Container>
   );
 }
@@ -90,8 +119,14 @@ export function BoardDetail() {
 const HeaderLine = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   width: 100%;
+`;
+
+const HeaderItem = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 const ContentArea = styled.div`

@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
 import "tui-color-picker/dist/tui-color-picker.css";
@@ -6,9 +7,11 @@ import styled from "@emotion/styled";
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
-import { css } from "@emotion/react";
+import { css, Theme, useTheme } from "@emotion/react";
 import { StyledWriteButton } from "./BoardList";
 import { UnderLineInput } from "../layouts/LayoutLayer";
+import { useNavigate, useParams } from "react-router-dom";
+import theme from "../../styles/theme";
 
 const toolbar = [
   ["heading", "bold", "italic", "strike"],
@@ -17,7 +20,11 @@ const toolbar = [
 ];
 
 export function BoardEditor(props: { writing: () => void }) {
+  const { boardId } = useParams<{ boardId: string }>();
+  const navigate = useNavigate();
+
   const editorRef = useRef<EditorType>(null);
+  const theme = useTheme();
 
   const [title, setTitle] = useState<string>("");
   const [important, setImportant] = useState<boolean>(false);
@@ -25,6 +32,7 @@ export function BoardEditor(props: { writing: () => void }) {
   const handleSave = () => {
     if (editorRef.current) {
       const boardRecord = {
+        ...(boardId ? { boardId } : {}),
         writer: "Nana",
         title: title,
         content: editorRef.current.getInstance().getHTML(),
@@ -34,7 +42,7 @@ export function BoardEditor(props: { writing: () => void }) {
       };
 
       axios
-        .post("api/board/write", boardRecord, {
+        .post("/api/board/write", boardRecord, {
           headers: { "Content-Type": "application/json" },
         })
         .then((res) => {
@@ -61,7 +69,7 @@ export function BoardEditor(props: { writing: () => void }) {
             formData.append("multipartFile", blob);
 
             const { data: filename } = await axios.post(
-              `api/board/file/upload`,
+              `/api/board/file/upload`,
               formData,
               {
                 headers: { "content-type": "multipart/form-data" },
@@ -85,6 +93,7 @@ export function BoardEditor(props: { writing: () => void }) {
       <HeaderLine>
         <StyledPriorityHighIcon
           important={important}
+          theme={theme}
           onClick={() => setImportant((prev) => !prev)}
         />
         <UnderLineInput
@@ -102,7 +111,30 @@ export function BoardEditor(props: { writing: () => void }) {
         useCommandShortcut={false}
         toolbarItems={toolbar}
       />
-      <StyledWriteButton onClick={handleSave}>SAVE</StyledWriteButton>
+      <HeaderLine
+        css={css`
+          gap: 10px;
+        `}
+      >
+        <StyledWriteButton
+          css={css`
+            width: 100%;
+          `}
+          onClick={() => navigate(-1)}
+          tone={theme.colors.gray}
+        >
+          CANCEL
+        </StyledWriteButton>
+        <StyledWriteButton
+          css={css`
+            width: 100%;
+          `}
+          onClick={handleSave}
+          tone={theme.colors.gradientGoldBottom}
+        >
+          SAVE
+        </StyledWriteButton>
+      </HeaderLine>
     </EditorContainer>
   );
 }
@@ -111,16 +143,22 @@ const EditorContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 100%;
+  z-index: 0;
 `;
 
 const HeaderLine = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
 `;
 
-const StyledPriorityHighIcon = styled(PriorityHighIcon)<{ important: boolean }>(
-  ({ important }) => css`
-    color: ${important && "#df1313"};
+const StyledPriorityHighIcon = styled(PriorityHighIcon)<{
+  important: boolean;
+  theme: Theme;
+}>(
+  ({ important, theme }) => css`
+    color: ${important && theme.colors.warning};
     cursor: pointer;
   `,
 );

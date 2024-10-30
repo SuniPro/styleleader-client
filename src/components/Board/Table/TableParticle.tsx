@@ -244,7 +244,8 @@ const TableHeaderTh = styled.th`
 
 const TableBodyTr = styled.tr`
   font-size: 16px;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
+  text-align: center;
 
   td p {
     max-width: 800px;

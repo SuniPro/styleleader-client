@@ -1,6 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export interface ActiveFunctionProps {
   selectedIndex: number;
@@ -11,12 +13,19 @@ export function TabMenu(props: {
   menuList: string[];
   activeFunction: ActiveFunctionProps;
 }) {
+  const state = window.location.pathname;
+  const navigate = useNavigate();
+
   const { menuList } = props;
 
   const { selectedIndex, setSelectedIndex } = props.activeFunction;
 
   const handleClick = (index: number) => {
-    setSelectedIndex(index); // 클릭된 항목의 인덱스를 저장
+    if (selectedIndex === 0 && !state.includes("/info")) {
+      setSelectedIndex(0);
+    } else {
+      setSelectedIndex(index);
+    }
   };
 
   return (

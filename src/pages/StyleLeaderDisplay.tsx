@@ -12,8 +12,6 @@ import { Box, Modal, Typography } from "@mui/material";
 
 import StyleLeaderMap from "../assets/maps/style-leader-map.jpg";
 
-const CARDS = 1;
-
 interface NewsFeedType {
   title: string;
   contents: ReactNode;
@@ -90,7 +88,7 @@ function NoticeModal() {
           이전 영업하오니 이용에 참고하시기 바랍니다.
         </p>
         <p>위치 : 서울시 강남구 강남대로 126길 26길 SL빌딩 3층</p>
-        <img src={StyleLeaderMap} width={300}></img>
+        <img src={StyleLeaderMap} width={300} alt={"store place"}></img>
         <br />
         <p>주의사항: 보증서 지참 부탁드립니다.</p>
         <p>영업시간: 09:00 - 18:00 (점심시간 12:00-13:00)</p>

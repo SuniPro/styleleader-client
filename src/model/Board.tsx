@@ -1,12 +1,12 @@
-export interface AnnouncementType {
-  boardId: number;
+export interface Board {
+  boardId?: number;
   writer: string;
   title: string;
   content: string;
   category: string | null;
   important: boolean;
-  insertDate: string;
-  insertId: string;
-  updateDate: string | null;
-  updateId: string | null;
+  insertDate?: string;
+  insertId?: string;
+  updateDate?: string | null;
+  updateId?: string | null;
 }

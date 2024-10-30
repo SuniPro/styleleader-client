@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { IconTypcnChevronLeftOutline } from "../../assets/Icons/ChevronOutlineArrow";
 import { IconTypcnChevronRightOutline } from "../../assets/Icons/ChevronOutlineArrow";
 import React, { Children, ReactNode, useState } from "react";
-import { css } from "@emotion/react";
+import { css, Theme, useTheme } from "@emotion/react";
 
 const COLOR_GRAY = "#9CA3AF";
 const COLOR_BLACK = "#1F2937";
@@ -10,11 +10,14 @@ const COLOR_SIZE = 23;
 
 export function CardFeed(props: { children: any; cardLength: number }) {
   const { children, cardLength } = props;
+
+  const theme = useTheme();
+
   const [active, setActive] = useState(cardLength - 1);
   const count = Children.count(children);
 
   return (
-    <CardFeedContainer>
+    <CardFeedContainer theme={theme}>
       <CardFeedTitle>STYLE LEADER FEED</CardFeedTitle>
       <CardStack cardSize={COLOR_SIZE}>
         {active > 0 && (
@@ -111,7 +114,7 @@ const CardCase = styled.div<{ colorGray: string; colorBlack: string }>(
     width: 100%;
     height: 100%;
     padding: 2rem 0;
-    background-color: hsl(280deg, 40%, calc(100% - var(--abs-offset) * 50%));
+    background-color: hsl(280deg, 40%, calc(100% * 50%));
     border-radius: 1rem;
     color: ${colorGray};
     text-align: justify;
@@ -134,16 +137,18 @@ const CardCase = styled.div<{ colorGray: string; colorBlack: string }>(
   `,
 );
 
-const CardFeedContainer = styled.div`
-  width: 100vw;
-  height: 60vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  font-family: Montserrat, sans-serif;
-`;
+const CardFeedContainer = styled.div<{ theme: Theme }>(
+  ({ theme }) => css`
+    width: 100vw;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    font-family: Montserrat, sans-serif;
+  `,
+);
 
 const CardFeedTitle = styled.h1`
   font-family: Montserrat, sans-serif;

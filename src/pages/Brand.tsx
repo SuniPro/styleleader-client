@@ -2,18 +2,13 @@
 import { PageContainer } from "../components/layouts/PageLayouts";
 import { ReadyBanner } from "../components/Empty/ReadyBanner";
 import { css } from "@emotion/react";
+import { CollectionView } from "../components/Brand/CollectionView";
+import { HistoryView } from "../components/Brand/HistoryView";
 
 export function Brand() {
   return (
-    <PageContainer
-      css={css`
-        align-items: center;
-      `}
-    >
-      <ReadyBanner
-        title="브랜드 기능은 아직 준비중입니다"
-        description="AS 및 구매 문의는 전화 (02-2235-3573) 로 부탁드립니다."
-      />
-    </PageContainer>
+    <>
+      <HistoryView />;{/*<CollectionView />;*/}
+    </>
   );
 }

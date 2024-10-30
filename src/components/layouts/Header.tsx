@@ -33,7 +33,7 @@ export function Header() {
       </Link>
       <HeaderNavigation>
         <HeaderLinkItem
-          to="company"
+          to="company/info"
           label={<HeaderLinkLabel>COMPANY</HeaderLinkLabel>}
           isActive={location.pathname === "/company"}
         />
