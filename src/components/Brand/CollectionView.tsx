@@ -16,7 +16,7 @@ import SUB2002 from "../../assets/BrandImage/collection/doxa/SUB-2002.png";
 import SUB600TLifeStylePicture from "../../assets/BrandImage/collection/doxa/SUB-600T_lifestyle_picture_IG_15.png";
 import SUB200CGRAPH from "../../assets/BrandImage/collection/doxa/SUB-200-CGRAPH.jpg";
 import SUB300T from "../../assets/BrandImage/collection/doxa/SUB-300T.png";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Collection } from "../../model/Collection";
 
 const DOXA_COLLECTION_IMAGE_LIST: Collection[] = [
@@ -61,10 +61,6 @@ const DOXA_COLLECTION_IMAGE_LIST: Collection[] = [
 export function CollectionView() {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  useEffect(() => {
-    console.log(activeIndex);
-  }, [activeIndex]);
-
   const activeItem =
     DOXA_COLLECTION_IMAGE_LIST[activeIndex % DOXA_COLLECTION_IMAGE_LIST.length];
 
@@ -73,9 +69,9 @@ export function CollectionView() {
       <CollectionMain>
         <div>
           <span>discover</span>
-          <h1>{activeItem.title}</h1>
+          <h1>{activeItem.title ?? ""}</h1>
           <Divider />
-          <p>{activeItem.description}</p>
+          <p>{activeItem.description ?? ""}</p>
         </div>
         <Swiper
           onSlideChange={(e) => setActiveIndex(e.activeIndex - 2)}
@@ -83,7 +79,7 @@ export function CollectionView() {
             width: 100%;
             padding-top: 3.125rem;
           `}
-          effect={"coverflow"}
+          effect="coverflow"
           modules={[EffectCoverflow, Pagination, Keyboard, Mousewheel]}
           grabCursor={true}
           centeredSlides={true}
@@ -95,7 +91,8 @@ export function CollectionView() {
             slideShadows: true,
           }}
           keyboard={{ enabled: true }}
-          mousewheel={{ thresholdDelta: 70 }}
+          // mousewheel={{ thresholdDelta: 70 }}
+          mousewheel
           loop={true}
           pagination={{ el: ".swiper-pagination" }}
           breakpoints={{
@@ -117,76 +114,6 @@ export function CollectionView() {
               image={item.image}
             />
           ))}
-
-          {/*<StyledSwiperSlide*/}
-          {/*  className="swiper-slide swiper-slide--one"*/}
-          {/*>*/}
-          {/*  <div>*/}
-          {/*    <h2>Jellyfish</h2>*/}
-          {/*    <p>*/}
-          {/*      Jellyfish and sea jellies are the informal common names given to*/}
-          {/*      the medusa-phase of certain gelatinous members of the subphylum*/}
-          {/*      Medusozoa, a major part of the phylum Cnidaria.*/}
-          {/*    </p>*/}
-          {/*  </div>*/}
-          {/*</StyledSwiperSlide>*/}
-          {/*<StyledSwiperSlide className="swiper-slide">*/}
-          {/*  <div>*/}
-          {/*    <h2>Seahorse</h2>*/}
-          {/*    <p>*/}
-          {/*      Seahorses are mainly found in shallow tropical and temperate*/}
-          {/*      salt water throughout the world. They live in sheltered areas*/}
-          {/*      such as seagrass beds, estuaries, coral reefs, and mangroves.*/}
-          {/*      Four species are found in Pacific waters from North America to*/}
-          {/*      South America.*/}
-          {/*    </p>*/}
-          {/*    <a href="https://en.wikipedia.org/wiki/Seahorse" target="_blank">*/}
-          {/*      explore*/}
-          {/*    </a>*/}
-          {/*  </div>*/}
-          {/*</StyledSwiperSlide>*/}
-          {/*<StyledSwiperSlide className="swiper-slide">*/}
-          {/*  <div>*/}
-          {/*    <h2>octopus</h2>*/}
-          {/*    <p>*/}
-          {/*      Octopuses inhabit various regions of the ocean, including coral*/}
-          {/*      reefs, pelagic waters, and the seabed; some live in the*/}
-          {/*      intertidal zone and others at abyssal depths. Most species grow*/}
-          {/*      quickly, mature early, and are short-lived.*/}
-          {/*    </p>*/}
-          {/*    <a href="https://en.wikipedia.org/wiki/Octopus" target="_blank">*/}
-          {/*      explore*/}
-          {/*    </a>*/}
-          {/*  </div>*/}
-          {/*</StyledSwiperSlide>*/}
-          {/*<StyledSwiperSlide className="swiper-slide">*/}
-          {/*  <div>*/}
-          {/*    <h2>Shark</h2>*/}
-          {/*    <p>*/}
-          {/*      Sharks are a group of elasmobranch fish characterized by a*/}
-          {/*      cartilaginous skeleton, five to seven gill slits on the sides of*/}
-          {/*      the head, and pectoral fins that are not fused to the head.*/}
-          {/*    </p>*/}
-          {/*    <a href="https://en.wikipedia.org/wiki/Shark" target="_blank">*/}
-          {/*      explore*/}
-          {/*    </a>*/}
-          {/*  </div>*/}
-          {/*</StyledSwiperSlide>*/}
-          {/*<StyledSwiperSlide className="swiper-slide">*/}
-          {/*  <div>*/}
-          {/*    <h2>Dolphin</h2>*/}
-          {/*    <p>*/}
-          {/*      Dolphins are widespread. Most species prefer the warm waters of*/}
-          {/*      the tropic zones, but some, such as the right whale dolphin,*/}
-          {/*      prefer colder climates. Dolphins feed largely on fish and squid,*/}
-          {/*      but a few, such as the orca, feed on large mammals such as*/}
-          {/*      seals.*/}
-          {/*    </p>*/}
-          {/*    <a href="https://en.wikipedia.org/wiki/Dolphin" target="_blank">*/}
-          {/*      explore*/}
-          {/*    </a>*/}
-          {/*  </div>*/}
-          {/*</StyledSwiperSlide>*/}
           <div
             css={css`
               bottom: 1.25rem !important;
@@ -194,15 +121,6 @@ export function CollectionView() {
             className="swiper-pagination"
           ></div>
         </Swiper>
-        <BackgroundImageCase
-          css={css`
-            top: -4rem;
-            left: -12rem;
-          `}
-          src="https://cdn.pixabay.com/photo/2021/11/04/19/39/jellyfish-6769173_960_720.png"
-          alt=""
-          className="bg"
-        />
       </CollectionMain>
     </CollectionWrapper>
   );
@@ -217,7 +135,7 @@ const CollectionMain = styled.main`
   position: relative;
   width: calc(min(90rem, 90%));
   margin: 0 auto;
-  min-height: 100vh;
+  min-height: 70vh;
   column-gap: 3rem;
   padding-block: min(20vh, 3rem);
 
@@ -240,8 +158,6 @@ const CollectionMain = styled.main`
     background-repeat: repeat;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    -moz-background-clip: text;
-    -moz-text-fill-color: transparent;
   }
 
   & > div p {

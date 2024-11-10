@@ -35,21 +35,21 @@ export function Header() {
         <HeaderLinkItem
           to="company/info"
           label={<HeaderLinkLabel>COMPANY</HeaderLinkLabel>}
-          isActive={location.pathname === "/company"}
+          isActive={location.pathname.includes("/company")}
         />
         <HeaderLinkItem
           to="brand"
           label={<HeaderLinkLabel>BRAND</HeaderLinkLabel>}
-          isActive={location.pathname === "/brand"}
+          isActive={location.pathname.includes("/brand")}
         />
         <HeaderLinkItem
           to="service"
           label={<HeaderLinkLabel>SERVICE</HeaderLinkLabel>}
-          isActive={location.pathname === "/service"}
+          isActive={location.pathname.includes("/service")}
         />
       </HeaderNavigation>
       <PersonalInfo>
-        <LogoutIcon fontSize={"medium"} sx={{ color: "#ffffff" }} />
+        <LogoutIcon fontSize="medium" sx={{ color: "#ffffff" }} />
       </PersonalInfo>
     </HeaderContainer>
   );

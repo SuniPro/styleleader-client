@@ -15,7 +15,7 @@ export function Company() {
   }, [selectedIndex]);
 
   return (
-    <PageContainer>
+    <PageContainer width={80}>
       <Title>Company</Title>
       <TabMenu
         menuList={COMPANY_MENU}

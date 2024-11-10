@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import theme from "../../styles/theme";
 import { TimeLine } from "../../model/Collection";
@@ -21,9 +22,10 @@ import FC_2020 from "../../assets/BrandImage/History/FC/FC_WEB_History_Page_Pict
 import FC_2021 from "../../assets/BrandImage/History/FC/FC_WEB_History_Page_Pictures_2021.jpg";
 import FC_2023 from "../../assets/BrandImage/History/FC/FC_WEB_History_Page_Pictures_2023.jpg";
 import { PageContainer } from "../layouts/PageLayouts";
-import { uid } from "uid";
 import { css } from "@emotion/react";
-import { useEffect, useState } from "react";
+import { useRef } from "react";
+import { Carousel } from "react-responsive-carousel";
+import { useHorizontalScroll } from "../../hooks/useWheel";
 
 const FC_TIMELINE: TimeLine[] = [
   {
@@ -120,53 +122,196 @@ const FC_TIMELINE: TimeLine[] = [
 ];
 
 export function HistoryView() {
-  const [randomFactors, setRandomFactors] = useState<number[]>([]);
-
-  useEffect(() => {
-    // 무작위성 갱신
-    const factors: number[] = FC_TIMELINE.map(() => Math.random() * 10000);
-    setRandomFactors(factors);
-  }, []);
+  const horizontalRef = useRef<HTMLDivElement>(null);
+  useHorizontalScroll(horizontalRef);
 
   return (
-    <PageContainer>
-      <TimeLineWrapper>
-        <StyeldTitle>Events</StyeldTitle>
-        <section>
-          <StyledSubTitle>2 December</StyledSubTitle>
-          <TimeTable>
-            {FC_TIMELINE.map((timeLine, index) => {
-              const factor = randomFactors[index];
-              return (
-                <TimeLineBox key={index}>
-                  {factor % 2 === 0 ? (
-                    <>
-                      <div>
-                        <Time>{timeLine.time}</Time>
-                        <TimeTitle>{timeLine.title}</TimeTitle>
-                        <TimeDescription>{timeLine.title}</TimeDescription>
-                      </div>
-                      {timeLine.image && <StyledImage src={timeLine.image} />}
-                    </>
-                  ) : (
-                    <>
-                      {timeLine.image && <StyledImage src={timeLine.image} />}
-                      <div>
-                        <Time>{timeLine.time}</Time>
-                        <TimeTitle>{timeLine.title}</TimeTitle>
-                        <TimeDescription>{timeLine.title}</TimeDescription>
-                      </div>
-                    </>
-                  )}
-                </TimeLineBox>
-              );
-            })}
-          </TimeTable>
-        </section>
-      </TimeLineWrapper>
+    <PageContainer
+      css={css`
+        margin-top: 20rem;
+      `}
+    >
+      <TimeLineContainer className="container">
+        <div className="intro">
+          <TimeLineTitle>
+            Frederique Constant, <br /> history.
+          </TimeLineTitle>
+        </div>
+        <HorizontalTimeline className="horizontal-timeline" ref={horizontalRef}>
+          <div className="opacity-overlay"></div>
+          <div className="timeline">
+            {FC_TIMELINE.map((timeLine, index) => (
+              <Card key={index}>
+                <CardItem>
+                  <div>
+                    <a className="link-image">
+                      <BackgroundImage
+                        image={timeLine.image}
+                        className="image"
+                      />
+                    </a>
+                  </div>
+                  <div>
+                    <Time>{timeLine.time}</Time>
+                    <TimeTitle>{timeLine.title}</TimeTitle>
+                    <TimeDescription>{timeLine.description}</TimeDescription>
+                  </div>
+                </CardItem>
+              </Card>
+            ))}
+          </div>
+        </HorizontalTimeline>
+      </TimeLineContainer>
+      {/*<TimeLineWrapper>*/}
+      {/*  <StyeldTitle>Events</StyeldTitle>*/}
+      {/*  <section>*/}
+      {/*    <StyledSubTitle>2 December</StyledSubTitle>*/}
+      {/*    <TimeTable>*/}
+      {/*      {FC_TIMELINE.map((timeLine, index) => {*/}
+      {/*        const factor = randomFactors[index];*/}
+      {/*        return (*/}
+      {/*          <TimeLineBox key={index}>*/}
+      {/*            {factor % 2 === 0 ? (*/}
+      {/*              <>*/}
+      {/*                <div>*/}
+      {/*                  <Time>{timeLine.time}</Time>*/}
+      {/*                  <TimeTitle>{timeLine.title}</TimeTitle>*/}
+      {/*                  <TimeDescription>{timeLine.title}</TimeDescription>*/}
+      {/*                </div>*/}
+      {/*                {timeLine.image && <StyledImage src={timeLine.image} />}*/}
+      {/*              </>*/}
+      {/*            ) : (*/}
+      {/*              <>*/}
+      {/*                {timeLine.image && <StyledImage src={timeLine.image} />}*/}
+      {/*                <div>*/}
+      {/*                  <Time>{timeLine.time}</Time>*/}
+      {/*                  <TimeTitle>{timeLine.title}</TimeTitle>*/}
+      {/*                  <TimeDescription>{timeLine.title}</TimeDescription>*/}
+      {/*                </div>*/}
+      {/*              </>*/}
+      {/*            )}*/}
+      {/*          </TimeLineBox>*/}
+      {/*        );*/}
+      {/*      })}*/}
+      {/*    </TimeTable>*/}
+      {/*  </section>*/}
+      {/*</TimeLineWrapper>*/}
     </PageContainer>
   );
 }
+
+const TimeLineContainer = styled.div`
+  transition: 0.33s ease all;
+  display: flex;
+  align-items: center;
+`;
+
+const TimeLineTitle = styled.h1`
+  margin-right: 120px;
+  margin-left: 90px;
+  margin-bottom: 60px;
+  font-weight: 400;
+  font-size: 48px;
+  font-family: ${theme.fontStyle.roboto};
+  white-space: nowrap;
+`;
+
+const HorizontalTimeline = styled.div`
+  position: relative;
+
+  cursor: grab;
+  -webkit-overflow-scrolling: touch;
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  &::-webkit-scrollbar {
+    // display: none;
+  }
+  /* width */
+  &::-webkit-scrollbar {
+    // This is the height of the scrollbar.
+    height: 6px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    // background: #f1f1f1;
+    // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+    background: #e5e5e5;
+    border: 2px solid transparent;
+    background-clip: content-box; /* THIS IS IMPORTANT */
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #cdcdcd;
+    border-radius: 15px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: scale(0.7, 0.7);
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @media screen and (min-height: 960px) {
+    h1 {
+      font-size: 64px;
+      // margin-bottom: 90px;
+    }
+  }
+`;
+
+const Card = styled.div`
+  white-space: normal;
+  display: inline-block;
+  max-width: 350px;
+  margin-right: 70px;
+  div.image {
+    height: 300px;
+  }
+
+  &:last-child {
+    margin-right: 90px;
+    margin-bottom: 60px;
+  }
+`;
+
+const CardItem = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const BackgroundImage = styled.div<{ image?: string }>(
+  ({ image }) => css`
+    background-image: url(${image});
+
+    height: 250px;
+    background-position: center;
+    background-size: cover;
+    background-color: #cdcdcd;
+    margin-bottom: 30px;
+
+    &:hover {
+      box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+    }
+  `,
+);
 
 const TimeLineWrapper = styled.main`
   width: 100%;
@@ -224,12 +369,14 @@ const TimeLineBox = styled.article`
       border-bottom: 0;
     }
   }
+
   &:nth-of-type(4) {
     @media screen and (min-width: 1025px) {
       border-right: $border;
       padding-right: 1rem;
     }
   }
+
   &:nth-of-type(4n) {
     @media screen and (min-width: ${theme.windowSize.small}) {
       border-left: $border;
@@ -256,10 +403,6 @@ const TimeDescription = styled.p`
   font-family: "Karla", sans-serif;
   font-size: 0.95rem;
   color: ${theme.colors.secondary};
-`;
-
-const ImageCase = styled.div`
-  display: flex;
 `;
 
 const StyledImage = styled.img`

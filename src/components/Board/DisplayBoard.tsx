@@ -3,6 +3,7 @@ import { IconTypcnChevronLeftOutline } from "../../assets/Icons/ChevronOutlineAr
 import { IconTypcnChevronRightOutline } from "../../assets/Icons/ChevronOutlineArrow";
 import React, { Children, ReactNode, useState } from "react";
 import { css, Theme, useTheme } from "@emotion/react";
+import { SectionTitle } from "../layouts/PageLayouts";
 
 const COLOR_GRAY = "#9CA3AF";
 const COLOR_BLACK = "#1F2937";
@@ -18,7 +19,7 @@ export function CardFeed(props: { children: any; cardLength: number }) {
 
   return (
     <CardFeedContainer theme={theme}>
-      <CardFeedTitle>STYLE LEADER FEED</CardFeedTitle>
+      <SectionTitle>STYLE LEADER FEED</SectionTitle>
       <CardStack cardSize={COLOR_SIZE}>
         {active > 0 && (
           <button className="nav left" onClick={() => setActive((i) => i - 1)}>
