@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 
 export function Header() {
   const location = useLocation();
-
   const [position, setPosition] = useState(0);
   function onScroll() {
     setPosition(window.scrollY);
@@ -23,11 +22,15 @@ export function Header() {
 
   return (
     <HeaderContainer scrollMove={position !== 0}>
-      <Link to={"/"}>
+      <Link
+        to={"/"}
+        css={css`
+          width: 100px;
+        `}
+      >
         <Logo
           css={css`
-            left: 20px;
-            position: absolute;
+            padding-left: 20px;
           `}
         />
       </Link>
@@ -49,7 +52,13 @@ export function Header() {
         />
       </HeaderNavigation>
       <PersonalInfo>
-        <LogoutIcon fontSize="medium" sx={{ color: "#ffffff" }} />
+        <LogoutIcon
+          css={css`
+            padding-right: 20px;
+          `}
+          fontSize="medium"
+          sx={{ color: "#ffffff" }}
+        />
       </PersonalInfo>
     </HeaderContainer>
   );
@@ -60,7 +69,7 @@ const HeaderContainer = styled.header<{ scrollMove: boolean }>(
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
 
     padding: 15px 0;
     position: fixed;
@@ -85,9 +94,6 @@ const PersonalInfo = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  position: absolute;
-  right: 30px;
-  gap: 8px;
 `;
 
 const Username = styled.span`
