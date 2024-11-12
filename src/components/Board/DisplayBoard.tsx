@@ -3,7 +3,7 @@ import { IconTypcnChevronLeftOutline } from "../../assets/Icons/ChevronOutlineAr
 import { IconTypcnChevronRightOutline } from "../../assets/Icons/ChevronOutlineArrow";
 import React, { Children, ReactNode, useState } from "react";
 import { css, Theme, useTheme } from "@emotion/react";
-import { SectionTitle } from "../layouts/PageLayouts";
+import { SectionTitle } from "../layouts";
 
 const COLOR_GRAY = "#9CA3AF";
 const COLOR_BLACK = "#1F2937";

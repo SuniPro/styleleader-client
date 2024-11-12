@@ -22,7 +22,7 @@ import React, { useState } from "react";
 import { css } from "@emotion/react";
 import { Box, Modal, Typography } from "@mui/material";
 import { ModalBoxStyle } from "../../pages/StyleLeaderDisplay";
-import { SectionTitle } from "../layouts/PageLayouts";
+import { SectionTitle } from "../layouts";
 
 const DOXA_LINK =
   "https://department.ssg.com/disp/brandShop.ssg?brandId=3000081880&ctgId=6000201050&n_media=27758&n_query=DOXA&n_rank=1&n_ad_group=grp-a001-04-000000041548489&n_ad=nad-a001-04-000000315007690&n_keyword_id=nkw-a001-04-000006147729761&n_keyword=DOXA&n_campaign_type=4&n_contract=tct-a001-04-000000000956435&n_ad_group_type=5&NaPm=ct%3Dm1oep43c%7Cci%3D0z40002%5F4dDAVCvt8KX1%7Ctr%3Dbrnd%7Chk%3D8679743176426dfe6f704fcc2b9220423d99128e%7Cnacn%3DTKevDogwM0ONA";

@@ -6,7 +6,7 @@ import styled from "@emotion/styled";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import { ReadyBanner } from "../components/Empty/ReadyBanner";
 import { css } from "@emotion/react";
-import { PageContainer } from "../components/layouts/PageLayouts";
+import { PageContainer } from "../components/layouts";
 import { iso8601ToYYMMDDHHMM } from "../utils/dateApi";
 import {
   Container,

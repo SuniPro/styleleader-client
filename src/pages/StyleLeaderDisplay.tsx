@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import {
   BrandCatalog,
   ClockShowcase,
@@ -33,7 +33,7 @@ export const ModalBoxStyle = {
 };
 
 export function StyleLeaderDisplay() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
   const handleClose = () => setOpen(false);
 
   const feedList: NewsFeedType[] = [

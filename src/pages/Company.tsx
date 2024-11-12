@@ -1,7 +1,6 @@
 import { TabMenu } from "../components/layouts/TabMenu";
 import React, { useEffect, useState } from "react";
-import styled from "@emotion/styled";
-import { PageContainer } from "../components/layouts/PageLayouts";
+import { MainTitle, PageContainer } from "../components/layouts";
 import { Outlet, useNavigate } from "react-router-dom";
 
 export const COMPANY_MENU = ["About us", "Notice"];
@@ -16,7 +15,7 @@ export function Company() {
 
   return (
     <PageContainer width={80}>
-      <Title>Company</Title>
+      <MainTitle>Company</MainTitle>
       <TabMenu
         menuList={COMPANY_MENU}
         activeFunction={{ selectedIndex, setSelectedIndex }}
@@ -25,10 +24,3 @@ export function Company() {
     </PageContainer>
   );
 }
-
-const Title = styled.div`
-  font-size: 40px;
-  font-family: Roboto, sans-serif;
-
-  font-weight: 800;
-`;

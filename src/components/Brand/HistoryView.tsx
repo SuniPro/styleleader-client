@@ -15,17 +15,10 @@ import FC_2009 from "../../assets/BrandImage/History/FC/FC_WEB_History_Page_Pict
 import FC_2012 from "../../assets/BrandImage/History/FC/FC_WEB_History_Page_Pictures_2012.jpg";
 import FC_2015 from "../../assets/BrandImage/History/FC/FC_WEB_History_Page_Pictures_2015.jpg";
 import FC_2016 from "../../assets/BrandImage/History/FC/FC_WEB_History_Page_Pictures_2016.jpg";
-import FC_2017 from "../../assets/BrandImage/History/FC/FC_WEB_History_Page_Pictures_2017.jpg";
-import FC_2018 from "../../assets/BrandImage/History/FC/FC_WEB_History_Page_Pictures_2018.jpg";
-import FC_2019 from "../../assets/BrandImage/History/FC/FC_WEB_History_Page_Pictures_2019.jpg";
-import FC_2020 from "../../assets/BrandImage/History/FC/FC_WEB_History_Page_Pictures_2020.jpg";
-import FC_2021 from "../../assets/BrandImage/History/FC/FC_WEB_History_Page_Pictures_2021.jpg";
-import FC_2023 from "../../assets/BrandImage/History/FC/FC_WEB_History_Page_Pictures_2023.jpg";
-import { PageContainer } from "../layouts/PageLayouts";
+import { PageContainer, SectionTitle } from "../layouts";
 import { css } from "@emotion/react";
 import { useRef } from "react";
-import { Carousel } from "react-responsive-carousel";
-import { useHorizontalScroll } from "../../hooks/useWheel";
+import { isOverXScrolling, useHorizontalScroll } from "../../hooks/useWheel";
 
 const FC_TIMELINE: TimeLine[] = [
   {
@@ -123,79 +116,58 @@ const FC_TIMELINE: TimeLine[] = [
 
 export function HistoryView() {
   const horizontalRef = useRef<HTMLDivElement>(null);
-  useHorizontalScroll(horizontalRef);
+  useHorizontalScroll(horizontalRef, isOverXScrolling(horizontalRef));
 
   return (
     <PageContainer
+      width={80}
       css={css`
-        margin-top: 20rem;
+        margin-top: 1rem;
       `}
     >
       <TimeLineContainer className="container">
         <div className="intro">
-          <TimeLineTitle>
-            Frederique Constant, <br /> history.
-          </TimeLineTitle>
+          <SectionTitle
+            css={css`
+              margin-bottom: 3rem;
+              font-family: ${theme.fontStyle.archivo};
+            `}
+          >
+            Frederique Constant, HISTORY.
+          </SectionTitle>
         </div>
         <HorizontalTimeline className="horizontal-timeline" ref={horizontalRef}>
           <div className="opacity-overlay"></div>
           <div className="timeline">
-            {FC_TIMELINE.map((timeLine, index) => (
-              <Card key={index}>
-                <CardItem>
-                  <div>
-                    <a className="link-image">
-                      <BackgroundImage
-                        image={timeLine.image}
-                        className="image"
-                      />
-                    </a>
-                  </div>
-                  <div>
-                    <Time>{timeLine.time}</Time>
-                    <TimeTitle>{timeLine.title}</TimeTitle>
-                    <TimeDescription>{timeLine.description}</TimeDescription>
-                  </div>
-                </CardItem>
-              </Card>
-            ))}
+            {FC_TIMELINE.map((timeLine, index) => {
+              const isLast = index === FC_TIMELINE.length - 1;
+              return (
+                <>
+                  <Card key={index}>
+                    <CardItem>
+                      <div>
+                        <a className="link-image">
+                          <BackgroundImage
+                            image={timeLine.image}
+                            className="image"
+                          />
+                        </a>
+                      </div>
+                      <div>
+                        <Time>{timeLine.time}</Time>
+                        <TimeTitle>{timeLine.title}</TimeTitle>
+                        <TimeDescription>
+                          {timeLine.description}
+                        </TimeDescription>
+                      </div>
+                    </CardItem>
+                  </Card>
+                </>
+              );
+            })}
           </div>
         </HorizontalTimeline>
       </TimeLineContainer>
-      {/*<TimeLineWrapper>*/}
-      {/*  <StyeldTitle>Events</StyeldTitle>*/}
-      {/*  <section>*/}
-      {/*    <StyledSubTitle>2 December</StyledSubTitle>*/}
-      {/*    <TimeTable>*/}
-      {/*      {FC_TIMELINE.map((timeLine, index) => {*/}
-      {/*        const factor = randomFactors[index];*/}
-      {/*        return (*/}
-      {/*          <TimeLineBox key={index}>*/}
-      {/*            {factor % 2 === 0 ? (*/}
-      {/*              <>*/}
-      {/*                <div>*/}
-      {/*                  <Time>{timeLine.time}</Time>*/}
-      {/*                  <TimeTitle>{timeLine.title}</TimeTitle>*/}
-      {/*                  <TimeDescription>{timeLine.title}</TimeDescription>*/}
-      {/*                </div>*/}
-      {/*                {timeLine.image && <StyledImage src={timeLine.image} />}*/}
-      {/*              </>*/}
-      {/*            ) : (*/}
-      {/*              <>*/}
-      {/*                {timeLine.image && <StyledImage src={timeLine.image} />}*/}
-      {/*                <div>*/}
-      {/*                  <Time>{timeLine.time}</Time>*/}
-      {/*                  <TimeTitle>{timeLine.title}</TimeTitle>*/}
-      {/*                  <TimeDescription>{timeLine.title}</TimeDescription>*/}
-      {/*                </div>*/}
-      {/*              </>*/}
-      {/*            )}*/}
-      {/*          </TimeLineBox>*/}
-      {/*        );*/}
-      {/*      })}*/}
-      {/*    </TimeTable>*/}
-      {/*  </section>*/}
-      {/*</TimeLineWrapper>*/}
     </PageContainer>
   );
 }
@@ -204,14 +176,14 @@ const TimeLineContainer = styled.div`
   transition: 0.33s ease all;
   display: flex;
   align-items: center;
+  width: 100%;
+  flex-direction: column;
 `;
 
 const TimeLineTitle = styled.h1`
-  margin-right: 120px;
-  margin-left: 90px;
-  margin-bottom: 60px;
+  margin-bottom: 6rem;
   font-weight: 400;
-  font-size: 48px;
+  font-size: 28px;
   font-family: ${theme.fontStyle.roboto};
   white-space: nowrap;
 `;
@@ -277,24 +249,26 @@ const HorizontalTimeline = styled.div`
   }
 `;
 
-const Card = styled.div`
-  white-space: normal;
-  display: inline-block;
-  max-width: 350px;
-  margin-right: 70px;
-  div.image {
-    height: 300px;
-  }
+const Card = styled.div<{ isLast?: boolean }>(
+  ({ isLast }) => css`
+    white-space: normal;
+    display: inline-block;
+    max-width: 350px;
+    margin-right: 70px;
+    div.image {
+      height: 300px;
+    }
 
-  &:last-child {
-    margin-right: 90px;
-    margin-bottom: 60px;
-  }
-`;
+    &:last-child {
+      margin-right: 90px;
+    }
+  `,
+);
 
 const CardItem = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1;
 `;
 
 const BackgroundImage = styled.div<{ image?: string }>(
@@ -308,99 +282,27 @@ const BackgroundImage = styled.div<{ image?: string }>(
     margin-bottom: 30px;
 
     &:hover {
-      box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+      transition: box-shadow 500ms ease; /* box-shadow에 트랜지션 추가 */
+      box-shadow: 4px 4px 8px #373737;
     }
   `,
 );
 
-const TimeLineWrapper = styled.main`
-  width: 100%;
-  margin: auto;
-  scroll-behavior: smooth;
-`;
-
-const StyeldTitle = styled.h1`
-  font-family: ${theme.fontStyle.poppins};
-  color: ${theme.colors.white};
-`;
-
-const StyledSubTitle = styled.h2`
-  color: ${theme.colors.luxuryGreen};
-  font-family: ${theme.fontStyle.poppins};
-  font-weight: 500;
-`;
-
-const TimeTable = styled.div`
-  @media screen and (min-width: ${theme.windowSize.small}) {
-    display: grid;
-    grid-auto-flow: column;
-    gird-gap: 1rem;
-  }
-
-  @media screen and (min-width: ${theme.windowSize.large}) {
-    grid-template-columns: 1fr 2fr 1fr 2fr;
-  }
-  @media screen and (min-width: ${theme.windowSize
-      .small}) and (max-width: ${theme.windowSize.large}) {
-    grid-template-columns: 1fr 2fr;
-  }
-`;
-
-const TimeLineBox = styled.article`
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #4d4d4d;
-
-  &:nth-of-type(4) {
-    grid-area: 1/2/4/3;
-  }
-
-  &:nth-of-type(8) {
-    @media screen and (min-width: 1025px) {
-      grid-area: 1/4/4/-1;
-    }
-    @media screen and (min-width: ${theme.windowSize
-        .small}) and (max-width: ${theme.windowSize.large}) {
-      grid-area: 4/2/8/3;
-    }
-  }
-
-  &:nth-of-type(4n + 3) {
-    @media screen and (min-width: 1025px) {
-      border-bottom: 0;
-    }
-  }
-
-  &:nth-of-type(4) {
-    @media screen and (min-width: 1025px) {
-      border-right: $border;
-      padding-right: 1rem;
-    }
-  }
-
-  &:nth-of-type(4n) {
-    @media screen and (min-width: ${theme.windowSize.small}) {
-      border-left: $border;
-      border-bottom: 0;
-      padding-left: 1rem;
-    }
-  }
-`;
-
 const Time = styled.h3`
-  font-family: ${theme.fontStyle.poppins};
+  font-family: ${theme.fontStyle.archivo};
   color: ${theme.colors.white};
   font-weight: 500;
   margin: 0.5rem 0;
 `;
 
 const TimeTitle = styled.h4`
-  font-family: ${theme.fontStyle.montserrat};
+  font-family: ${theme.fontStyle.roboto};
   font-size: 1.5rem;
   margin: 0.1rem 0;
 `;
 
 const TimeDescription = styled.p`
-  font-family: "Karla", sans-serif;
+  font-family: ${theme.fontStyle.roboto};
   font-size: 0.95rem;
   color: ${theme.colors.secondary};
 `;
