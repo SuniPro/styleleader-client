@@ -18,7 +18,7 @@ export function Company() {
       <MainTitle>Company</MainTitle>
       <TabMenu
         menuList={COMPANY_MENU}
-        activeFunction={{ selectedIndex, setSelectedIndex }}
+        activeState={{ selectedIndex, setSelectedIndex }}
       />
       <Outlet />
     </PageContainer>

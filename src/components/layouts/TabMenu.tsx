@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { gsap } from "gsap";
+import theme from "../../styles/theme";
 
 export interface ActiveFunctionProps {
   selectedIndex: number;
@@ -11,14 +11,12 @@ export interface ActiveFunctionProps {
 
 export function TabMenu(props: {
   menuList: string[];
-  activeFunction: ActiveFunctionProps;
+  activeState: ActiveFunctionProps;
+  activeFunction?: () => void;
 }) {
   const state = window.location.pathname;
-  const navigate = useNavigate();
-
   const { menuList } = props;
-
-  const { selectedIndex, setSelectedIndex } = props.activeFunction;
+  const { selectedIndex, setSelectedIndex } = props.activeState;
 
   const handleClick = (index: number) => {
     if (selectedIndex === 0 && !state.includes("/info")) {
@@ -99,5 +97,110 @@ const TabMenuContent = styled.span<{ isActive?: boolean }>(
     font-weight: ${isActive ? "700" : "normal"};
     white-space: nowrap;
     color: ${isActive ? "#212121" : "#ffffff"};
+  `,
+);
+
+export function TripleTabMenu(props: {
+  className?: string;
+  menuList: string[];
+  activeState: ActiveFunctionProps;
+}) {
+  const { className, menuList, activeState } = props;
+
+  const { selectedIndex, setSelectedIndex } = activeState;
+
+  let currentLink: EventTarget & Element;
+  let currentIndex = 0;
+  const links = document.querySelectorAll("nav a");
+
+  function addActive(e: React.MouseEvent, index: number) {
+    const target = e.currentTarget;
+    links.forEach((link) => link.classList.remove("active"));
+
+    if (target !== currentLink) {
+      let direction;
+      if (currentIndex < index) direction = "right";
+      else direction = "left";
+      const slide = target.querySelector(".slide");
+
+      gsap
+        .timeline()
+        .fromTo(
+          slide,
+          {
+            transformOrigin: `${direction === "left" ? "right" : "left"} center`,
+            scaleX: 0,
+          },
+          {
+            delay: 0.1,
+            duration: 0.25,
+            scaleX: 1,
+          },
+        )
+        .to(slide, {
+          delay: 0.25,
+          duration: 0.25,
+          transformOrigin: `${direction} center`,
+          scaleX: 0,
+        });
+      currentLink = target;
+      currentIndex = index;
+    }
+  }
+
+  return (
+    <TripleTabNav className={className}>
+      {menuList.map((menu, index) => (
+        <TabLink
+          href="#"
+          onClick={(e) => {
+            setSelectedIndex(index);
+            addActive(e, index);
+          }}
+          active={selectedIndex === index}
+        >
+          <span className="text">{menu.toUpperCase()}</span>
+          <div
+            css={css`
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 100%;
+              height: 100%;
+              background: ${theme.colors.gold};
+              opacity: 0.2;
+              transform: scaleX(0);
+            `}
+            className="slide"
+          />
+        </TabLink>
+      ))}
+    </TripleTabNav>
+  );
+}
+
+export const TripleTabNav = styled.nav`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const TabLink = styled.a<{ active: boolean }>(
+  ({ active }) => css`
+    position: relative;
+    text-decoration: none;
+    font-family: ${theme.fontStyle.roboto};
+    font-weight: bold;
+    color: ${active ? theme.colors.gold : theme.colors.gray};
+    margin: 0 1rem;
+    transition:
+      text-shadow 300ms ease,
+      color 300ms ease;
+    ${active && "text-shadow: 0 0 20px #4df9ff7c"}
+
+    &:focus {
+      outline: none;
+      border: none;
+    }
   `,
 );

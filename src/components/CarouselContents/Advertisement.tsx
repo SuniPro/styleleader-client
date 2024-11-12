@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 //BrandImageList
-import DoxaImageGreen from "../../assets/BrandImage/doxa-image-green.png";
-import DoxaImageOrange from "../../assets/BrandImage/doxa-image-orange.webp";
-import FrederiqueConstantBlack from "../../assets/BrandImage/frederique-constant-image-black.png";
-import GagaMilano from "../../assets/BrandImage/gaga-milano.jpg";
-import Alpina from "../../assets/BrandImage/alpina.jpg";
+import DoxaImageGreen from "../../assets/Brand/doxa-image-green.png";
+import DoxaImageOrange from "../../assets/Brand/doxa-image-orange.webp";
+import FrederiqueConstantBlack from "../../assets/Brand/frederique-constant-image-black.png";
+import GagaMilano from "../../assets/Brand/gaga-milano.jpg";
+import Alpina from "../../assets/Brand/alpina.jpg";
 
 //CollectionImageList
 import DoxaAquamarine from "../../assets/CollectionImage/DOXA_SUB300T-aquamarine.png";

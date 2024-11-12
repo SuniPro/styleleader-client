@@ -16,7 +16,7 @@ import { PageContainer } from "./components/layouts";
 import { ReadyBanner } from "./components/Empty/ReadyBanner";
 import theme from "./styles/theme";
 import { ParallaxProvider } from "react-scroll-parallax";
-import { TimeLineProcessY } from "./components/Brand/TimeLine";
+import { Service } from "./pages/Service";
 
 const queryClient = new QueryClient();
 
@@ -43,7 +43,7 @@ function App() {
                   <Route path="board/:boardId" element={<BoardDetail />} />
                 </Route>
                 <Route path="/brand" element={<Brand />} />
-                <Route path="/service" element={<TimeLineProcessY />} />
+                <Route path="/service" element={<Service />} />
               </Routes>
             </BrowserRouter>
             <Footer />

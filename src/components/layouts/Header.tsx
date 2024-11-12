@@ -25,7 +25,7 @@ export function Header() {
       <Link
         to={"/"}
         css={css`
-          width: 100px;
+          width: 22px;
         `}
       >
         <Logo
