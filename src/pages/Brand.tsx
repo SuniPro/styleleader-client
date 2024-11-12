@@ -8,10 +8,13 @@ export function Brand() {
     <main
       css={css`
         width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
       `}
     >
-      <HistoryView />;
       <CollectionView />;
+      <HistoryView />;
     </main>
   );
 }

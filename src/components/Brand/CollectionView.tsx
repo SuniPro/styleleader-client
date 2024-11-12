@@ -8,7 +8,6 @@ import "swiper/css/pagination";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import theme from "../../styles/theme";
-import { Divider } from "../layouts/LayoutLayer";
 
 import SUB200 from "../../assets/BrandImage/collection/doxa/SUB-200.jpg";
 import SUB300 from "../../assets/BrandImage/collection/doxa/SUB-300.jpg";
@@ -60,21 +59,35 @@ const DOXA_COLLECTION_IMAGE_LIST: Collection[] = [
 
 export function CollectionView() {
   const [activeIndex, setActiveIndex] = useState(0);
-
-  const activeItem =
-    DOXA_COLLECTION_IMAGE_LIST[activeIndex % DOXA_COLLECTION_IMAGE_LIST.length];
+  const activeItem = DOXA_COLLECTION_IMAGE_LIST[activeIndex];
 
   return (
     <CollectionWrapper>
       <CollectionMain>
         <div>
-          <span>discover</span>
-          <h1>{activeItem.title ?? ""}</h1>
-          <Divider />
-          <p>{activeItem.description ?? ""}</p>
+          {/*<span>discover</span>*/}
+          <h1
+            css={css`
+              margin: 0;
+            `}
+          >
+            {activeItem.title}
+          </h1>
+          <p
+            css={css`
+              margin-top: 28px;
+            `}
+          >
+            {activeItem.description}
+          </p>
         </div>
         <Swiper
-          onSlideChange={(e) => setActiveIndex(e.activeIndex - 2)}
+          onSlideChange={(e) => {
+            e.activeIndex - 2 < 0 ||
+            e.activeIndex > DOXA_COLLECTION_IMAGE_LIST.length
+              ? setActiveIndex(0)
+              : setActiveIndex(e.activeIndex - 2);
+          }}
           css={css`
             width: 100%;
             padding-top: 3.125rem;
