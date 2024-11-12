@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useEventListener } from "usehooks-ts";
 
 /** ref로 전달된 컴포넌트에 wheel이벤트를 등록하여 세로 스크롤 동작 대신 가로 스크롤이 동작하게 만듭니다.
@@ -43,7 +43,7 @@ export function useStopWheelPropagation(
 }
 
 /** ref로 전달된 컴포넌트가 현재 오버스크롤(최상단에서 위스크롤, 최하단에서 아래스크롤) 상태인지 확인합니다. */
-export function isOverScrolling(
+export function isOverDeltaYScrolling(
   ref: React.RefObject<HTMLElement>,
   e: WheelEvent,
 ) {
@@ -56,4 +56,34 @@ export function isOverScrolling(
     currentScrollTop >= scrollableHeight && e.deltaY > 0;
   const isTopOverScrolling = currentScrollTop <= 0 && e.deltaY < 0;
   return isBottomOverScrolling || isTopOverScrolling;
+}
+
+/** ref로 전달된 컴포넌트가 현재 오버스크롤(최상단에서 위스크롤, 최하단에서 아래스크롤) 상태인지 확인합니다. */
+export function isOverXScrolling(ref: React.RefObject<HTMLElement>) {
+  if (!ref.current) return;
+  let totalWidth = ref.current.scrollWidth - ref.current.offsetWidth;
+  let scrollLocation = Math.round(ref.current.scrollLeft);
+
+  return scrollLocation >= totalWidth;
+}
+
+/** ref 요소가 아닌 브라우저의 스크롤 위치를 추적합니다. */
+export function useScrollPosition() {
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY);
+    };
+
+    // 스크롤 이벤트를 추가
+    window.addEventListener("scroll", handleScroll);
+
+    // 정리 함수로 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  return scrollPosition;
 }

@@ -21,6 +21,8 @@ const fontStyle = {
   montserrat: "Montserrat, sans-serif",
   poppins: "Poppins, sans-serif",
   archivo: "Archivo, sans-serif",
+  katibeh: "Katibeh, sans-serif",
+  playfair: "Playfair Display, sans-serif",
 };
 
 const colors = {
