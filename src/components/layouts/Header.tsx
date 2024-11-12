@@ -30,7 +30,7 @@ export function Header() {
       >
         <Logo
           css={css`
-            padding-left: 20px;
+            padding: 2px 0 2px 20px;
           `}
         />
       </Link>
@@ -54,7 +54,7 @@ export function Header() {
       <PersonalInfo>
         <LogoutIcon
           css={css`
-            padding-right: 20px;
+            padding: 1px 20px 1px 0;
           `}
           fontSize="medium"
           sx={{ color: "#ffffff" }}
