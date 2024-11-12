@@ -159,10 +159,7 @@ export function TimeLineProcessY() {
     >
       <TimeLineWrapper ref={timeLineRef}>
         <BarArea>
-          <BarProcess
-            style={{ height: `${scrollPosition}px` }}
-            // 150은 뷰포트에서의 게이지를 유저의 눈높이에 맞추기 위한 매직넘버입니다.
-          >
+          <BarProcess style={{ height: `${scrollPosition}px` }}>
             <Bar></Bar>
           </BarProcess>
         </BarArea>
@@ -246,12 +243,10 @@ const BarArea = styled.div`
   text-align: right;
   position: absolute;
   left: 50%;
-  top: 49.5%;
+  top: 49.45%;
   width: 2px !important;
   margin-left: -1px;
   height: calc(98% + 14px);
-  -webkit-transform: translateY(-50%);
-  -moz-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
   background: linear-gradient(
@@ -274,6 +269,8 @@ const BarProcess = styled.span<{ height?: number }>(
     overflow: hidden;
     transition: 0s;
     background-color: ${theme.colors.gold};
+    transform: scaleX(0.7); /* 원하는 비율로 조절 */
+    transform-origin: top;
   `,
 );
 
@@ -331,6 +328,12 @@ const StyledDescription = styled.div`
   text-align: right;
 
   font-family: ${theme.fontStyle.roboto};
+
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  align-items: flex-end;
 `;
 
 const DescriptionTitle = styled.h1`
@@ -339,11 +342,9 @@ const DescriptionTitle = styled.h1`
 
 const DescriptionSubTitle = styled.h3``;
 
-const LocationCurrent = styled.i<{ on: boolean; right?: number }>(
-  ({ on, right }) => css``,
-);
-
-const DescriptionContents = styled.p``;
+const DescriptionContents = styled.p`
+  width: 50%;
+`;
 
 const ImageWrapper = styled.div`
   margin-left: 64px;
