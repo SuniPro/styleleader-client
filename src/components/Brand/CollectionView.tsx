@@ -9,63 +9,30 @@ import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import theme from "../../styles/theme";
 
-import SUB200 from "../../assets/BrandImage/collection/doxa/SUB-200.jpg";
-import SUB300 from "../../assets/BrandImage/collection/doxa/SUB-300.jpg";
-import SUB2002 from "../../assets/BrandImage/collection/doxa/SUB-2002.png";
-import SUB600TLifeStylePicture from "../../assets/BrandImage/collection/doxa/SUB-600T_lifestyle_picture_IG_15.png";
-import SUB200CGRAPH from "../../assets/BrandImage/collection/doxa/SUB-200-CGRAPH.jpg";
-import SUB300T from "../../assets/BrandImage/collection/doxa/SUB-300T.png";
 import { useState } from "react";
+import { Spinner } from "../Spinner";
 import { Collection } from "../../model/Collection";
 
-const DOXA_COLLECTION_IMAGE_LIST: Collection[] = [
-  {
-    image: SUB200,
-    title: "서브 200",
-    description:
-      "반사 방지 코팅 처리된 스크래치 방지 사파이어 크리스털이 돋보이는 3 핸즈 스테인리스 스틸 다이버 시계입니다. SUB 200은 단방향 회전 베젤을 갖추고 있으며, 톤온톤 러버 스트랩 또는 스틸 브레이슬릿 옵션과 함께 8가지 다이얼 색상으로 출시됩니다.",
-  },
-  {
-    image: SUB300,
-    title: "서브 300",
-    description:
-      "반사 방지 코팅 처리된 스크래치 방지 사파이어 크리스털이 돋보이는 3 핸즈 스테인리스 스틸 다이버 시계입니다. SUB 200은 단방향 회전 베젤을 갖추고 있으며, 톤온톤 러버 스트랩 또는 스틸 브레이슬릿 옵션과 함께 8가지 다이얼 색상으로 출시됩니다.",
-  },
-  {
-    image: SUB200CGRAPH,
-    title: "서브 200 CGRAPH",
-    description:
-      "반사 방지 코팅 처리된 스크래치 방지 사파이어 크리스털이 돋보이는 3 핸즈 스테인리스 스틸 다이버 시계입니다. SUB 200은 단방향 회전 베젤을 갖추고 있으며, 톤온톤 러버 스트랩 또는 스틸 브레이슬릿 옵션과 함께 8가지 다이얼 색상으로 출시됩니다.",
-  },
-  {
-    image: SUB2002,
-    title: "서브 2002",
-    description:
-      "반사 방지 코팅 처리된 스크래치 방지 사파이어 크리스털이 돋보이는 3 핸즈 스테인리스 스틸 다이버 시계입니다. SUB 200은 단방향 회전 베젤을 갖추고 있으며, 톤온톤 러버 스트랩 또는 스틸 브레이슬릿 옵션과 함께 8가지 다이얼 색상으로 출시됩니다.",
-  },
-  {
-    image: SUB600TLifeStylePicture,
-    title: "서브 600T LifeStylePicture",
-    description:
-      "반사 방지 코팅 처리된 스크래치 방지 사파이어 크리스털이 돋보이는 3 핸즈 스테인리스 스틸 다이버 시계입니다. SUB 200은 단방향 회전 베젤을 갖추고 있으며, 톤온톤 러버 스트랩 또는 스틸 브레이슬릿 옵션과 함께 8가지 다이얼 색상으로 출시됩니다.",
-  },
-  {
-    image: SUB300T,
-    title: "서브 300T",
-    description:
-      "반사 방지 코팅 처리된 스크래치 방지 사파이어 크리스털이 돋보이는 3 핸즈 스테인리스 스틸 다이버 시계입니다. SUB 200은 단방향 회전 베젤을 갖추고 있으며, 톤온톤 러버 스트랩 또는 스틸 브레이슬릿 옵션과 함께 8가지 다이얼 색상으로 출시됩니다.",
-  },
-];
-
-export function CollectionView() {
+export function CollectionView(props: { collectionList: Collection[] }) {
+  const { collectionList } = props;
   const [activeIndex, setActiveIndex] = useState(0);
-  const activeItem = DOXA_COLLECTION_IMAGE_LIST[activeIndex];
+
+  if (!collectionList) {
+    return <Spinner />;
+  }
+
+  const activeItem = collectionList[activeIndex];
 
   return (
     <CollectionWrapper>
       <CollectionMain>
         <div>
-          {/*<span>discover</span>*/}
+          <span>
+            {(activeItem.category.includes("limited")
+              ? "limited edition"
+              : activeItem.category
+            ).toUpperCase()}
+          </span>
           <h1
             css={css`
               margin: 0;
@@ -76,6 +43,7 @@ export function CollectionView() {
           <p
             css={css`
               margin-top: 28px;
+              width: 45rem;
             `}
           >
             {activeItem.description}
@@ -83,8 +51,7 @@ export function CollectionView() {
         </div>
         <Swiper
           onSlideChange={(e) => {
-            e.activeIndex - 2 < 0 ||
-            e.activeIndex > DOXA_COLLECTION_IMAGE_LIST.length
+            e.activeIndex - 2 < 0 || e.activeIndex > collectionList.length
               ? setActiveIndex(0)
               : setActiveIndex(e.activeIndex - 2);
           }}
@@ -119,7 +86,7 @@ export function CollectionView() {
             },
           }}
         >
-          {DOXA_COLLECTION_IMAGE_LIST.map((item, index) => (
+          {collectionList.map((item, index) => (
             <StyledSwiperSlide
               key={index}
               className={`swiper-slide swiper-slide-${index}`}
@@ -132,7 +99,7 @@ export function CollectionView() {
               bottom: 1.25rem !important;
             `}
             className="swiper-pagination"
-          ></div>
+          />
         </Swiper>
       </CollectionMain>
     </CollectionWrapper>

@@ -1,5 +1,8 @@
 export interface Collection {
+  id: number;
+  brand: string;
   image: string;
+  category: string;
   title: string;
   description: string;
 }
