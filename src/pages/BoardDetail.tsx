@@ -83,7 +83,7 @@ export function BoardDetail() {
               <HeaderItem>
                 <PriorityHighIcon
                   fontSize="small"
-                  color={board ? "info" : "warning"}
+                  color={board.important ? "warning" : "info"}
                 />
                 <div>{board.title}</div>
               </HeaderItem>

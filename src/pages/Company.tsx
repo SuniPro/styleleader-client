@@ -1,25 +1,23 @@
 import { TabMenu } from "../components/layouts/TabMenu";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { MainTitle, PageContainer } from "../components/layouts";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
-export const COMPANY_MENU = ["About us", "Notice"];
+export interface TabMenuListType {
+  menu: string;
+  path: string;
+}
+
+export const COMPANY_MENU: TabMenuListType[] = [
+  { menu: "About us", path: "info" },
+  { menu: "Notice", path: "board" },
+];
 
 export function Company() {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    navigate(selectedIndex === 0 ? "info" : "board");
-  }, [navigate, selectedIndex]);
-
   return (
     <PageContainer width={80}>
       <MainTitle>Company</MainTitle>
-      <TabMenu
-        menuList={COMPANY_MENU}
-        activeState={{ selectedIndex, setSelectedIndex }}
-      />
+      <TabMenu menuList={COMPANY_MENU} />
       <Outlet />
     </PageContainer>
   );

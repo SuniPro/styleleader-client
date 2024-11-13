@@ -3,6 +3,9 @@ import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { gsap } from "gsap";
 import theme from "../../styles/theme";
+import { TabMenuListType } from "../../pages/Company";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export interface ActiveFunctionProps {
   selectedIndex: number;
@@ -10,21 +13,24 @@ export interface ActiveFunctionProps {
 }
 
 export function TabMenu(props: {
-  menuList: string[];
-  activeState: ActiveFunctionProps;
+  menuList: TabMenuListType[];
   activeFunction?: () => void;
 }) {
-  const state = window.location.pathname;
   const { menuList } = props;
-  const { selectedIndex, setSelectedIndex } = props.activeState;
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const navigate = useNavigate();
 
   const handleClick = (index: number) => {
-    if (selectedIndex === 0 && !state.includes("/info")) {
-      setSelectedIndex(0);
-    } else {
-      setSelectedIndex(index);
-    }
+    setSelectedIndex(index);
+    navigate(menuList[index].path);
   };
+
+  useEffect(() => {
+    if (window.location.pathname.includes(menuList[1].path)) {
+      setSelectedIndex(1);
+    }
+  }, [menuList]);
 
   return (
     <TabMenuContainer>
@@ -37,7 +43,7 @@ export function TabMenu(props: {
             onClick={() => handleClick(index)}
           >
             <TabMenuContent isActive={selectedIndex === index}>
-              {menu}
+              {menu.menu}
             </TabMenuContent>
           </TabMenuList>
         ))}
