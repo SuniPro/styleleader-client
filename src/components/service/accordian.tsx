@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
@@ -8,6 +8,7 @@ import theme from "../../styles/theme";
 import { Box, Modal, Typography } from "@mui/material";
 import { ModalBoxStyle } from "../../pages/StyleLeaderDisplay";
 import { ServiceContentsAsset } from "../../assets/contents/service/ServiceContents";
+import { uid } from "uid";
 
 function ModalContents(contents: ServiceContents) {
   return (
@@ -53,12 +54,12 @@ function ProjectList(props: { service: ServiceContents[] }) {
   const handleClose = () => setOpen(false);
 
   return (
-    <StyledProjectList className="project-list">
+    <StyledProjectList className="project-list" key={uid()}>
       <ul className="menu vertical">
         {service.map((service, index) => (
           <>
             <li
-              key={"service-" + index}
+              key={"service-" + uid() + index}
               onClick={() => {
                 setActiveContents(service);
                 setOpen(true);
@@ -130,7 +131,7 @@ function ProjectCategory(props: {
     >
       <CategoryContents isActive={active} focused={focused} isLast={isLast}>
         <h2>{cat.name}</h2>
-        <ProjectList service={cat.services} />
+        <ProjectList service={cat.services} key={`project-list ${uid()}`} />
       </CategoryContents>
       <CategoryImageContainer
         className="category--image-container"

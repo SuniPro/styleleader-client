@@ -1,7 +1,7 @@
-import "dotenv/config";
+import { AppConfig } from "../config/config";
 
 export function getMainServerUrl(): string {
-  return process.env.MAIN_SPRING_SERVER_URL ?? "";
+  return AppConfig.server.main ?? "";
 }
 
 function isLocalHostname(): boolean {
