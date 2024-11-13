@@ -40,6 +40,30 @@ export async function postToSprings(
     .catch(errorHandler);
 }
 
+export async function getFileToPost(
+  url: string,
+  param: any,
+  init: RequestInit & { skipError?: boolean } = {},
+): Promise<void> {
+  const response = await axios.post(url, param, {
+    headers: { "Content-Type": "application/json" },
+    responseType: "arraybuffer",
+  });
+
+  const blob = new Blob([response.data], { type: "application/pdf" });
+
+  const downloadUrl = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = downloadUrl;
+  link.download = param.file.split("/")[1];
+  document.body.appendChild(link);
+  link.click();
+
+  URL.revokeObjectURL(downloadUrl);
+  document.body.removeChild(link);
+}
+
 async function responseHandler(
   response: AxiosResponse,
   url: string,

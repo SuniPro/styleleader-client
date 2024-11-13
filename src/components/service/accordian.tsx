@@ -9,6 +9,7 @@ import { Box, Modal, Typography } from "@mui/material";
 import { ModalBoxStyle } from "../../pages/StyleLeaderDisplay";
 import { ServiceContentsAsset } from "../../assets/contents/service/ServiceContents";
 import { uid } from "uid";
+import { getFile } from "../../api/file";
 
 function ModalContents(contents: ServiceContents) {
   return (
@@ -45,8 +46,8 @@ function ModalContents(contents: ServiceContents) {
   );
 }
 
-function ProjectList(props: { service: ServiceContents[] }) {
-  const { service } = props;
+function ProjectList(props: { serviceId: string; service: ServiceContents[] }) {
+  const { serviceId, service } = props;
   const [activeContents, setActiveContents] = useState<ServiceContents>(
     service[0],
   );
@@ -69,6 +70,11 @@ function ProjectList(props: { service: ServiceContents[] }) {
                 css={css`
                   text-underline: none;
                 `}
+                onClick={() => {
+                  if (serviceId === "userManual") {
+                    getFile({ file: service.contents });
+                  }
+                }}
               >
                 <ProjectListClient>{service.name}</ProjectListClient>
                 <ProjectListByLine>{service.description}</ProjectListByLine>
@@ -131,7 +137,11 @@ function ProjectCategory(props: {
     >
       <CategoryContents isActive={active} focused={focused} isLast={isLast}>
         <h2>{cat.name}</h2>
-        <ProjectList service={cat.services} key={`project-list ${uid()}`} />
+        <ProjectList
+          serviceId={cat.id}
+          service={cat.services}
+          key={`project-list ${uid()}`}
+        />
       </CategoryContents>
       <CategoryImageContainer
         className="category--image-container"

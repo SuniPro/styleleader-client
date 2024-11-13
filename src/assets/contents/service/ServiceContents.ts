@@ -119,12 +119,12 @@ export const ServiceContentsAsset: ServiceCategory[] = [
       {
         name: "프레드릭 콘스탄트 쿼츠시계",
         description: "사용 설명서 다운로드",
-        contents: "frederique_constant_automatic_manual.pdf",
+        contents: "manual/frederique_constant_automatic_manual.pdf",
       },
       {
         name: "프레드릭 콘스탄트 쿼츠시계",
         description: "사용 설명서 다운로드",
-        contents: "frederique_constant_quartz_manual.pdf",
+        contents: "manual/frederique_constant_quartz_manual.pdf",
       },
     ],
   },
