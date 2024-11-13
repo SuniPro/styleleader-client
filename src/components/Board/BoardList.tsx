@@ -133,6 +133,7 @@ export function BoardList() {
         <Container
           css={css`
             align-items: flex-end;
+            width: 100%;
           `}
         >
           <TableContainer>
@@ -166,6 +167,7 @@ export function BoardList() {
 
 const TableContainer = styled.table`
   border-spacing: 0;
+  width: 100%;
 `;
 
 const TableTitle = styled.div`

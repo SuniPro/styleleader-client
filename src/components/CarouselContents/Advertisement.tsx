@@ -301,8 +301,9 @@ const CollectionItemContainer = styled.li`
   transition: all 0.3s;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   gap: 40px;
-  width: 70%;
+  width: 100%;
   justify-content: center;
 `;
 

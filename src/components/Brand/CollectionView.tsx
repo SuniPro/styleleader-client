@@ -43,7 +43,7 @@ export function CollectionView(props: { collectionList: Collection[] }) {
           <p
             css={css`
               margin-top: 28px;
-              width: 45rem;
+              max-width: 1200px;
             `}
           >
             {activeItem.description}

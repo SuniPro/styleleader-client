@@ -245,10 +245,17 @@ const DescriptionTitle = styled.h1`
   color: ${theme.colors.gold};
 `;
 
-const DescriptionSubTitle = styled.h3``;
+const DescriptionSubTitle = styled.h3`
+  @media ${theme.windowSize.small} {
+    width: 30%;
+  }
+`;
 
 const DescriptionContents = styled.p`
   width: 50%;
+  @media ${theme.windowSize.small} {
+    width: 30%;
+  }
 `;
 
 const ImageWrapper = styled.div`

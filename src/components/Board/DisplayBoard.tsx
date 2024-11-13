@@ -1,26 +1,33 @@
 import styled from "@emotion/styled";
 import { IconTypcnChevronLeftOutline } from "../../assets/Icons/ChevronOutlineArrow";
 import { IconTypcnChevronRightOutline } from "../../assets/Icons/ChevronOutlineArrow";
-import React, { Children, ReactNode, useState } from "react";
+import React, { Children, ReactNode, useEffect, useRef, useState } from "react";
 import { css, Theme, useTheme } from "@emotion/react";
 import { SectionTitle } from "../layouts";
+import { Spinner } from "../Spinner";
+import theme from "../../styles/theme";
 
 const COLOR_GRAY = "#9CA3AF";
 const COLOR_BLACK = "#1F2937";
-const COLOR_SIZE = 23;
+const COLOR_SIZE = 300;
 
 export function CardFeed(props: { children: any; cardLength: number }) {
   const { children, cardLength } = props;
-
+  const cardFeedContainer = useRef<HTMLDivElement>(null);
   const theme = useTheme();
-
   const [active, setActive] = useState(cardLength - 1);
+  const [containerWidth, setContainerWidth] = useState<number | undefined>(0);
+
+  useEffect(() => {
+    setContainerWidth(cardFeedContainer.current?.offsetWidth);
+  }, [cardFeedContainer.current?.offsetWidth]);
+
   const count = Children.count(children);
 
   return (
-    <CardFeedContainer theme={theme}>
+    <CardFeedContainer theme={theme} ref={cardFeedContainer}>
       <SectionTitle>STYLE LEADER FEED</SectionTitle>
-      <CardStack cardSize={COLOR_SIZE}>
+      <CardStack cardSize={containerWidth ? containerWidth * 0.35 : COLOR_SIZE}>
         {active > 0 && (
           <button className="nav left" onClick={() => setActive((i) => i - 1)}>
             <IconTypcnChevronLeftOutline />
@@ -63,14 +70,14 @@ export function CardContents(props: { title: string; content: ReactNode }) {
 const CardStack = styled.div<{ cardSize: number }>(
   ({ cardSize }) => css`
     position: relative;
-    width: ${cardSize}rem;
+    width: ${cardSize}px;
     height: ${cardSize}rem;
     perspective: 500px;
     transform-style: preserve-3d;
 
     .nav {
       color: white;
-      font-size: 5rem;
+      font-size: ${theme.fontSize.lg};
       position: absolute;
       display: flex;
       align-items: center;

@@ -4,7 +4,25 @@ html body {
     ul.ol, li {
         list-style: none;
     }
-}
+
+    h1, h2, h3, h4, h5, h6{
+        @media screen and (max-width: 600px) {
+            font-size: 140% !important;
+        }
+    }
+
+    span{
+        @media screen and (max-width: 600px) {
+            font-size: 130% !important;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        font-size: 80% !important;
+    }
+}::-webkit-scrollbar {
+     display: none;
+ }
 
 .App {
     display: flex;

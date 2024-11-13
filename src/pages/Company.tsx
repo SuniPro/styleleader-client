@@ -11,7 +11,7 @@ export function Company() {
 
   useEffect(() => {
     navigate(selectedIndex === 0 ? "info" : "board");
-  }, [selectedIndex]);
+  }, [navigate, selectedIndex]);
 
   return (
     <PageContainer width={80}>

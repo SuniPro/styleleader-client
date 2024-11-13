@@ -4,18 +4,23 @@ import { TimeLineProcessY } from "../components/Brand/TimeLine";
 import { PageContainer } from "../components/layouts";
 import theme from "../styles/theme";
 import { CollectionView } from "../components/Brand/CollectionView";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getCollectionListOfBrand } from "../api/collections";
 import { Spinner } from "../components/Spinner";
 import styled from "@emotion/styled";
 import { TripleTabMenu } from "../components/layouts/TabMenu";
 import { HistoryDescription } from "../assets/Brand/History/HistoryDescription";
+import { useScrollToTop } from "../hooks/useWheel";
 
 const BRAND_LIST = ["fc", "doxa"];
 
 export function Brand() {
-  const [selectedIndex, setSelectedIndex] = useState<number>(1);
+  useScrollToTop();
+
+  const pageRef = useRef<HTMLDivElement>(null);
+
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   const { data: collectionList } = useQuery({
     queryKey: ["getCollectionListOfBrand"],
@@ -27,6 +32,7 @@ export function Brand() {
 
   return (
     <PageContainer
+      ref={pageRef}
       css={css`
         width: 100%;
         display: flex;

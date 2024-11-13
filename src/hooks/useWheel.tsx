@@ -87,3 +87,11 @@ export function useScrollPosition() {
 
   return scrollPosition;
 }
+
+export function useScrollToTop() {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    // behavior: "smooth"
+  });
+}

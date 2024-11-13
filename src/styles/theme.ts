@@ -3,8 +3,10 @@ import { createTheme } from "@mui/material";
 
 const windowSize = {
   small: "screen and (max-width: 600px)",
+  middle: "screen (min-width: 600px) and (max-width: 768px)",
   base: "screen and (max-width: 768px)",
-  large: "screen and (max-width: 1024px)",
+  large: "screen (min-width: 768px) and (max-width: 1024px)",
+  ExtraLarge: "screen (min-width: 1024px)",
 };
 
 const fontSize = {
