@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { Header } from "./components/layouts/Header";
+import { Header } from "./components/layouts";
 import { StyleLeaderDisplay } from "./pages/StyleLeaderDisplay";
 import Footer from "./components/layouts/Footer";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -17,6 +17,9 @@ import { ReadyBanner } from "./components/Empty/ReadyBanner";
 import theme from "./styles/theme";
 import { ParallaxProvider } from "react-scroll-parallax";
 import { Service } from "./pages/Service";
+import { Sign } from "./pages/Sign";
+import "sweetalert2/src/sweetalert2.scss";
+import { Faq } from "./pages/faq";
 
 const queryClient = new QueryClient();
 
@@ -43,7 +46,11 @@ function App() {
                   <Route path="board/:boardId" element={<BoardDetail />} />
                 </Route>
                 <Route path="/brand" element={<Brand />} />
-                <Route path="/service" element={<Service />} />
+                <Route path="service">
+                  <Route path="" element={<Service />} />
+                  <Route path="faq" element={<Faq />} />
+                </Route>
+                <Route path="/sign" element={<Sign />} />
               </Routes>
             </BrowserRouter>
             <Footer />

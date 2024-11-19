@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import { User } from "../model/User";
 
 export class HttpError extends Error {
   constructor(
@@ -11,8 +12,29 @@ export class HttpError extends Error {
   }
 }
 
+export interface SignResponse {
+  status: number;
+  response: any;
+}
+
 interface InitOptions {
   skipError?: boolean;
+}
+
+export async function signThroughServer(
+  url: string,
+  param: User,
+): Promise<SignResponse> {
+  return axios
+    .post(url, param, {
+      headers: { "Content-Type": "application/json" },
+    })
+    .then((response) => {
+      return {
+        status: response.status,
+        response: response.data,
+      };
+    });
 }
 
 export async function getFormSprings(
@@ -36,8 +58,8 @@ export async function postToSprings(
     .post(url, param, {
       headers: { "Content-Type": "application/json" },
     })
-    .then((response) => responseHandler(response, url, init))
-    .catch(errorHandler);
+    .catch(errorHandler)
+    .then((response) => responseHandler(response, url, init));
 }
 
 export async function getFileToPost(

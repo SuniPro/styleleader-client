@@ -1,6 +1,10 @@
 html body {
     background: black !important;
 
+    a{
+    text-decoration: none;
+    }
+
     ul.ol, li {
         list-style: none;
     }

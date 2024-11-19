@@ -1,12 +1,7 @@
-import { TabMenu } from "../components/layouts/TabMenu";
-import React from "react";
+import { TabMenu, TabMenuListType } from "../components/layouts/TabMenu";
+import React, { useEffect, useState } from "react";
 import { MainTitle, PageContainer } from "../components/layouts";
-import { Outlet } from "react-router-dom";
-
-export interface TabMenuListType {
-  menu: string;
-  path: string;
-}
+import { Outlet, useNavigate } from "react-router-dom";
 
 export const COMPANY_MENU: TabMenuListType[] = [
   { menu: "About us", path: "info" },
@@ -14,10 +9,20 @@ export const COMPANY_MENU: TabMenuListType[] = [
 ];
 
 export function Company() {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate(COMPANY_MENU[selectedIndex].path);
+  }, [selectedIndex]);
+
   return (
     <PageContainer width={80}>
       <MainTitle>Company</MainTitle>
-      <TabMenu menuList={COMPANY_MENU} />
+      <TabMenu
+        menuList={COMPANY_MENU}
+        activeState={{ selectedIndex, setSelectedIndex }}
+      />
       <Outlet />
     </PageContainer>
   );

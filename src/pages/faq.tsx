@@ -9,7 +9,9 @@ import { css } from "@emotion/react";
 import theme from "../styles/theme";
 
 export function Faq() {
-  const service = ServiceContentsAsset.find((service) => service.id === "faq");
+  const service = ServiceContentsAsset.find(
+    (service) => service.slug === "faq",
+  );
   if (!service) return <Spinner />;
   return (
     <PageContainer width={80}>
@@ -22,16 +24,17 @@ export function Faq() {
       </MainTitle>
       <div
         css={css`
-          display: flex;
-          flex-direction: row;
-          flex-wrap: wrap;
+          display: grid;
           gap: 10px;
           width: 100%;
+          grid-template-columns: 1fr 1fr;
         `}
       >
-        {service.services.map((contents, index) => (
-          <BlogCard service={contents} key={index} />
-        ))}
+        {service.services
+          .filter((service) => !service.name.includes("FAQ 더보기"))
+          .map((contents, index) => (
+            <BlogCard service={contents} key={index} />
+          ))}
       </div>
     </PageContainer>
   );
@@ -84,7 +87,6 @@ const CardContainer = styled.div`
     background: $new-white;
     transform: rotateX(-180deg);
     padding: 20px;
-    font-size: 18px;
     /* back tile styles go here! */
   }
 `;
@@ -118,32 +120,38 @@ const Card = styled.div<{ flipped: boolean }>(
     box-sizing: border-box;
     height: 100%;
     width: 100%;
-    padding: 10px;
+    padding: 0 0 0 30px;
     position: absolute;
     backface-visibility: hidden;
     transform-style: preserve-3d;
     transition: -webkit-transform ease 500ms;
     transition: transform ease 500ms;
-    border: 3px solid transparent;
-    border-radius: 50%;
-    border-image: linear-gradient(to bottom, #d7bc6a 0%, #ffffff 150%);
-    border-image-slice: 1;
+    border: 2px solid ${theme.colors.basicBlack};
+
+    border-radius: 10px;
 
     display: flex;
     align-items: center;
 
-    font-family: ${theme.fontStyle.archivo};
+    font-family: ${theme.fontStyle.montserrat};
   `,
 );
 
 function Back(props: { service: ServiceContents; flipped: boolean }) {
   const { service, flipped } = props;
   return (
-    <Card className="back" flipped={flipped}>
+    <Card
+      className="back"
+      flipped={flipped}
+      css={css`
+        font-size: 14px;
+      `}
+    >
       A.
       {service.contents.split("\n").map((line, index) => (
         <React.Fragment key={index}>
           {line}
+          <br />
           <br />
         </React.Fragment>
       ))}

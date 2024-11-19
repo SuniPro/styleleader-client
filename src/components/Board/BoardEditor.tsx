@@ -9,9 +9,11 @@ import axios from "axios";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import { css, Theme, useTheme } from "@emotion/react";
 import { StyledWriteButton } from "./BoardList";
-import { UnderLineInput } from "../layouts/LayoutLayer";
+import { UnderLineInput } from "../layouts";
 import { useNavigate, useParams } from "react-router-dom";
-import theme from "../../styles/theme";
+import { Board } from "../../model/Board";
+import { postBoardWrite } from "../../api/boards";
+import { error, success } from "../../alert/alert";
 
 const toolbar = [
   ["heading", "bold", "italic", "strike"],
@@ -31,8 +33,8 @@ export function BoardEditor(props: { writing: () => void }) {
 
   const handleSave = () => {
     if (editorRef.current) {
-      const boardRecord = {
-        ...(boardId ? { boardId } : {}),
+      const boardRecord: Board = {
+        ...(boardId ? { boardId: parseInt(boardId) } : {}),
         writer: "Nana",
         title: title,
         content: editorRef.current.getInstance().getHTML(),
@@ -41,18 +43,11 @@ export function BoardEditor(props: { writing: () => void }) {
         insertId: "Nana",
       };
 
-      axios
-        .post("/api/board/write", boardRecord, {
-          headers: { "Content-Type": "application/json" },
+      postBoardWrite(boardRecord)
+        .then(() => {
+          success("작성 완료");
         })
-        .then((res) => {
-          if (res.status === 200) {
-            props.writing();
-          }
-        })
-        .catch((error) => {
-          console.error("Error writing to the board:", error);
-        });
+        .catch(() => error("작성 실패", "서버를 확인해주시기 바랍니다."));
     }
   };
 

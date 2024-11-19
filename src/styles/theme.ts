@@ -3,7 +3,7 @@ import { createTheme } from "@mui/material";
 
 const windowSize = {
   small: "screen and (max-width: 600px)",
-  middle: "screen (min-width: 600px) and (max-width: 768px)",
+  middle: "screen and (min-width: 600px) and (max-width: 768px)",
   base: "screen and (max-width: 768px)",
   large: "screen (min-width: 768px) and (max-width: 1024px)",
   ExtraLarge: "screen (min-width: 1024px)",
@@ -34,6 +34,7 @@ const colors = {
   primary: "#00a0ff",
   secondary: "#ddd",
   hover: "#00a0ff50",
+  basicBlack: "#181818",
   success: "#52c41a",
   warning: "#df1313",
   luxuryGreen: "#356358",

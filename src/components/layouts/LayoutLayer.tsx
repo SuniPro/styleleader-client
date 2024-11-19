@@ -45,12 +45,13 @@ export const Divider = styled.p`
 `;
 
 export function IconButton(props: {
+  className?: string;
   icon: OverridableComponent<SvgIconTypeMap> & { muiName: string };
   func?: () => void;
 }) {
-  const { icon: Icon, func } = props;
+  const { className, icon: Icon, func } = props;
   return (
-    <IconWrapper onClick={func}>
+    <IconWrapper className={className} onClick={func}>
       <Icon />
     </IconWrapper>
   );

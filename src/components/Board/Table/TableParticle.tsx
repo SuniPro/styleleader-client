@@ -15,11 +15,11 @@ export function TableHeader(props: {
   return (
     <thead>
       {table.getHeaderGroups().map((headerGroup: any) => (
-        <TableHeaderTr border={headerBorder} key={`${uid()}`}>
+        <TableHeaderTr border={headerBorder} key={uid()}>
           {headerGroup.headers.map((header: any) => (
             <TableHeaderTh
+              key={header.id}
               {...{
-                key: header.id,
                 colSpan: header.colSpan,
                 style: {
                   position: "relative",
@@ -71,9 +71,9 @@ export function TableBody(props: { table: any }) {
             const modifiedId = originalId.replace(/^[0-9]+_/, ""); // 숫자로 시작하는 모든 접두사를 제거한 문자열
             return (
               <td
+                key={`${row.id}-${cell.id}`}
+                id={modifiedId}
                 {...{
-                  id: modifiedId,
-                  key: cell.id,
                   style: {
                     width: cell.column.getSize(),
                   },

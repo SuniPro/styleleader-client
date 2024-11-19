@@ -11,5 +11,5 @@ export interface ServiceCategory {
   count: number;
   name: string;
   slug: string;
-  id: string;
+  id: number;
 }

@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
@@ -10,6 +10,7 @@ import { ModalBoxStyle } from "../../pages/StyleLeaderDisplay";
 import { ServiceContentsAsset } from "../../assets/contents/service/ServiceContents";
 import { uid } from "uid";
 import { getFile } from "../../api/file";
+import { useNavigate } from "react-router-dom";
 
 function ModalContents(contents: ServiceContents) {
   return (
@@ -46,10 +47,14 @@ function ModalContents(contents: ServiceContents) {
   );
 }
 
-function ProjectList(props: { serviceId: string; service: ServiceContents[] }) {
-  const { serviceId, service } = props;
+function ProjectList(props: {
+  serviceSlug: string;
+  services: ServiceContents[];
+}) {
+  const { serviceSlug, services } = props;
+  const navigate = useNavigate();
   const [activeContents, setActiveContents] = useState<ServiceContents>(
-    service[0],
+    services[0],
   );
   const [open, setOpen] = useState<boolean>(false);
   const handleClose = () => setOpen(false);
@@ -57,24 +62,27 @@ function ProjectList(props: { serviceId: string; service: ServiceContents[] }) {
   return (
     <StyledProjectList className="project-list" key={uid()}>
       <ul className="menu vertical">
-        {service.map((service, index) => (
+        {services.map((service, index) => (
           <>
             <li
               key={"service-" + uid() + index}
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 setActiveContents(service);
-                setOpen(true);
+                if (serviceSlug === "userManual") {
+                  getFile({ file: service.contents });
+                } else if (service.contents.includes("/faq")) {
+                  navigate(service.contents);
+                } else {
+                  setOpen(true);
+                }
               }}
             >
               <a
                 css={css`
                   text-underline: none;
                 `}
-                onClick={() => {
-                  if (serviceId === "userManual") {
-                    getFile({ file: service.contents });
-                  }
-                }}
               >
                 <ProjectListClient>{service.name}</ProjectListClient>
                 <ProjectListByLine>{service.description}</ProjectListByLine>
@@ -118,7 +126,7 @@ function ProjectCategory(props: {
   const { cat, focused, active, isLast, shiftLeft, handleClick } = props;
 
   const setActive = () => {
-    handleClick(cat.id);
+    handleClick(cat.slug);
   };
 
   const classes = classNames({
@@ -127,6 +135,9 @@ function ProjectCategory(props: {
     isLast,
     shiftLeft,
   });
+
+  const filteredServices =
+    cat.slug === "faq" ? cat.services.slice(0, 4) : cat.services;
 
   return (
     <ProjectCategoriesList
@@ -138,8 +149,8 @@ function ProjectCategory(props: {
       <CategoryContents isActive={active} focused={focused} isLast={isLast}>
         <h2>{cat.name}</h2>
         <ProjectList
-          serviceId={cat.id}
-          service={cat.services}
+          serviceSlug={cat.slug}
+          services={filteredServices}
           key={`project-list ${uid()}`}
         />
       </CategoryContents>
@@ -345,8 +356,8 @@ export function AccordionCategory() {
 
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const handleClick = (id: string) => {
-    setActiveIndex(categories.findIndex((cat) => cat.id === id));
+  const handleClick = (slug: string) => {
+    setActiveIndex(categories.findIndex((cat) => cat.slug === slug));
     setOpen(true);
   };
 

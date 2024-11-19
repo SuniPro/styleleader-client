@@ -1,27 +1,51 @@
 /** @jsxImportSource @emotion/react */
-import { useParams } from "react-router-dom";
-import { getBoard } from "../api/boards";
+import { useNavigate, useParams } from "react-router-dom";
+import { deleteBoard, getBoard } from "../api/boards";
 import { useQuery } from "@tanstack/react-query";
 import styled from "@emotion/styled";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import { ReadyBanner } from "../components/Empty/ReadyBanner";
 import { css } from "@emotion/react";
-import { PageContainer } from "../components/layouts";
-import { iso8601ToYYMMDDHHMM } from "../utils/dateApi";
 import {
   Container,
   Divider,
   IconButton,
-} from "../components/layouts/LayoutLayer";
+  PageContainer,
+} from "../components/layouts";
+import { iso8601ToYYMMDDHHMM } from "../utils/dateApi";
 import EditIcon from "@mui/icons-material/Edit";
 import ShareIcon from "@mui/icons-material/Share";
+import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useState } from "react";
 import { BoardEditor } from "../components/Board/BoardEditor";
 import { Spinner } from "../components/Spinner";
+import { Board } from "../model/Board";
+import { success } from "../alert/alert";
+
+const extractFilenames = (board: Board) => {
+  if (!board) return;
+  const content = board.content;
+
+  const s3Url = process.env.REACT_APP_S3_URL ?? "";
+
+  // 정규식을 사용하여 모든 img 태그의 src 값을 추출
+  const regex = /<img[\s\S]*?src="([^"]+)"/g;
+  const matches = [];
+  let match;
+
+  while ((match = regex.exec(content)) !== null) {
+    matches.push(match[1]); // 매칭된 URL 저장
+  }
+
+  return matches
+    .filter((src) => src.startsWith(s3Url))
+    .map((src) => src.replace(s3Url, ""));
+};
 
 export function BoardDetail() {
   const { boardId } = useParams<{ boardId: string }>();
   const [writing, setWriting] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const { data: board } = useQuery({
     queryKey: ["getBoard"],
@@ -58,6 +82,15 @@ export function BoardDetail() {
       </PageContainer>
     );
   }
+
+  const deleteHandler = () => {
+    deleteBoard(board.boardId!, extractFilenames(board)).then(() => {
+      success("삭제 완료");
+      setTimeout(() => {
+        navigate("/board");
+      }, 1500);
+    });
+  };
 
   return (
     <Container>
@@ -101,7 +134,8 @@ export function BoardDetail() {
                   func={() => setWriting((prev) => !prev)}
                   icon={EditIcon}
                 />
-                <IconButton icon={ShareIcon}></IconButton>
+                <IconButton icon={ShareIcon} />
+                <IconButton icon={DeleteIcon} func={deleteHandler} />
               </HeaderItem>
             </HeaderLine>
           </div>

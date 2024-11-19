@@ -125,9 +125,9 @@ const CardCase = styled.div<{ colorGray: string; colorBlack: string }>(
     background-color: hsl(280deg, 40%, calc(100% * 50%));
     border-radius: 1rem;
     color: ${colorGray};
-    text-align: justify;
+    text-align: center;
     transition: all 0.3s ease-out;
-    color: white;
+    color: ${theme.colors.white};
 
     h2 {
       text-align: center;

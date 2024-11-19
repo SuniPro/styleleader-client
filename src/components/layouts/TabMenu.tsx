@@ -3,9 +3,11 @@ import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { gsap } from "gsap";
 import theme from "../../styles/theme";
-import { TabMenuListType } from "../../pages/Company";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+
+export interface TabMenuListType {
+  menu: string;
+  path: string;
+}
 
 export interface ActiveFunctionProps {
   selectedIndex: number;
@@ -14,23 +16,10 @@ export interface ActiveFunctionProps {
 
 export function TabMenu(props: {
   menuList: TabMenuListType[];
-  activeFunction?: () => void;
+  activeState: ActiveFunctionProps;
 }) {
-  const { menuList } = props;
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
-  const navigate = useNavigate();
-
-  const handleClick = (index: number) => {
-    setSelectedIndex(index);
-    navigate(menuList[index].path);
-  };
-
-  useEffect(() => {
-    if (window.location.pathname.includes(menuList[1].path)) {
-      setSelectedIndex(1);
-    }
-  }, [menuList]);
+  const { menuList, activeState } = props;
+  const { selectedIndex, setSelectedIndex } = activeState;
 
   return (
     <TabMenuContainer>
@@ -38,9 +27,8 @@ export function TabMenu(props: {
         {menuList.map((menu, index) => (
           <TabMenuList
             key={index}
-            className={selectedIndex === index ? "active" : ""}
             isActive={selectedIndex === index}
-            onClick={() => handleClick(index)}
+            onClick={() => setSelectedIndex(index)}
           >
             <TabMenuContent isActive={selectedIndex === index}>
               {menu.menu}
@@ -65,7 +53,7 @@ const TabMenuUnorderedList = styled.ul`
   justify-content: space-between;
   align-items: center;
 
-  background-color: #181818;
+  background-color: ${theme.colors.basicBlack};
   border-radius: 500px;
   padding: 8px 10px;
 `;
@@ -78,7 +66,7 @@ const TabMenuList = styled.li<{ isActive?: boolean }>(
     color: #222;
     border-radius: 4rem;
     font-size: 1.2rem;
-    padding: 1rem;
+    padding: ${isActive ? "1rem 1.2rem" : "1rem"};
     transition:
       background-position 1s cubic-bezier(0.165, 0.84, 0.44, 1),
       all 1s ease;
@@ -87,11 +75,6 @@ const TabMenuList = styled.li<{ isActive?: boolean }>(
 
     width: 132px;
     height: 35%;
-
-    /* 활성화된 상태에 대한 스타일 적용 */
-    &.active {
-      padding: 1rem 1.2rem;
-    }
   `,
 );
 
@@ -99,7 +82,7 @@ const TabMenuContent = styled.span<{ isActive?: boolean }>(
   ({ isActive }) => css`
     font-family: Roboto, sans-serif;
     width: 100%;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: ${isActive ? "700" : "normal"};
     white-space: nowrap;
     color: ${isActive ? "#212121" : "#ffffff"};
