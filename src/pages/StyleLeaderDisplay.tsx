@@ -2,7 +2,8 @@
 import React, { ReactNode, useState } from "react";
 import {
   BrandCatalog,
-  ClockShowcase,
+  BrandListView,
+  CollectionListView,
 } from "../components/CarouselContents/Advertisement";
 import styled from "@emotion/styled";
 import { CardContents, CardFeed } from "../components/Board/DisplayBoard";
@@ -11,6 +12,9 @@ import { uid } from "uid";
 import { Box, Modal, Typography } from "@mui/material";
 
 import StyleLeaderMap from "../assets/maps/style-leader-map.jpg";
+import { useQuery } from "@tanstack/react-query";
+import { getBoardList } from "../api/boards";
+import { Spinner } from "../components/Spinner";
 
 interface NewsFeedType {
   title: string;
@@ -35,20 +39,27 @@ export const ModalBoxStyle = {
 export function StyleLeaderDisplay() {
   const [open, setOpen] = useState(true);
   const handleClose = () => setOpen(false);
+  const { data: boardList } = useQuery({
+    queryKey: ["getBoardList"],
+    queryFn: () => getBoardList(),
+    refetchInterval: 5000, // Options 객체로 refetchInterval 설정
+  });
 
-  const feedList: NewsFeedType[] = [
-    { title: "페이지 준비중", contents: NoticeReady() },
-    { title: "사무실 이전 공지", contents: NoticeMove() },
-  ];
+  if (!boardList) {
+    return <Spinner />;
+  }
+
+  const filteredBoardList = boardList.filter((contents) => contents.important);
 
   return (
     <StyleLeaderDisplaySection>
       <BrandCatalog />
-      <ClockShowcase />
+      <BrandListView />
+      <CollectionListView />
       <div
         css={css`
-          width: 100vw;
-          height: 60vh;
+          width: 120vw;
+          height: 100%;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -56,12 +67,12 @@ export function StyleLeaderDisplay() {
           font-family: "Montserrat", sans-serif;
         `}
       >
-        <CardFeed cardLength={feedList.length}>
-          {feedList.map((feed) => (
+        <CardFeed cardLength={filteredBoardList.length}>
+          {filteredBoardList.map((feed) => (
             <CardContents
               key={`i ${uid()}`}
               title={feed.title}
-              content={feed.contents}
+              content={feed.content}
             />
           ))}
         </CardFeed>

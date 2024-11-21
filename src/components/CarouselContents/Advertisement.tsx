@@ -1,19 +1,26 @@
 /** @jsxImportSource @emotion/react */
 //BrandImageList
-import DoxaImageGreen from "../../assets/Brand/doxa-image-green.png";
-import DoxaImageOrange from "../../assets/Brand/doxa-image-orange.webp";
-import FrederiqueConstantBlack from "../../assets/Brand/frederique-constant-image-black.png";
-import GagaMilano from "../../assets/Brand/gaga-milano.jpg";
-import Alpina from "../../assets/Brand/alpina.jpg";
+import DOXA_300T_DISPLAY from "../../assets/Brand/doxa-image-green.png";
+import DOXA_300T_PROFESSIONAL_DISPLAY from "../../assets/Brand/doxa-image-orange.webp";
+import FC_GENEVE_DISPLAY from "../../assets/Brand/frederique-constant-image-black.png";
+import GAGA_MILANO_DISPLAY from "../../assets/Brand/gaga-milano.jpg";
+import ALPINA_DISPLAY from "../../assets/Brand/alpina.jpg";
 
 //CollectionImageList
 import DoxaAquamarine from "../../assets/CollectionImage/DOXA_SUB300T-aquamarine.png";
 import DoxaDivingStar from "../../assets/CollectionImage/DOXA_SUB-200T-divingstar.png";
 import DoxaCarbon from "../../assets/CollectionImage/DOXA_SUB-300-CARBON.png";
 
+//FC_Collection
 import FcClassics from "../../assets/CollectionImage/FC_COLLECTION-CLASSICS-GENTS.jpeg";
 import FcHighLife from "../../assets/CollectionImage/FC_COLLECTION-HIGHLIFE-GENTS.jpeg";
 import FcManufacture from "../../assets/CollectionImage/FC_COLLECTION-MANUFACTURE.jpeg";
+
+//BrandLogo
+import WATCH_WAVE from "../../assets/Brand/company/BrandLogoWatchWave.png";
+import ALPINA_BANNER from "../../assets/Brand/company/Alpiner_Banner.jpg";
+import DOXA_BACKGROUND from "../../assets/Brand/company/doxa-background.png";
+import FC_BANNER from "../../assets/Brand/company/FC_BANNER.jpg";
 
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -23,6 +30,14 @@ import { css } from "@emotion/react";
 import { Box, Modal, Typography } from "@mui/material";
 import { ModalBoxStyle } from "../../pages/StyleLeaderDisplay";
 import { SectionTitle } from "../layouts";
+import theme from "../../styles/theme";
+import {
+  FrederiqueConstant,
+  GagaMilano,
+  Alpina,
+  Doxa,
+} from "../../assets/Brand/company/CompanyLogo";
+import { EmotionJSX } from "@emotion/react/types/jsx-namespace";
 
 const DOXA_LINK =
   "https://department.ssg.com/disp/brandShop.ssg?brandId=3000081880&ctgId=6000201050&n_media=27758&n_query=DOXA&n_rank=1&n_ad_group=grp-a001-04-000000041548489&n_ad=nad-a001-04-000000315007690&n_keyword_id=nkw-a001-04-000006147729761&n_keyword=DOXA&n_campaign_type=4&n_contract=tct-a001-04-000000000956435&n_ad_group_type=5&NaPm=ct%3Dm1oep43c%7Cci%3D0z40002%5F4dDAVCvt8KX1%7Ctr%3Dbrnd%7Chk%3D8679743176426dfe6f704fcc2b9220423d99128e%7Cnacn%3DTKevDogwM0ONA";
@@ -30,7 +45,42 @@ const FREDERIQUECONSTANT_LINK = "https://brand.naver.com/frederiqueconstant";
 const GAGAMILANO_LINK = "https://www.gagamilano.com/en/home";
 const ALPINA_LINK = "https://alpinawatches.com/";
 
-const BRAND_LIST = [
+interface BrandView {
+  image: string | ((props: { className?: string }) => EmotionJSX.Element);
+  logo: null | ((props: { className?: string }) => EmotionJSX.Element);
+  name: string;
+}
+
+export const BRAND_VIEW_LIST: BrandView[] = [
+  {
+    image: WATCH_WAVE,
+    logo: null,
+    name: "watchWave",
+  },
+  {
+    image: FC_BANNER,
+    logo: FrederiqueConstant,
+    name: "frederiqueConstant",
+  },
+  {
+    image: DOXA_BACKGROUND,
+    logo: Doxa,
+    name: "doxa",
+  },
+  {
+    image: ALPINA_BANNER,
+    logo: Alpina,
+    name: "Alpina",
+  },
+  {
+    image:
+      "https://www.gagamilano.com/live/assets/media/upload/chrono-shop.webp",
+    logo: GagaMilano,
+    name: "GagaMilano",
+  },
+];
+
+export const BRAND_LIST = [
   [
     {
       image: FcManufacture,
@@ -75,6 +125,9 @@ const BRAND_LIST = [
   ],
 ];
 
+export type BrandViewListType = typeof BRAND_VIEW_LIST;
+export type BrandListType = typeof BRAND_LIST;
+
 interface CarouselSlideItemType {
   image: string;
   title: string;
@@ -90,27 +143,27 @@ interface CollectionModalType {
 export function BrandCatalog() {
   const catalogList: CarouselSlideItemType[] = [
     {
-      image: FrederiqueConstantBlack,
+      image: FC_GENEVE_DISPLAY,
       title: "CLASSICS Moneta Moonphase",
       description: FREDERIQUECONSTANT_LINK,
     },
     {
-      image: DoxaImageOrange,
+      image: DOXA_300T_PROFESSIONAL_DISPLAY,
       title: "SUB 300T Aristera Limited Edition",
       description: DOXA_LINK,
     },
     {
-      image: DoxaImageGreen,
+      image: DOXA_300T_DISPLAY,
       title: "New Sea Emeralds",
       description: DOXA_LINK,
     },
     {
-      image: Alpina,
+      image: ALPINA_DISPLAY,
       title: "Pilot Quartz Worldtimer",
       description: ALPINA_LINK,
     },
     {
-      image: GagaMilano,
+      image: GAGA_MILANO_DISPLAY,
       title: "GaGa Milano MANUALE 5015S",
       description: GAGAMILANO_LINK,
     },
@@ -122,7 +175,7 @@ export function BrandCatalog() {
   };
 
   return (
-    <CollectionWrapper>
+    <DisplayContainer>
       <Carousel
         showArrows={false}
         showStatus={false}
@@ -162,7 +215,7 @@ export function BrandCatalog() {
           height: 20px;
         `}
       />
-    </CollectionWrapper>
+    </DisplayContainer>
   );
 }
 
@@ -195,15 +248,16 @@ function CollectionItems(props: {
               flex-direction: column;
             `}
           >
-            <CollectionReadMoreModal
+            <ImageViewCase
               onClick={() => {
                 modalOpen();
                 setDescription(item.description);
                 setActiveIndex(index);
               }}
+              isAfter={true}
             >
               <img src={item.image} width={200} alt={item.title} />
-            </CollectionReadMoreModal>
+            </ImageViewCase>
             <CarouselSlideItemBody className="carousel-slide-item__body">
               <h4
                 css={css`
@@ -238,7 +292,71 @@ function CollectionItems(props: {
   );
 }
 
-export function ClockShowcase() {
+export function BrandListView() {
+  return (
+    <DisplayContainer
+      css={css`
+        width: 100%;
+      `}
+    >
+      <SectionTitle>BRAND</SectionTitle>
+      <BrandListContainer>
+        {BRAND_VIEW_LIST.map((brand, index) => (
+          <BrandViewCase
+            key={index}
+            css={css`
+              background-color: black;
+              width: 300px;
+              height: 300px;
+              border-radius: 15px;
+              border: 3px solid ${theme.colors.basicBlack};
+
+              align-items: center;
+
+              &:hover {
+                .banner {
+                  transform: scale(1.2);
+                }
+              }
+            `}
+            onClick={() => {
+              brand.name === "watchWave" &&
+                window.open("https://watchwave.co.kr/");
+            }}
+            isAfter={false}
+          >
+            <div
+              css={css`
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+              `}
+            >
+              {typeof brand.logo === "function" ? <brand.logo /> : brand.logo}
+            </div>
+            <div
+              className="banner"
+              css={css`
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                z-index: 0;
+                ${typeof brand.image === "string" &&
+                `background-image: url(${brand.image});`}
+                opacity: ${brand.name === "watchWave" || "doxa" ? 1 : 0.7};
+                background-size: cover;
+                transition: all 0.5s ease;
+              `}
+            ></div>
+          </BrandViewCase>
+        ))}
+      </BrandListContainer>
+    </DisplayContainer>
+  );
+}
+
+export function CollectionListView() {
   const [open, setOpen] = useState<boolean>(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const modalClose = () => setOpen(false);
@@ -247,7 +365,7 @@ export function ClockShowcase() {
   const [description, setDescription] = useState<string>("");
 
   return (
-    <CollectionWrapper
+    <DisplayContainer
       css={css`
         display: flex;
         flex-direction: column;
@@ -265,7 +383,7 @@ export function ClockShowcase() {
           setActiveIndex={setActiveIndex}
         />
       ))}
-    </CollectionWrapper>
+    </DisplayContainer>
   );
 }
 
@@ -288,7 +406,7 @@ function CollectionModal(title: string, contents: string) {
   );
 }
 
-const CollectionWrapper = styled.div`
+const DisplayContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -307,21 +425,22 @@ const CollectionItemContainer = styled.li`
   justify-content: center;
 `;
 
-const CollectionReadMoreModal = styled.div`
-  cursor: zoom-in;
-  display: flex;
-  overflow: hidden;
-  position: relative;
-  width: 250px;
+const ImageViewCase = styled.div<{ isAfter: boolean }>(
+  ({ isAfter }) => css`
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    width: 250px;
 
-  img {
-    height: 100%;
-    object-fit: cover;
-    transition: all 0.5s ease;
-    width: 100%;
-  }
+    img {
+      height: 100%;
+      object-fit: cover;
+      transition: all 0.5s ease;
+      width: 100%;
+    }
 
-  &::after {
+    ${isAfter &&
+    `&::after {
     align-items: center;
     background: rgba(
       0,
@@ -338,18 +457,61 @@ const CollectionReadMoreModal = styled.div`
     position: absolute;
     transition: all 0.5s ease;
     width: 100%;
-  }
+  }`}
 
-  &:hover {
-    &::after {
-      opacity: 1;
+    &:hover {
+      &::after {
+        opacity: 1;
+      }
+
+      img {
+        transform: scale(1.3);
+      }
     }
+  `,
+);
+
+const BrandViewCase = styled.div<{ isAfter: boolean }>(
+  ({ isAfter }) => css`
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    width: 250px;
 
     img {
-      transform: scale(1.3);
+      height: 100%;
+      object-fit: cover;
+      transition: all 0.5s ease;
+      width: 100%;
     }
-  }
-`;
+
+    ${isAfter &&
+    `&::after {
+    align-items: center;
+    background: rgba(
+      0,
+      0,
+      0,
+      0.5
+    ); /* rgba(black, 0.5)는 rgba(0,0,0,0.5)로 변경 */
+    color: white;
+    content: "READ MORE";
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    opacity: 0;
+    position: absolute;
+    transition: all 0.5s ease;
+    width: 100%;
+  }`}
+
+    &:hover {
+      &::after {
+        opacity: 1;
+      }
+    }
+  `,
+);
 
 const CarouselSlideItemBody = styled.div`
   width: 100%;
@@ -424,4 +586,13 @@ const BrandSellButton = styled.button`
     z-index: 1;
     color: black;
   }
+`;
+
+const BrandListContainer = styled.div`
+  width: 70%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
 `;
