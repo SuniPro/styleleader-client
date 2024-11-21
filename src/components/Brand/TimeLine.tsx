@@ -113,12 +113,26 @@ export function TimeLineProcessY(props: { brand: BrandHistory }) {
                       </DescriptionTitle>
                       <DescriptionSubTitle>{item.title}</DescriptionSubTitle>
                       <DescriptionContents>
-                        {item.description}
+                        {item.description.split("\n").map((line, index) => (
+                          <React.Fragment key={index}>
+                            {line}
+                            <br />
+                            <br />
+                          </React.Fragment>
+                        ))}
                       </DescriptionContents>
                     </StyledDescription>
                   </TextArea>
                   <ImageWrapper>
-                    <StyledImageCover src={item.image} alt="" />
+                    <StyledImageCover
+                      width={
+                        brand.historyTitle.includes("Alpinists")
+                          ? 70
+                          : undefined
+                      }
+                      src={item.image}
+                      alt=""
+                    />
                   </ImageWrapper>
                 </ContentsContainer>
               </ContentsList>
@@ -237,7 +251,7 @@ const StyledDescription = styled.div`
   -ms-flex-direction: column;
   align-items: flex-end;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: scroll;
 `;
 
 const DescriptionTitle = styled.h1`
@@ -466,11 +480,13 @@ const TimeDescription = styled.p`
   color: ${theme.colors.secondary};
 `;
 
-const StyledImageCover = styled.img`
-  width: 40%;
-  border-radius: 5px;
-  @media screen and (max-width: ${theme.windowSize.small}) {
-    height: 250px;
-    object-fit: cover;
-  }
-`;
+const StyledImageCover = styled.img<{ width?: number }>(
+  ({ width = 40 }) => css`
+    width: ${width}%;
+    border-radius: 5px;
+    @media screen and (max-width: ${theme.windowSize.small}) {
+      height: 250px;
+      object-fit: cover;
+    }
+  `,
+);
