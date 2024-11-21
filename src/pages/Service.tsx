@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { PageContainer } from "../components/layouts";
-import { AccordionCategory } from "../components/service/accordian";
+import { AccordionCategory } from "../components/service/Accordian";
 import { css } from "@emotion/react";
 import { useScrollToTop } from "../hooks/useWheel";
 

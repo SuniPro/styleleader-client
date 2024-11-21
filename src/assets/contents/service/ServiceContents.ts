@@ -1,11 +1,36 @@
 import { ServiceCategory } from "../../../model/Service";
-import CA_FICTURE from "../../image/CA_PICTURE.jpg";
-import WATCH_REPAIR from "../../image/WATCH_REPAIR.jpg";
-import FC_COLLECTION_MANUFACTURE from "../../CollectionImage/FC_COLLECTION-CLASSICS-GENTS.jpeg";
+import FC_ATELIER_CROWN from "../../image/Frederique-Constant_Atelier_Crown.jpg";
+import FC_ATELIER_REPAIR from "../../image/Frederique-Constant_Atelier_Repair.jpg";
+import WATCH_MODULE from "../../image/WATCH_MODULE.jpeg";
 
 export const ServiceContentsAsset: ServiceCategory[] = [
   {
-    thumbnail: "CA_PICTURE.jpg",
+    thumbnail: WATCH_MODULE,
+    taxonomy: "download",
+    count: 3,
+    name: "사용설명서",
+    slug: "userManual",
+    id: 3,
+    services: [
+      {
+        name: "프레드릭 콘스탄트 오토메틱 시계",
+        description: "사용 설명서 다운로드",
+        contents: "manual/frederique_constant_automatic_manual.pdf",
+      },
+      {
+        name: "프레드릭 콘스탄트 쿼츠 시계",
+        description: "사용 설명서 다운로드",
+        contents: "manual/frederique_constant_quartz_manual.pdf",
+      },
+      {
+        name: "독사",
+        description: "사용 설명서 다운로드",
+        contents: "manual/DOXA_Mode_Digital_240926.pdf",
+      },
+    ],
+  },
+  {
+    thumbnail: FC_ATELIER_CROWN,
     taxonomy: "modal&pageLocate",
     count: 6,
     name: "FAQ",
@@ -133,7 +158,7 @@ export const ServiceContentsAsset: ServiceCategory[] = [
     ],
   },
   {
-    thumbnail: "WATCH_REPAIR.jpg",
+    thumbnail: FC_ATELIER_REPAIR,
     taxonomy: "modal",
     count: 8,
     name: "AS",
@@ -193,26 +218,6 @@ export const ServiceContentsAsset: ServiceCategory[] = [
           "만약, 보증서를 분실하셨다면 우선 구매처를 확인하시고 구매처에 연락하여 구매 이력 또는 영수증을 받으시고 접수해주세요.\n" +
           "2016년 6월 이후부터 정식 수입된 프레드릭 콘스탄트 제품 보증서에는 스타일리더 정식 홀로그램 스티커가 있습니다. 확인 후 접수 부탁드립니다.\n" +
           "* 보증기간내에 정식 AS센터를 제외한 외부오픈 흔적 발견시 보증기간이 적용되지 않습니다. 꼭 참고바랍니다.",
-      },
-    ],
-  },
-  {
-    thumbnail: "FC_COLLECTION-CLASSICS-GENTS.jpeg",
-    taxonomy: "download",
-    count: 3,
-    name: "사용설명서",
-    slug: "userManual",
-    id: 3,
-    services: [
-      {
-        name: "프레드릭 콘스탄트 쿼츠시계",
-        description: "사용 설명서 다운로드",
-        contents: "manual/frederique_constant_automatic_manual.pdf",
-      },
-      {
-        name: "프레드릭 콘스탄트 쿼츠시계",
-        description: "사용 설명서 다운로드",
-        contents: "manual/frederique_constant_quartz_manual.pdf",
       },
     ],
   },

@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
@@ -244,10 +244,11 @@ const CategoryName = styled.div`
   margin-top: 15px;
   margin-right: 5px;
   border-top: 1px solid #666;
-  color: #666;
+  color: ${theme.colors.secondary};
 
   h6 {
-    font-size: 16px;
+    font-size: 18px;
+    margin-top: 10px;
     color: inherit;
     text-transform: capitalize;
   }
