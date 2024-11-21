@@ -20,6 +20,10 @@ import DOXA_1936 from "./DOXA/1936.webp";
 import DOXA_1957 from "./DOXA/1957.webp";
 import DOXA_2019 from "./DOXA/2019.webp";
 
+import ALPINA_HISTORIC_MOOD from "./ALPINA/Alpina_Historic_Mood_Image.jpg";
+import ALPINA_MOOD_SPORT_WATCH from "./ALPINA/Historic_Mood_Image_Sport_Watches_.jpg";
+import ALPINA_MOOD_ALPINISTS from "./ALPINA/Historic_Mood_Image_Alpinists_.jpg";
+
 export interface BrandHistory {
   historyTitle: string;
   historyDate: string;
@@ -129,9 +133,9 @@ export const HistoryDescription: BrandHistory[] = [
     ],
   },
   {
-    historyTitle: "To be Continue, The adventure",
+    historyTitle: "Your call to adventure",
     historyDate: "1889 ~ 2019",
-    collectionSlogan: "If the adventure is with YOU",
+    collectionSlogan: "Call to adventure For YOU",
     collectionList: "SUB200 · SUB300 · LIMITED EDITION",
     timeLine: [
       {
@@ -194,6 +198,41 @@ export const HistoryDescription: BrandHistory[] = [
           " 독사를 비롯한 여러 유명 브랜드가 해결해야 했던 많은 과제 중 하나였습니다. \n" +
           "1997년 제니 가문이 독사를 인수하면서 4대에 걸쳐 시계 제조 분야에서 활동해 온 가문과 아이코닉 컬렉션의 지속적인 매력을 결합하여 새로운 시대가 시작되었습니다. \n" +
           "본사는 스위스 비엘/비엔으로 이전했습니다.",
+      },
+    ],
+  },
+  {
+    historyTitle: "The Timekeeper of choice for Alpinists",
+    historyDate: "1883 ~ NOW",
+    collectionSlogan: "Collection For Alpinists",
+    collectionList: "Alpiner · StartTimer · SEA STRONG · Heritage",
+    timeLine: [
+      {
+        image: ALPINA_HISTORIC_MOOD,
+        time: "1883",
+        title: "THE BRAND",
+        description:
+          "우리의 여정은 스위스 시계 제조의 요람인 쥐라 산맥의 깊은 곳에 위치한 작은 마을 르 로클에서 시작됩니다. \n 조르주 뒤코문은 13명의 자녀 중 한 명으로 1880년, 열두 살의 나이에 시계 장인의 견습생으로 일하기 시작했습니다. 집안이 넉넉하지 않았기 때문에 조르주는 자신의 몫을 가족 수입에 기여해야 했습니다. 근면과 절제를 중시하는 조르쥬의 기질과 기계적인 정밀성과 아름다움에 대한 열정은 점점 더 숙련되고 전문적인 손을 거쳐 시계를 제작하게 되었습니다.",
+      },
+      {
+        image: ALPINA_MOOD_SPORT_WATCH,
+        time: "1938",
+        title: "History of alpina",
+        description:
+          '그는 Alpina가 시계의 품질, 내구성, 정밀성 및 디자인으로 전 세계적으로 엄청난 성공을 거둘 것이라고 확신했습니다. 그는 스포츠맨, 엔지니어, 기술자 및 모험가에게 이상적인 시계를 제공하고 싶었습니다. Hauser는 1938년 "Alpina 4" 컨셉트를 도입하면서 자신의 비전을 현실로 만들었습니다.\n' +
+          '그 해에 하우저는 진정한 "스포츠 시계"로 여겨지기를 원하는 모든 시계에 필수적인 네 가지 원칙을 부과함으로써 스포츠 시계에 혁명을 일으켰습니다. 그는 스포츠 시계는 다음 네 가지 특성을 모두 가져야 한다고 주장했습니다.',
+      },
+      {
+        image: ALPINA_MOOD_ALPINISTS,
+        time: "NOW",
+        title: "The timekeeper of choice for alpinists",
+        description:
+          '이러한 원칙과 특성을 엄격히 고수함으로써 전설적인 "알피나 4" 시계는 알피니스트, 공군 조종사, 다이버, 해군 및 군대가 선택하는 타임키퍼가 되었습니다.\n' +
+          '임무 수행에 절대적인 신뢰성이 중요한 모든 분야에서 "알피나 4"는 신뢰할 수 있는 시간 측정의 핵심이 되었습니다.\n' +
+          '진정으로 혁신적인 "알피나 4" 제조 요구 사항을 지속적으로 고수하면서 회사는 1970년대 소위 "쿼츠 위기"가 스위스 기계식 시계 제조업체에 큰 부정적인 영향을 미칠 때까지 비교할 수 없는 성공을 거두었습니다.\n' +
+          "1920년대에 알피나는 이미 전 세계 2,000개 이상의 매장에서 판매되고 있었는데, 당시로서는 엄청난 숫자였습니다. \n" +
+          "알피나는 스위스 시계의 최초 선두 제조업체 중 하나였다고 해도 과언이 아닙니다.\n" +
+          "오늘날 알피나의 설립에 기반한 이상과 혁신은 제네바 공장에서 여전히 살아있으며, 가장 엄격한 시계 기준에 맞춰 전문 스포츠 시계를 제작하고 있습니다.",
       },
     ],
   },

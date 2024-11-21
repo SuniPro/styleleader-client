@@ -13,7 +13,7 @@ import { TripleTabMenu } from "../components/layouts/TabMenu";
 import { HistoryDescription } from "../assets/Brand/History/HistoryDescription";
 import { useScrollToTop } from "../hooks/useWheel";
 
-const BRAND_LIST = ["fc", "doxa"];
+const BRAND_LIST = ["fc", "doxa", "alpina"];
 
 export function Brand() {
   useScrollToTop();
