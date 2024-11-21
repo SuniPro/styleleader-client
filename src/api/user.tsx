@@ -45,3 +45,9 @@ export async function signUp(param: User): Promise<User> {
 
   return await response.data;
 }
+
+export async function signOut(): Promise<User> {
+  const response = await getFormSprings(`/api/user/logout`);
+
+  return await response.data;
+}
