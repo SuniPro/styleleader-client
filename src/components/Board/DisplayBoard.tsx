@@ -1,10 +1,9 @@
 import styled from "@emotion/styled";
 import { IconTypcnChevronLeftOutline } from "../../assets/Icons/ChevronOutlineArrow";
 import { IconTypcnChevronRightOutline } from "../../assets/Icons/ChevronOutlineArrow";
-import React, { Children, ReactNode, useEffect, useRef, useState } from "react";
+import React, { Children, useEffect, useRef, useState } from "react";
 import { css, Theme, useTheme } from "@emotion/react";
 import { SectionTitle } from "../layouts";
-import { Spinner } from "../Spinner";
 import theme from "../../styles/theme";
 
 const COLOR_GRAY = "#9CA3AF";
@@ -57,12 +56,12 @@ export function CardFeed(props: { children: any; cardLength: number }) {
   );
 }
 
-export function CardContents(props: { title: string; content: ReactNode }) {
+export function CardContents(props: { title: string; content: string }) {
   const { title, content } = props;
   return (
     <CardCase colorGray={COLOR_GRAY} colorBlack={COLOR_BLACK}>
       <h2>{title}</h2>
-      <div>{content}</div>
+      <CardFeedContents dangerouslySetInnerHTML={{ __html: content }} />
     </CardCase>
   );
 }
@@ -148,12 +147,12 @@ const CardCase = styled.div<{ colorGray: string; colorBlack: string }>(
 const CardFeedContainer = styled.div<{ theme: Theme }>(
   ({ theme }) => css`
     width: 100vw;
-    height: 60vh;
+    height: 90vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    overflow-y: hidden;
     font-family: Montserrat, sans-serif;
   `,
 );
@@ -164,4 +163,8 @@ const CardFeedTitle = styled.h1`
   letter-spacing: 1.6px;
   line-height: 2.4375rem;
   color: white;
+`;
+
+const CardFeedContents = styled.div`
+  overflow-y: scroll;
 `;
