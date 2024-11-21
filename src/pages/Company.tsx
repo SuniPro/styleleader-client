@@ -1,7 +1,9 @@
+/** @jsxImportSource @emotion/react */
 import { TabMenu, TabMenuListType } from "../components/layouts/TabMenu";
 import React, { useEffect, useState } from "react";
 import { MainTitle, PageContainer } from "../components/layouts";
 import { Outlet, useNavigate } from "react-router-dom";
+import { css } from "@emotion/react";
 
 export const COMPANY_MENU: TabMenuListType[] = [
   { menu: "About us", path: "info" },
@@ -17,7 +19,12 @@ export function Company() {
   }, [selectedIndex]);
 
   return (
-    <PageContainer width={80}>
+    <PageContainer
+      width={80}
+      css={css`
+        align-items: flex-start;
+      `}
+    >
       <MainTitle>Company</MainTitle>
       <TabMenu
         menuList={COMPANY_MENU}

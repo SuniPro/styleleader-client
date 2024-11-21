@@ -10,7 +10,7 @@ export const PageContainer = styled.div<{ width?: number }>(
     margin-top: 10rem;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
   `,
 );
 

@@ -69,6 +69,10 @@ export function Sign() {
     }).then(() => success(signInfo.email.split("@")[0] + "님 환영합니다."));
   };
 
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   return (
     <PageContainer
       css={css`
@@ -76,173 +80,169 @@ export function Sign() {
         margin-top: 5rem;
       `}
     >
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <Section className="section">
-          <Container
+      <Section className="section">
+        <Container
+          css={css`
+            align-items: center;
+            margin-bottom: 4rem;
+          `}
+        >
+          <TabMenu
+            menuList={SIGN_MENU}
+            activeState={{ selectedIndex, setSelectedIndex }}
+          />
+          <Card3DWrap
             css={css`
-              align-items: center;
-              margin-bottom: 4rem;
+              margin-left: auto !important;
+              margin-right: auto !important;
             `}
           >
-            <TabMenu
-              menuList={SIGN_MENU}
-              activeState={{ selectedIndex, setSelectedIndex }}
-            />
-            <Card3DWrap
-              css={css`
-                margin-left: auto !important;
-                margin-right: auto !important;
-              `}
+            <Card3DWrapper
+              isSignUp={selectedIndex === 1}
+              className="card-3d-wrapper"
             >
-              <Card3DWrapper
-                isSignUp={selectedIndex === 1}
-                className="card-3d-wrapper"
+              <Card className="card-front">
+                <CenterWrap>
+                  <SignTitle>Log In</SignTitle>
+                  <FormGroup>
+                    <FormStyle
+                      type="email"
+                      name="logemail"
+                      className="form-style"
+                      placeholder="Your Email"
+                      id="logemail"
+                      autoComplete="off"
+                      onChange={(e) => {
+                        setSignInfo((prev) => ({
+                          email: e.target.value,
+                          password: prev.password,
+                        }));
+                      }}
+                    />
+                    <i
+                      css={css`
+                        color: ${!signInfo.email.includes("@") &&
+                        `${theme.colors.warning} !important `};
+                      `}
+                      className="input-icon uil uil-at"
+                    />
+                  </FormGroup>
+                  <FormGroup
+                    css={css`
+                      margin-top: 0.5rem !important;
+                    `}
+                  >
+                    <FormStyle
+                      type="password"
+                      name="logpass"
+                      className="form-style"
+                      placeholder="Your Password"
+                      id="logpass"
+                      autoComplete="off"
+                      onChange={(e) =>
+                        setSignInfo((prev) => ({
+                          email: prev.email,
+                          password: e.target.value,
+                        }))
+                      }
+                    />
+                    <i className="input-icon uil uil-lock-alt"></i>
+                  </FormGroup>
+                  <StyledSignButton onClick={signInHandler}>
+                    submit
+                  </StyledSignButton>
+                  <p className="mb-0 mt-4 text-center">
+                    <label className="link">Forgot your password?</label>
+                  </p>
+                </CenterWrap>
+              </Card>
+              <Card
+                css={css`
+                  transform: rotateY(180deg);
+                `}
               >
-                <Card className="card-front">
-                  <CenterWrap>
-                    <SignTitle>Log In</SignTitle>
-                    <FormGroup>
-                      <FormStyle
-                        type="email"
-                        name="logemail"
-                        className="form-style"
-                        placeholder="Your Email"
-                        id="logemail"
-                        autoComplete="off"
-                        onChange={(e) => {
-                          setSignInfo((prev) => ({
-                            email: e.target.value,
-                            password: prev.password,
-                          }));
-                        }}
-                      />
-                      <i
-                        css={css`
-                          color: ${!signInfo.email.includes("@") &&
-                          `${theme.colors.warning} !important `};
-                        `}
-                        className="input-icon uil uil-at"
-                      />
-                    </FormGroup>
-                    <FormGroup
+                <CenterWrap>
+                  <SignTitle>Sign Up</SignTitle>
+                  <FormGroup
+                    css={css`
+                      margin-top: 0.5rem !important;
+                    `}
+                  >
+                    <FormStyle
+                      type="email"
+                      name="logemail"
+                      className="form-style"
+                      placeholder="Your Email"
+                      id="logemail"
+                      autoComplete="off"
+                      onChange={(e) => {
+                        setSignInfo((prev) => ({
+                          email: e.target.value,
+                          password: prev.password,
+                        }));
+                      }}
+                    />
+                    <i
                       css={css`
-                        margin-top: 0.5rem !important;
+                        color: ${!signInfo.email.includes("@") &&
+                        `${theme.colors.warning} !important `};
                       `}
-                    >
-                      <FormStyle
-                        type="password"
-                        name="logpass"
-                        className="form-style"
-                        placeholder="Your Password"
-                        id="logpass"
-                        autoComplete="off"
-                        onChange={(e) =>
-                          setSignInfo((prev) => ({
-                            email: prev.email,
-                            password: e.target.value,
-                          }))
-                        }
-                      />
-                      <i className="input-icon uil uil-lock-alt"></i>
-                    </FormGroup>
-                    <StyledSignButton onClick={signInHandler}>
-                      submit
-                    </StyledSignButton>
-                    <p className="mb-0 mt-4 text-center">
-                      <label className="link">Forgot your password?</label>
-                    </p>
-                  </CenterWrap>
-                </Card>
-                <Card
-                  css={css`
-                    transform: rotateY(180deg);
-                  `}
-                >
-                  <CenterWrap>
-                    <SignTitle>Sign Up</SignTitle>
-                    <FormGroup
+                      className="input-icon uil uil-at"
+                    />
+                  </FormGroup>
+                  <FormGroup
+                    css={css`
+                      margin-top: 0.5rem !important;
+                    `}
+                  >
+                    <FormStyle
+                      type="password"
+                      name="logpass"
+                      className="form-style"
+                      placeholder="Your Password"
+                      id="logpass"
+                      autoComplete="off"
+                      onChange={(e) =>
+                        setSignInfo((prev) => ({
+                          email: prev.email,
+                          password: e.target.value,
+                        }))
+                      }
+                    />
+                    <i className="input-icon uil uil-lock-alt"></i>
+                  </FormGroup>
+                  <FormGroup
+                    css={css`
+                      margin-top: 0.5rem !important;
+                    `}
+                  >
+                    <FormStyle
+                      type="password"
+                      name="logpass"
+                      className="form-style"
+                      placeholder="Password Check"
+                      id="logpass"
+                      autoComplete="off"
+                      onChange={(e) => setPasswordCheck(e.target.value)}
+                    />
+                    <i
                       css={css`
-                        margin-top: 0.5rem !important;
+                        color: ${signInfo.password === passwordCheck
+                          ? ""
+                          : "red !important"};
                       `}
-                    >
-                      <FormStyle
-                        type="email"
-                        name="logemail"
-                        className="form-style"
-                        placeholder="Your Email"
-                        id="logemail"
-                        autoComplete="off"
-                        onChange={(e) => {
-                          setSignInfo((prev) => ({
-                            email: e.target.value,
-                            password: prev.password,
-                          }));
-                        }}
-                      />
-                      <i
-                        css={css`
-                          color: ${!signInfo.email.includes("@") &&
-                          `${theme.colors.warning} !important `};
-                        `}
-                        className="input-icon uil uil-at"
-                      />
-                    </FormGroup>
-                    <FormGroup
-                      css={css`
-                        margin-top: 0.5rem !important;
-                      `}
-                    >
-                      <FormStyle
-                        type="password"
-                        name="logpass"
-                        className="form-style"
-                        placeholder="Your Password"
-                        id="logpass"
-                        autoComplete="off"
-                        onChange={(e) =>
-                          setSignInfo((prev) => ({
-                            email: prev.email,
-                            password: e.target.value,
-                          }))
-                        }
-                      />
-                      <i className="input-icon uil uil-lock-alt"></i>
-                    </FormGroup>
-                    <FormGroup
-                      css={css`
-                        margin-top: 0.5rem !important;
-                      `}
-                    >
-                      <FormStyle
-                        type="password"
-                        name="logpass"
-                        className="form-style"
-                        placeholder="Password Check"
-                        id="logpass"
-                        autoComplete="off"
-                        onChange={(e) => setPasswordCheck(e.target.value)}
-                      />
-                      <i
-                        css={css`
-                          color: ${signInfo.password === passwordCheck
-                            ? ""
-                            : "red !important"};
-                        `}
-                        className="input-icon uil uil-check"
-                      />
-                    </FormGroup>
-                    <StyledSignButton onClick={signUpHandler}>
-                      submit
-                    </StyledSignButton>
-                  </CenterWrap>
-                </Card>
-              </Card3DWrapper>
-            </Card3DWrap>
-          </Container>
-        </Section>
-      )}
+                      className="input-icon uil uil-check"
+                    />
+                  </FormGroup>
+                  <StyledSignButton onClick={signUpHandler}>
+                    submit
+                  </StyledSignButton>
+                </CenterWrap>
+              </Card>
+            </Card3DWrapper>
+          </Card3DWrap>
+        </Container>
+      </Section>
     </PageContainer>
   );
 }

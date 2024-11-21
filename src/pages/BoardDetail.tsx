@@ -54,16 +54,7 @@ export function BoardDetail() {
   });
 
   if (!board) {
-    return (
-      <PageContainer
-        css={css`
-          margin: 10rem 0;
-          align-items: center;
-        `}
-      >
-        <Spinner />
-      </PageContainer>
-    );
+    return <Spinner />;
   }
 
   if (!board.title) {
