@@ -6,12 +6,14 @@ import { css } from "@emotion/react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import AddAlertIcon from "@mui/icons-material/AddAlert";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { checkMe } from "../../api/user";
+import { checkMe, signOut } from "../../api/user";
 import theme from "../../styles/theme";
 import { IconButton } from "./LayoutLayer";
+import { error, success } from "../../alert/alert";
 
 export function Header() {
   const location = useLocation();
@@ -32,6 +34,32 @@ export function Header() {
     queryFn: () => checkMe(),
     refetchInterval: 5000,
   });
+
+  function logout() {
+    signOut()
+      .then(() => success("로그아웃 되었습니다."))
+      .catch((err) => {
+        console.error(err);
+        error("로그아웃 실패", "서버 연결을 확인해주세요.");
+      });
+  }
+
+  function menuHandler(roleType: string) {
+    switch (roleType) {
+      case "admin":
+        return (
+          <>
+            <StyledIconButton icon={ManageAccountsIcon} />
+            <StyledIconButton icon={AddAlertIcon} />
+            <StyledIconButton icon={LogoutIcon} func={logout} />
+          </>
+        );
+      case "writer":
+        return <StyledIconButton icon={AddAlertIcon} />;
+      default:
+        return <StyledIconButton icon={LogoutIcon} func={logout} />;
+    }
+  }
 
   return (
     <HeaderContainer scrollMove={position !== 0}>
@@ -81,7 +109,7 @@ export function Header() {
             {user.roleType === "admin" && (
               <StyledIconButton icon={ManageAccountsIcon} />
             )}
-            <StyledIconButton icon={LogoutIcon} />
+            <StyledIconButton icon={LogoutIcon} func={logout} />
           </>
         ) : (
           <StyledIconButton icon={LoginIcon} func={() => navigate("/sign")} />
