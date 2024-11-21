@@ -86,6 +86,7 @@ const TabMenuContent = styled.span<{ isActive?: boolean }>(
     font-weight: ${isActive ? "700" : "normal"};
     white-space: nowrap;
     color: ${isActive ? "#212121" : "#ffffff"};
+    text-align: center;
   `,
 );
 
