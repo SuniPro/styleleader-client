@@ -5,17 +5,11 @@ import {
   PageContainer,
   TableContainer,
   TableTitle,
-  AdminManageModalBoxStyle,
   StyledWriteButton,
   TableIconButtonCase,
 } from "../../layouts";
 import { useQuery } from "@tanstack/react-query";
-import {
-  addDisplayAsset,
-  deleteDisplayAsset,
-  editDisplayAsset,
-  getDisplayAssets,
-} from "../../../api/admin";
+import { deleteDisplayAsset, getDisplayAssets } from "../../../api/admin";
 import React, { useMemo, useState } from "react";
 import {
   ColumnDef,
@@ -33,22 +27,17 @@ import { Spinner } from "../../Spinner";
 import { ReadyBanner } from "../../Empty/ReadyBanner";
 import { TableBody, TableHeader } from "../../Board/Table/TableParticle";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
-import {
-  Box,
-  Modal,
-  SvgIconTypeMap,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Modal, SvgIconTypeMap } from "@mui/material";
 import styled from "@emotion/styled";
 import theme from "../../../styles/theme";
-import { adminDeleteConfirm, error, success } from "../../../alert/alert";
+import { adminDeleteConfirm } from "../../../alert/alert";
+import { ManageModal } from "./modal";
 
 export function BrandCatalog() {
   const { data: list } = useQuery({
     queryKey: ["getList"],
     queryFn: () => getDisplayAssets(),
-    refetchInterval: 3000, // Options 객체로 refetchInterval 설정
+    refetchInterval: 5000, // Options 객체로 refetchInterval 설정
   });
 
   const [open, setOpen] = useState(false);
@@ -213,15 +202,11 @@ export function BrandCatalog() {
         onClose={() => setOpen(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        children={
-          <ManageModal
-            catalog={
-              brandCatalog.find((item) => item.id === activeId) as DisplayAssets
-            }
-            close={() => setOpen(false)}
-            isAdd={isAdd}
-          />
-        }
+        children={ManageModal({
+          catalog: brandCatalog[activeId],
+          close: () => setOpen(false),
+          isAdd,
+        })}
       />
       <StyledWriteButton
         onClick={() => {
@@ -260,171 +245,4 @@ const ButtonWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   align-content: center;
-`;
-
-function ManageModal(props: {
-  catalog: DisplayAssets;
-  close: () => void;
-  isAdd: boolean;
-}) {
-  const { catalog, close, isAdd } = props;
-  const [data, setData] = useState<DisplayAssets>(catalog);
-
-  const saveHandler = async () => {
-    const updatedData = {
-      ...data,
-      image: getImageName(data.image),
-      category: "catalog",
-    };
-    const apiFunction = isAdd ? addDisplayAsset : editDisplayAsset;
-
-    try {
-      const result = await apiFunction(updatedData);
-      if (result.id) {
-        success("저장 완료");
-      } else {
-        error("저장 실패", "서버 오류가 발생했습니다.");
-      }
-    } catch {
-      error("수정실패", "서버 연결을 확인해주세요.");
-    } finally {
-      close(); // 항상 한 번만 호출
-    }
-  };
-
-  return (
-    <Box sx={AdminManageModalBoxStyle}>
-      <Typography id="modal-modal-title" variant="h6" component="h2">
-        <span
-          css={css`
-            font-size: 13px;
-            color: ${theme.colors.secondary};
-          `}
-        >
-          수정 중 모든 값을 지우면 자동으로 초기값으로 돌아갑니다.
-        </span>
-        <ObjectContainer>
-          <ObjectContentBox>
-            <ObjectInput
-              onChange={(e) => {
-                const value = e.target.value;
-                setData((prev) => ({
-                  ...prev,
-                  image: value === "" ? catalog.image : value,
-                }));
-              }}
-              label="이미지"
-              variant="standard"
-            />
-            <ObjectInput
-              onChange={(e) => {
-                const value = e.target.value;
-                setData((prev) => ({
-                  ...prev,
-                  title: value === "" ? catalog.title : value,
-                }));
-              }}
-              label="모델명"
-              variant="standard"
-            />
-            <ObjectInput
-              onChange={(e) => {
-                const value = e.target.value;
-                setData((prev) => ({
-                  ...prev,
-                  description: value === "" ? catalog.description : value,
-                }));
-              }}
-              label="링크"
-              variant="standard"
-            />
-          </ObjectContentBox>
-          <div
-            css={css`
-              width: 100%;
-              display: flex;
-              justify-content: space-around;
-              margin-top: 2rem;
-            `}
-          >
-            <StyledWriteButton
-              width={150}
-              onClick={close}
-              css={css`
-                color: ${theme.colors.white};
-              `}
-              tone={theme.colors.gray}
-            >
-              CANCEL
-            </StyledWriteButton>
-            <StyledWriteButton
-              width={150}
-              tone={theme.colors.gradientGoldBottom}
-              onClick={saveHandler}
-            >
-              SAVE
-            </StyledWriteButton>
-          </div>
-        </ObjectContainer>
-      </Typography>
-      <Typography id="modal-modal-description" sx={{ mt: 2 }}></Typography>
-    </Box>
-  );
-}
-
-function getImageName(imagePath: string): string {
-  const match = imagePath.match(/catalog\/(.+)/);
-  return match ? match[1] : ""; // "catalog/" 이후의 문자열 반환
-}
-
-const ObjectContainer = styled.section`
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  flex-direction: column;
-  align-content: space-between;
-  align-items: center;
-
-  input,
-  label {
-    color: ${theme.colors.gray};
-  }
-`;
-const ObjectContentBox = styled.div`
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-`;
-const ObjectInput = styled(TextField)`
-  margin: 8px 0;
-
-  // Focus 되었을 시 라벨 컬러
-  .Mui-focused {
-    color: ${theme.colors.gold} !important;
-
-    input {
-      color: ${theme.colors.gold};
-    }
-  }
-
-  // Disable underline
-  .MuiInput-underline::before {
-    border-bottom: 1px solid ${theme.colors.gray};
-  }
-
-  .css-5h82ro-MuiInputBase-root-MuiInput-root:hover:not(
-      .Mui-disabled,
-      .Mui-error
-    ):before {
-    border-bottom: 1px solid ${theme.colors.gray};
-  }
-
-  // active underline
-  .css-5h82ro-MuiInputBase-root-MuiInput-root {
-    &::after {
-      border-bottom: 2px solid ${theme.colors.gold};
-    }
-  }
 `;

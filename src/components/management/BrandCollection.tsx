@@ -27,8 +27,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Spinner } from "../Spinner";
 import { ReadyBanner } from "../Empty/ReadyBanner";
 import {
-  generateNumberArray,
-  PageNation,
+  Pagination,
   TableBody,
   TableHeader,
 } from "../Board/Table/TableParticle";
@@ -37,21 +36,19 @@ import theme from "../../styles/theme";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import styled from "@emotion/styled";
 import { getCollections } from "../../api/collections";
-import { Collection } from "../../model/Collection";
 import { ManageModal } from "./display/modal";
 
 export function BrandCollection() {
   const { data: list } = useQuery({
     queryKey: ["getCollections"],
     queryFn: () => getCollections(),
-    refetchInterval: 3000, // Options 객체로 refetchInterval 설정
+    refetchInterval: 5000, // Options 객체로 refetchInterval 설정
   });
 
   const [open, setOpen] = useState(false);
   const [isAdd, setIsAdd] = useState(false);
   const [columnResizeMode] = useState<ColumnResizeMode>("onChange");
   const [activeId, setActiveId] = useState<number>(0);
-  const [pageIndex, setPageIndex] = useState<number>(0);
 
   const deleteHandler = async (id: number) => {
     adminDeleteConfirm(() => deleteDisplayAsset(id));
@@ -215,111 +212,13 @@ export function BrandCollection() {
         onClose={() => setOpen(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        children={
-          <ManageModal
-            catalog={list.find((item) => item.id === activeId) as Collection}
-            close={() => setOpen(false)}
-            isAdd={isAdd}
-          />
-        }
+        children={ManageModal({
+          catalog: list[activeId],
+          close: () => setOpen(false),
+          isAdd,
+        })}
       />
-      <div
-        css={css`
-          margin-top: 2rem;
-          width: 100%;
-          display: flex;
-          flex-direction: row;
-          align-content: center;
-          justify-content: space-around;
-        `}
-        className="flex items-center gap-2"
-      >
-        <span className="flex items-center gap-1">
-          <input
-            css={css`
-              color: white;
-              border-radius: 6px;
-              background-color: rgba(0, 0, 0, 0);
-              border: 1px solid ${theme.colors.gold};
-            `}
-            max={table.getPageCount()}
-            defaultValue={table.getState().pagination.pageIndex + 1}
-            className="border p-1 rounded w-16"
-            onChange={(e) => setPageIndex(parseInt(e.target.value))}
-          />
-          <button onClick={() => table.setPageIndex(pageIndex)}>이동</button>
-        </span>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.firstPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {"<<"}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {"<"}
-        </button>
-
-        <span className="flex items-center gap-1">
-          <div
-            css={css`
-              display: flex;
-              flex-direction: row;
-              align-items: center;
-              gap: 5px;
-              font-family: ${theme.fontStyle.archivo};
-            `}
-          >
-            {generateNumberArray(table.getPageCount()).map((index) => {
-              return (
-                <li
-                  css={css`
-                    padding: 2px;
-                  `}
-                  onClick={() => table.setPageIndex(index - 1)}
-                >
-                  {index}
-                </li>
-              );
-            })}
-          </div>
-          {/*<strong>*/}
-          {/*  {table.getState().pagination.pageIndex + 1} of{" "}*/}
-          {/*  {table.getPageCount().toLocaleString()}*/}
-          {/*</strong>*/}
-        </span>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          {">"}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.lastPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          {">>"}
-        </button>
-        <select
-          value={table.getState().pagination.pageSize}
-          onChange={(e) => {
-            table.setPageSize(Number(e.target.value));
-          }}
-        >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              {pageSize}
-            </option>
-          ))}
-        </select>
-      </div>
-      {/*<PageNation table={table} contents={list} pageSize={list.length} />*/}
+      <Pagination table={table} />
       <StyledWriteButton
         onClick={() => {
           setOpen(true);
