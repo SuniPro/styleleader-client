@@ -1,12 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { PageContainer } from "../components/layouts";
-import { useEffect, useState } from "react";
-import { BrandCatalog } from "../components/management/display/BrandCatalog";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import theme from "../styles/theme";
 import { css } from "@emotion/react";
-import { DisplayCollection } from "../components/management/display/DisplayCollection";
-import { BrandCollection } from "../components/management/BrandCollection";
+import { Outlet, useNavigate } from "react-router-dom";
 
 interface activeState {
   activeId: string;
@@ -16,24 +14,26 @@ interface activeState {
 const MANAGE_FUNCTION = [
   {
     id: "brandCatalog",
-    component: <BrandCatalog />,
+    locate: "catalog",
   },
   {
     id: "displayCollection",
-    component: <DisplayCollection />,
+    locate: "showcase",
   },
   {
-    id: "barndCollection",
-    component: <BrandCollection />,
+    id: "brandCollection",
+    locate: "collection",
   },
 ];
 
 export function Management() {
   const [activeId, setActiveId] = useState<string>("brandCatalog");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(activeId);
-  }, [activeId]);
+    const locate = MANAGE_FUNCTION.find((func) => func.id === activeId)?.locate;
+    navigate(locate!);
+  }, [activeId, navigate]);
 
   return (
     <PageContainer
@@ -50,7 +50,7 @@ export function Management() {
           />
         ))}
       </SectionWrapper>
-      {MANAGE_FUNCTION.find((func) => func.id === activeId)?.component}
+      <Outlet />
     </PageContainer>
   );
 }

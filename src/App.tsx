@@ -21,6 +21,9 @@ import { Sign } from "./pages/Sign";
 import "sweetalert2/src/sweetalert2.scss";
 import { Faq } from "./pages/faq";
 import { Management } from "./pages/Management";
+import { BrandCatalog } from "./components/management/display/BrandCatalog";
+import { DisplayCollection } from "./components/management/display/DisplayCollection";
+import { BrandCollection } from "./components/management/BrandCollection";
 
 const queryClient = new QueryClient();
 
@@ -52,7 +55,11 @@ function App() {
                   <Route path="faq" element={<Faq />} />
                 </Route>
                 <Route path="/sign" element={<Sign />} />
-                <Route path="manage" element={<Management />}></Route>
+                <Route path="manage" element={<Management />}>
+                  <Route path="catalog" element={<BrandCatalog />} />
+                  <Route path="showcase" element={<DisplayCollection />} />
+                  <Route path="collection" element={<BrandCollection />} />
+                </Route>
               </Routes>
             </BrowserRouter>
             <Footer />
