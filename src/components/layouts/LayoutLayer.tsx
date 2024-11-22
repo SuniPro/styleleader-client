@@ -28,7 +28,7 @@ export const SectionTitle = styled.h1<{ marginBottom?: number }>(
     font-family: Montserrat, sans-serif;
     font-size: 1.875rem;
     font-weight: bold;
-    letter-spacing: 1.6px;
+    letter-spacing: 2px;
     line-height: 2.4375rem;
     color: white;
   `,
@@ -49,6 +49,7 @@ export function IconFuncButton(props: {
   className?: string;
   icon: OverridableComponent<SvgIconTypeMap> & { muiName: string };
   func?: () => void;
+  disable?: boolean;
 }) {
   const { className, icon: Icon, func } = props;
   return (
@@ -66,6 +67,7 @@ const IconWrapper = styled.div`
 export const UnderLineInput = styled(Input)<{
   underLineColor: string;
   isWrite?: boolean;
+  disabled?: boolean;
 }>(
   ({ underLineColor }) => css`
     padding-left: 5px;
@@ -91,8 +93,7 @@ export const BrandedBox = styled.div<{ width: number; height: number }>(
     font-size: 20px;
     border: 3px solid transparent;
     border-radius: 50%;
-    border-image: linear-gradient(to bottom, #d7bc6a 0%, #ffffff 150%);
-    border-image-slice: 1;
+    border-image: linear-gradient(to bottom, #d7bc6a 0%, #ffffff 150%) 1;
   `,
 );
 
