@@ -16,7 +16,7 @@ export function Company() {
 
   useEffect(() => {
     navigate(COMPANY_MENU[selectedIndex].path);
-  }, [selectedIndex]);
+  }, [navigate, selectedIndex]);
 
   return (
     <PageContainer

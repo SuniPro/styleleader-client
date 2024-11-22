@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
-import { Input, SvgIconTypeMap } from "@mui/material";
+import { Button, Input, SvgIconTypeMap } from "@mui/material";
 import { css } from "@emotion/react";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
+import theme from "../../styles/theme";
 
 export const PageContainer = styled.div<{ width?: number }>(
   ({ width = 100 }) => css`
@@ -44,7 +45,7 @@ export const Divider = styled.p`
   width: 100%;
 `;
 
-export function IconButton(props: {
+export function IconFuncButton(props: {
   className?: string;
   icon: OverridableComponent<SvgIconTypeMap> & { muiName: string };
   func?: () => void;
@@ -94,3 +95,78 @@ export const BrandedBox = styled.div<{ width: number; height: number }>(
     border-image-slice: 1;
   `,
 );
+
+export const TableContainer = styled.table`
+  border-spacing: 0;
+  width: 100%;
+`;
+
+export const TableTitle = styled.div`
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  height: 40px;
+  display: flex;
+  align-items: center;
+`;
+
+export const StyledWriteButton = styled(Button)<{
+  tone: string;
+  textColor?: string;
+  width?: number;
+}>(
+  ({ tone, width, textColor }) => css`
+    width: ${width}px;
+    margin-top: 20px;
+    background: ${tone};
+    color: ${textColor ? textColor : "#000000"};
+    right: 0;
+  `,
+);
+
+export const StyledIconButton = styled(IconFuncButton)`
+  display: flex;
+  flex-direction: row;
+  padding: 1px 20px 1px 0;
+  color: ${theme.colors.white};
+`;
+
+export const BasicModalBoxStyle = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 500,
+  border: "3px solid transparent",
+  borderImage: "linear-gradient(to bottom, #d7bc6a 0%, #ffffff 150%)",
+  borderImageSlice: 1,
+  boxShadow: 24,
+  p: 4,
+  color: "#ffffff",
+  backgroundColor: "black",
+  height: "60vh",
+  overflowY: "scroll",
+};
+
+export const AdminManageModalBoxStyle = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 500,
+  border: `1px solid ${theme.colors.basicBlack}`,
+  borderRadius: "10px",
+  boxShadow: 24,
+  p: 4,
+  color: "#ffffff",
+  backgroundColor: "black",
+  height: "40%",
+  overflowY: "scroll",
+};
+
+export const TableIconButtonCase = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+`;

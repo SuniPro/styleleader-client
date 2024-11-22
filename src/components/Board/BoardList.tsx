@@ -9,11 +9,14 @@ import {
 } from "@tanstack/react-table";
 import React, { useMemo, useState } from "react";
 import { Board } from "../../model/Board";
-import styled from "@emotion/styled";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
-import { Button } from "@mui/material";
 import { css } from "@emotion/react";
-import { Container } from "../layouts";
+import {
+  Container,
+  StyledWriteButton,
+  TableContainer,
+  TableTitle,
+} from "../layouts";
 import { BoardEditor } from "./BoardEditor";
 import { useQuery } from "@tanstack/react-query";
 import { getBoardList } from "../../api/boards";
@@ -155,25 +158,3 @@ export function BoardList() {
     </>
   );
 }
-
-const TableContainer = styled.table`
-  border-spacing: 0;
-  width: 100%;
-`;
-
-const TableTitle = styled.div`
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  height: 40px;
-  display: flex;
-  align-items: center;
-`;
-
-export const StyledWriteButton = styled(Button)<{ tone: string }>(
-  ({ tone }) => css`
-    margin-top: 20px;
-    background: ${tone};
-    color: #000000;
-    right: 0;
-  `,
-);

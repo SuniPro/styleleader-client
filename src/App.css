@@ -9,6 +9,11 @@ html body {
         list-style: none;
     }
 
+    /* Modal 배경 투명도 값 고정 */
+    .MuiModal-backdrop {
+        background-color: rgba(0, 0, 0, 0.25) !important;
+    }
+
     h1, h2, h3, h4, h5, h6{
         @media screen and (max-width: 600px) {
             font-size: 140% !important;

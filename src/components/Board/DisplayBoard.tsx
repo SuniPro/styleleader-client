@@ -144,25 +144,15 @@ const CardCase = styled.div<{ colorGray: string; colorBlack: string }>(
   `,
 );
 
-const CardFeedContainer = styled.div<{ theme: Theme }>(
-  ({ theme }) => css`
-    width: 100vw;
-    height: 90vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    overflow-y: hidden;
-    font-family: Montserrat, sans-serif;
-  `,
-);
-
-const CardFeedTitle = styled.h1`
+const CardFeedContainer = styled.div`
+  width: 100%;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-y: hidden;
   font-family: Montserrat, sans-serif;
-  font-size: 1.875rem;
-  letter-spacing: 1.6px;
-  line-height: 2.4375rem;
-  color: white;
 `;
 
 const CardFeedContents = styled.div`

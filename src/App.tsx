@@ -20,6 +20,7 @@ import { Service } from "./pages/Service";
 import { Sign } from "./pages/Sign";
 import "sweetalert2/src/sweetalert2.scss";
 import { Faq } from "./pages/faq";
+import { Management } from "./pages/Management";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,7 @@ function App() {
                   <Route path="faq" element={<Faq />} />
                 </Route>
                 <Route path="/sign" element={<Sign />} />
+                <Route path="manage" element={<Management />}></Route>
               </Routes>
             </BrowserRouter>
             <Footer />

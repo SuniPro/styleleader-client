@@ -1,23 +1,16 @@
-import { Board } from "../model/Board";
-import { getFormSprings, postToSprings } from "./base";
+import { getFormSprings } from "./base";
 import { Collection } from "../model/Collection";
 
-export async function getCollectionListOfBrand(
+export async function getCollectionsOfBrand(
   brand: string,
 ): Promise<Collection[]> {
-  const response = await getFormSprings(`/api/file/collection/${brand}`);
+  const response = await getFormSprings(`/api/collection/get/${brand}`);
 
   return await response.data;
 }
 
-export async function getBoard(boardId: string): Promise<Board> {
-  const response = await getFormSprings(`/api/board/${boardId}`);
-
-  return await response.data;
-}
-
-export async function postWrite(param: Board): Promise<Board> {
-  const response = await postToSprings(`/api/board/write`, param);
+export async function getCollections(): Promise<Collection[]> {
+  const response = await getFormSprings(`/api/collection/get/list`);
 
   return await response.data;
 }

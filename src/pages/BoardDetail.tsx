@@ -9,7 +9,7 @@ import { css } from "@emotion/react";
 import {
   Container,
   Divider,
-  IconButton,
+  IconFuncButton,
   PageContainer,
 } from "../components/layouts";
 import { iso8601ToYYMMDDHHMM } from "../utils/dateApi";
@@ -121,12 +121,12 @@ export function BoardDetail() {
                   gap: 10px;
                 `}
               >
-                <IconButton
+                <IconFuncButton
                   func={() => setWriting((prev) => !prev)}
                   icon={EditIcon}
                 />
-                <IconButton icon={ShareIcon} />
-                <IconButton icon={DeleteIcon} func={deleteHandler} />
+                <IconFuncButton icon={ShareIcon} />
+                <IconFuncButton icon={DeleteIcon} func={deleteHandler} />
               </HeaderItem>
             </HeaderLine>
           </div>

@@ -1,9 +1,17 @@
-import { flexRender } from "@tanstack/react-table";
+import { flexRender, Table } from "@tanstack/react-table";
 import * as React from "react";
 import { ChangeEvent, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { uid } from "uid";
+import { DisplayAssets } from "../../../model/Display";
+
+export function generateNumberArray(upTo: number): number[] {
+  if (upTo < 1) {
+    throw new Error("Input must be greater than or equal to 1.");
+  }
+  return Array.from({ length: upTo }, (_, index) => index + 1);
+}
 
 export function TableHeader(props: {
   table: any;
@@ -142,27 +150,22 @@ export function TableCell(props: {
 }
 
 interface PageNationProps {
-  table: any | null;
+  table: Table<DisplayAssets>;
   contents: any;
-  pageIndexWriter: (index: number) => void;
-  pageSizeWriter: (size: number) => void;
   pageSize: number;
-  pageIndex: number;
 }
 
 export function PageNation(props: PageNationProps) {
-  // const [dataLength, setDataLength] = useState(props.contents);
-  const [pageSize, setPageSize] = useState<number>(props.pageSize);
-  const [pageIndex, setPageIndex] = useState<number>(props.pageIndex);
+  const { table, contents, pageSize } = props;
 
-  const [totalPages, setTotalPages] = useState<number>(props.pageSize);
+  const [totalPages, setTotalPages] = useState<number>(pageSize);
 
   const pageArrayChecker = (pageSizeParam: number) => {
     let totalCountFromHeader = parseInt(props.contents, 10);
 
     let pageReturnCheck = totalCountFromHeader % pageSizeParam === 0;
 
-    if (pageReturnCheck === true) {
+    if (pageReturnCheck) {
       setTotalPages(Math.ceil(totalCountFromHeader / pageSizeParam));
     } else {
       setTotalPages(Math.floor(totalCountFromHeader / pageSizeParam) + 1);
@@ -170,22 +173,15 @@ export function PageNation(props: PageNationProps) {
   };
 
   useEffect(() => {
-    setPageIndex(props.pageIndex);
-    setPageSize(props.pageSize);
-  }, [props.pageIndex, props.pageSize]);
-
-  useEffect(() => {
-    pageArrayChecker(props.pageSize);
-  }, [props.pageSize, props.contents]);
+    pageArrayChecker(pageSize);
+  }, [pageSize, contents, pageArrayChecker]);
 
   const handlePageClick = (pageNumber: number) => {
-    setPageIndex(pageNumber);
-    props.pageIndexWriter(pageNumber);
+    table.setPageIndex(pageNumber);
   };
 
   const handleSizeClick = (pageSize: number) => {
-    props.table.setPageSize(pageSize);
-    props.pageSizeWriter(pageSize);
+    table.setPageSize(pageSize);
   };
 
   return (
@@ -206,13 +202,13 @@ export function PageNation(props: PageNationProps) {
             </li>
           ))}
         </ul>
-        <div className={"page-size-contents"}>
-          <div className={"total-count"}>전체 : {props.contents} 건</div>
-          <div className={"page-list"}>
-            {[...Array(totalPages)].map((_, i) => {
+        <div className="page-size-contents">
+          <div className="total-count">전체 : {props.contents} 건</div>
+          <div className="page-list">
+            {contents.map((item: any, i: number) => {
               return (
                 <li
-                  className={pageIndex === i + 1 ? "on" : ""}
+                  className={""}
                   key={i + 1}
                   onClick={() => handlePageClick(i + 1)}
                 >

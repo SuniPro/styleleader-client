@@ -3,16 +3,16 @@ import { HeaderLinkItem } from "../../cds/Navigation/NavigationLinkItem";
 import styled from "@emotion/styled";
 import Logo from "./LogoComponent";
 import { css } from "@emotion/react";
-import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
+import SettingsIcon from "@mui/icons-material/Settings";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import AddAlertIcon from "@mui/icons-material/AddAlert";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { checkMe, signOut } from "../../api/user";
 import theme from "../../styles/theme";
-import { IconButton } from "./LayoutLayer";
+import { StyledIconButton } from "./LayoutLayer";
 import { error, success } from "../../alert/alert";
 
 export function Header() {
@@ -44,20 +44,25 @@ export function Header() {
       });
   }
 
-  function menuHandler(roleType: string) {
+  function menuHandler(roleType?: string) {
     switch (roleType) {
       case "admin":
         return (
           <>
             <StyledIconButton icon={ManageAccountsIcon} />
-            <StyledIconButton icon={AddAlertIcon} />
+            <StyledIconButton
+              icon={SettingsIcon}
+              func={() => navigate("/manage")}
+            />
             <StyledIconButton icon={LogoutIcon} func={logout} />
           </>
         );
       case "writer":
-        return <StyledIconButton icon={AddAlertIcon} />;
+        return <StyledIconButton icon={SettingsIcon} />;
       default:
-        return <StyledIconButton icon={LogoutIcon} func={logout} />;
+        return (
+          <StyledIconButton icon={LoginIcon} func={() => navigate("/sign")} />
+        );
     }
   }
 
@@ -103,18 +108,7 @@ export function Header() {
           isActive={location.pathname.includes("/service")}
         />
       </HeaderNavigation>
-      <PersonalInfo>
-        {user ? (
-          <>
-            {user.roleType === "admin" && (
-              <StyledIconButton icon={ManageAccountsIcon} />
-            )}
-            <StyledIconButton icon={LogoutIcon} func={logout} />
-          </>
-        ) : (
-          <StyledIconButton icon={LoginIcon} func={() => navigate("/sign")} />
-        )}
-      </PersonalInfo>
+      <PersonalInfo>{menuHandler(user?.roleType)}</PersonalInfo>
     </HeaderContainer>
   );
 }
@@ -143,24 +137,15 @@ const HeaderNavigation = styled.nav`
   display: flex;
   padding: 0 24px;
   gap: 40px;
+  position: absolute;
+  left: 50%;
+  width: 500px;
+  justify-content: center;
+  transform: translate(-50%, 0%);
 `;
 
 const PersonalInfo = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-`;
-
-const Username = styled.span`
-  font-weight: 500;
-  white-space: nowrap;
-  color: white;
-  font-size: 20px;
-`;
-
-const StyledIconButton = styled(IconButton)`
-  display: flex;
-  flex-direction: row;
-  padding: 1px 20px 1px 0;
-  color: ${theme.colors.white};
 `;

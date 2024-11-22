@@ -6,7 +6,7 @@ import theme from "../styles/theme";
 import { CollectionView } from "../components/Brand/CollectionView";
 import { useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getCollectionListOfBrand } from "../api/collections";
+import { getCollectionsOfBrand } from "../api/collections";
 import { Spinner } from "../components/Spinner";
 import styled from "@emotion/styled";
 import { TripleTabMenu } from "../components/layouts/TabMenu";
@@ -24,7 +24,7 @@ export function Brand() {
 
   const { data: collectionList } = useQuery({
     queryKey: ["getCollectionListOfBrand"],
-    queryFn: () => getCollectionListOfBrand(BRAND_LIST[selectedIndex]),
+    queryFn: () => getCollectionsOfBrand(BRAND_LIST[selectedIndex]),
     refetchInterval: 10000,
   });
 

@@ -6,15 +6,15 @@ import { css } from "@emotion/react";
 import { ServiceCategory, ServiceContents } from "../../model/Service";
 import theme from "../../styles/theme";
 import { Box, Modal, Typography } from "@mui/material";
-import { ModalBoxStyle } from "../../pages/StyleLeaderDisplay";
 import { ServiceContentsAsset } from "../../assets/contents/service/ServiceContents";
 import { uid } from "uid";
 import { getFile } from "../../api/file";
 import { useNavigate } from "react-router-dom";
+import { BasicModalBoxStyle } from "../layouts";
 
 function ModalContents(contents: ServiceContents) {
   return (
-    <Box sx={ModalBoxStyle}>
+    <Box sx={BasicModalBoxStyle}>
       <Typography id="modal-modal-title" variant="h6" component="h2">
         <p
           css={css`
@@ -350,8 +350,7 @@ const CategoryImageContainer = styled.div<{
 );
 
 export function AccordionCategory() {
-  const [categories, setCategories] =
-    useState<ServiceCategory[]>(ServiceContentsAsset);
+  const [categories] = useState<ServiceCategory[]>(ServiceContentsAsset);
 
   const [open, setOpen] = useState<boolean>(false);
 
