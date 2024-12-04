@@ -4,7 +4,7 @@ import { deleteBoard, getBoard } from "../api/boards";
 import { useQuery } from "@tanstack/react-query";
 import styled from "@emotion/styled";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
-import { ReadyBanner } from "../components/Empty/ReadyBanner";
+import { ReadyBanner } from "../components/empty/ReadyBanner";
 import { css } from "@emotion/react";
 import {
   Container,

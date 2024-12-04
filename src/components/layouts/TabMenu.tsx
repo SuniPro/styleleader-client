@@ -142,6 +142,7 @@ export function TripleTabMenu(props: {
     <TripleTabNav className={className}>
       {menuList.map((menu, index) => (
         <TabLink
+          key={index}
           href="#"
           onClick={(e) => {
             setSelectedIndex(index);

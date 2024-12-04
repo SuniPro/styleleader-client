@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { TimeLineProcessY } from "../components/Brand/TimeLine";
+import { TimeLineProcessY } from "../components/brand/TimeLine";
 import { PageContainer } from "../components/layouts";
 import theme from "../styles/theme";
-import { CollectionView } from "../components/Brand/CollectionView";
+import { CollectionView } from "../components/brand/CollectionView";
 import { useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getCollectionsOfBrand } from "../api/collections";
@@ -23,9 +23,10 @@ export function Brand() {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   const { data: collectionList } = useQuery({
-    queryKey: ["getCollectionListOfBrand"],
+    queryKey: ["getCollectionListOfBrand", selectedIndex],
     queryFn: () => getCollectionsOfBrand(BRAND_LIST[selectedIndex]),
-    refetchInterval: 10000,
+    refetchInterval: 3000,
+    enabled: Boolean(BRAND_LIST[selectedIndex]),
   });
 
   if (!collectionList) return <Spinner />;

@@ -10,7 +10,7 @@ import ShinsegaeLogo from "../assets/Icons/shinsegae.png";
 import LotteLogo from "../assets/Icons/lotte.png";
 import HyundaiLogo from "../assets/Icons/hyundai.png";
 
-export function Introduce() {
+export function IntroduceCardCell() {
   return (
     <>
       <IntroduceContainer
@@ -147,7 +147,7 @@ export function Introduce() {
               <p>
                 판교점 031-5170-2246
                 <br />
-                대전점 042- 332- 2216
+                대전점 042-332-2216
               </p>
               <span>HYUNDAI DEPARTMENT</span>
             </article>

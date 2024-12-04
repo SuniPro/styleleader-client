@@ -4,6 +4,7 @@ import WATCH_WAVE from "../../assets/Brand/company/BrandLogoWatchWave.png";
 import ALPINA_BANNER from "../../assets/Brand/company/Alpiner_Banner.jpg";
 import DOXA_BACKGROUND from "../../assets/Brand/company/doxa-background.png";
 import FC_BANNER from "../../assets/Brand/company/FC_BANNER.jpg";
+import GAGAMILANO from "../../assets/Brand/company/gagamilanoBrandBanner.webp";
 
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -28,6 +29,7 @@ interface BrandView {
   image: string | ((props: { className?: string }) => EmotionJSX.Element);
   logo: null | ((props: { className?: string }) => EmotionJSX.Element);
   name: string;
+  link: string;
 }
 
 export const BRAND_VIEW_LIST: BrandView[] = [
@@ -35,27 +37,31 @@ export const BRAND_VIEW_LIST: BrandView[] = [
     image: WATCH_WAVE,
     logo: null,
     name: "watchWave",
+    link: "https://watchwave.co.kr/",
   },
   {
     image: FC_BANNER,
     logo: FrederiqueConstant,
     name: "frederiqueConstant",
+    link: "https://brand.naver.com/frederiqueconstant?n_media=27758&n_query=%ED%94%84%EB%A0%88%EB%93%9C%EB%A6%AD%EC%BD%98%EC%8A%A4%ED%83%84%ED%8A%B8&n_rank=1&n_ad_group=grp-a001-04-000000041636079&n_ad=nad-a001-04-000000335794401&n_keyword_id=nkw-a001-04-000006157889398&n_keyword=%ED%94%84%EB%A0%88%EB%93%9C%EB%A6%AD%EC%BD%98%EC%8A%A4%ED%83%84%ED%8A%B8&n_campaign_type=4&n_contract=tct-a001-04-000000001004425&n_ad_group_type=5&NaPm=ct%3Dm49ji9ls%7Cci%3D0z00001iZyXB%5FbAMhKZl%7Ctr%3Dbrnd%7Chk%3D08c32dcfb83da09f4d9a549ee11de47d5758d5dd%7Cnacn%3DTKevDogwM0ONA",
   },
   {
     image: DOXA_BACKGROUND,
     logo: Doxa,
     name: "doxa",
+    link: "https://kor.doxawatches.com//",
   },
   {
     image: ALPINA_BANNER,
     logo: Alpina,
     name: "Alpina",
+    link: "https://alpinawatches.com/?srsltid=AfmBOooYWI9q9kuKEsOQkvll19tdlfickobUVmn51l9fRhGduD1v9GYw",
   },
   {
-    image:
-      "https://www.gagamilano.com/live/assets/media/upload/chrono-shop.webp",
+    image: GAGAMILANO,
     logo: GagaMilano,
     name: "GagaMilano",
+    link: "https://www.gagamilano.com/en/home",
   },
 ];
 
@@ -123,13 +129,20 @@ export function BrandCatalogAssets(props: { catalog: DisplayAssets[] }) {
 function CollectionItems(props: {
   item: DisplayCollection;
   modalParticle: CollectionModalType;
+  title: string;
   description: string;
   setDescription: React.Dispatch<React.SetStateAction<string>>;
   activeIndex: number;
   setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  const { item, modalParticle, description, setDescription, setActiveIndex } =
-    props;
+  const {
+    item,
+    modalParticle,
+    title,
+    description,
+    setDescription,
+    setActiveIndex,
+  } = props;
   const { open, modalOpen, modalClose } = modalParticle;
 
   return (
@@ -177,7 +190,7 @@ function CollectionItems(props: {
         onClose={modalClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        children={CollectionModal(item.title, description)}
+        children={CollectionModal(title, description)}
       />
     </>
   );
@@ -211,8 +224,7 @@ export function BrandListView() {
               }
             `}
             onClick={() => {
-              brand.name === "watchWave" &&
-                window.open("https://watchwave.co.kr/");
+              window.open(brand.link);
             }}
             isAfter={false}
           >
@@ -256,6 +268,9 @@ export function CollectionListView(props: { collection: DisplayAssets[] }) {
 
   const [description, setDescription] = useState<string>("");
 
+  const title =
+    collection.find((item) => item.description === description)?.title ?? "";
+
   return (
     <DisplayContainer
       css={css`
@@ -270,6 +285,7 @@ export function CollectionListView(props: { collection: DisplayAssets[] }) {
             key={index}
             item={items}
             modalParticle={{ open, modalOpen, modalClose }}
+            title={title}
             description={description}
             setDescription={setDescription}
             activeIndex={activeIndex}
@@ -310,6 +326,16 @@ const DisplayContainer = styled.div`
 const CollectionWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+
+  @media ${theme.windowSize.middle} {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media ${theme.windowSize.small} {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
 `;
 
 const CollectionItemContainer = styled.li`
