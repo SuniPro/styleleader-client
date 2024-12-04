@@ -204,7 +204,7 @@ const Bar = styled.i`
 `;
 
 const TimeObjectList = styled.ol`
-  width: 1240px;
+  width: 100%;
   padding-left: 20px;
   padding-right: 20px;
 `;

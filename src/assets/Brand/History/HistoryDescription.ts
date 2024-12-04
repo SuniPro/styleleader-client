@@ -34,7 +34,7 @@ export interface BrandHistory {
 
 export const HistoryDescription: BrandHistory[] = [
   {
-    historyTitle: "Brand Extends, For Affordable LUXURY",
+    historyTitle: "brand Extends, For Affordable LUXURY",
     historyDate: "1988 ~ 2023",
     collectionSlogan: "Affordable LUXURY, For YOU",
     collectionList: "MANUFACTURE · HIGHLIFE · CLASSICS",

@@ -15,7 +15,7 @@ export default function Footer() {
           css={css`
             padding: 15px;
           `}
-        ></StyleLeaderGrayIcon>
+        />
         <address
           css={css`
             font-style: inherit;
