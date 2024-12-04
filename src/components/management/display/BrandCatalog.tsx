@@ -3,17 +3,15 @@ import {
   Container,
   IconFuncButton,
   PageContainer,
-  TableContainer,
-  TableTitle,
   StyledWriteButton,
   TableIconButtonCase,
+  EllipsisCase,
 } from "../../layouts";
 import { useQuery } from "@tanstack/react-query";
 import { deleteDisplayAsset, getDisplayAssets } from "../../../api/admin";
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import {
   ColumnDef,
-  ColumnResizeMode,
   getCoreRowModel,
   getPaginationRowModel,
   useReactTable,
@@ -24,14 +22,15 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import OpenInBrowserIcon from "@mui/icons-material/OpenInBrowser";
 import { Spinner } from "../../Spinner";
-import { ReadyBanner } from "../../Empty/ReadyBanner";
-import { TableBody, TableHeader } from "../../Board/Table/TableParticle";
+import { ReadyBanner } from "../../empty/ReadyBanner";
+import { Pagination } from "../../Board/Table/TableParticle";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
-import { Modal, SvgIconTypeMap } from "@mui/material";
+import { SvgIconTypeMap } from "@mui/material";
 import styled from "@emotion/styled";
 import theme from "../../../styles/theme";
 import { adminDeleteConfirm } from "../../../alert/alert";
-import { ManageModal } from "./modal";
+import { useManagementModel } from "../hooks";
+import { DisplayManageTable } from "../service/serviceManage";
 
 export function BrandCatalog() {
   const { data: list } = useQuery({
@@ -40,10 +39,11 @@ export function BrandCatalog() {
     refetchInterval: 5000, // Options 객체로 refetchInterval 설정
   });
 
-  const [open, setOpen] = useState(false);
-  const [isAdd, setIsAdd] = useState(false);
-  const [columnResizeMode] = useState<ColumnResizeMode>("onChange");
-  const [activeId, setActiveId] = useState<number>(0);
+  const { modalState, columnResizeMode, funcState, activeIdState } =
+    useManagementModel();
+  const { isOpen, open, close } = modalState;
+  const { funcType, addOn, editOn } = funcState;
+  const { activeId, setActiveId } = activeIdState;
 
   const deleteHandler = async (id: number) => {
     adminDeleteConfirm(() => deleteDisplayAsset(id));
@@ -99,7 +99,10 @@ export function BrandCatalog() {
         header: "제목",
         accessorKey: "title",
         cell: ({ row }) => (
-          <TableTitle>{row.getValue<string>("title")}</TableTitle>
+          <EllipsisCase
+            text={row.getValue<string>("title")}
+            textAlign="center"
+          />
         ),
         size: 800,
       },
@@ -123,9 +126,9 @@ export function BrandCatalog() {
             <IconFuncButton
               icon={EditIcon}
               func={() => {
-                setIsAdd(false);
+                editOn();
                 setActiveId(row.original.id);
-                setOpen(true);
+                open();
               }}
               css={css`
                 padding: 0;
@@ -145,11 +148,12 @@ export function BrandCatalog() {
         size: 50,
       },
     ],
-    [],
+    [editOn, open, setActiveId],
   );
 
-  const brandCatalog = list?.filter(
-    (catalog) => catalog.category === "catalog",
+  const brandCatalog = useMemo(
+    () => list?.filter((catalog) => catalog.category === "catalog") ?? [],
+    [list],
   );
 
   const table = useReactTable<DisplayAssets>({
@@ -189,29 +193,23 @@ export function BrandCatalog() {
         width: 90%;
       `}
     >
-      <TableContainer>
-        <TableHeader
-          table={table}
-          headerBorder={"1px solid #ffffff"}
-          columnResizeMode={columnResizeMode}
-        />
-        <TableBody table={table} />
-      </TableContainer>
-      <Modal
-        open={open}
-        onClose={() => setOpen(false)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        children={ManageModal({
-          catalog: brandCatalog[activeId],
-          close: () => setOpen(false),
-          isAdd,
-        })}
+      <DisplayManageTable
+        close={close}
+        columnResizeMode={columnResizeMode}
+        displayAsset={
+          brandCatalog.find((catalog) => catalog.id === activeId)
+            ? brandCatalog.find((catalog) => catalog.id === activeId)!
+            : brandCatalog.find((catalog) => catalog.id)!
+        }
+        table={table}
+        isOpen={isOpen}
+        funcType={funcType}
       />
+      <Pagination table={table} />
       <StyledWriteButton
         onClick={() => {
-          setOpen(true);
-          setIsAdd(true);
+          addOn();
+          open();
         }}
         width={90}
         tone={theme.colors.gradientGoldBottom}
