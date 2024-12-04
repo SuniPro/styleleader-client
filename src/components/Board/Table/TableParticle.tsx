@@ -1,10 +1,17 @@
 import { flexRender, Table } from "@tanstack/react-table";
 import * as React from "react";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { uid } from "uid";
 import { DisplayAssets } from "../../../model/Display";
+import { IconFuncButton } from "../../layouts";
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import theme from "../../../styles/theme";
+import { useHorizontalScroll } from "../../../hooks/useWheel";
 
 export function generateNumberArray(upTo: number): number[] {
   if (upTo < 1) {
@@ -101,53 +108,6 @@ type Option = {
   label: string;
   value: string;
 };
-
-export function TableCell(props: {
-  getValue: any;
-  row: any;
-  column: any;
-  table: any;
-}) {
-  const { getValue, row, column, table } = props;
-  const initialValue = getValue();
-  const columnMeta = column.columnDef.meta;
-  const tableMeta = table.options.meta;
-  const [value, setValue] = useState(initialValue);
-
-  useEffect(() => {
-    setValue(initialValue);
-  }, [initialValue]);
-
-  const onBlur = () => {
-    tableMeta?.updateData(row.index, column.id, value, row.original);
-  };
-
-  const onSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setValue(e.target.value);
-    tableMeta?.updateData(row.index, column.id, e.target.value);
-  };
-
-  if (tableMeta?.editedRows[row.id]) {
-    return columnMeta?.type === "select" ? (
-      <select onChange={onSelectChange} value={initialValue}>
-        {columnMeta?.options?.map((option: Option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    ) : (
-      <input
-        // style={{width: "80%"}}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        onBlur={onBlur}
-        type={columnMeta?.type || "text"}
-      />
-    );
-  }
-  return <span>{value}</span>;
-}
 
 interface PageNationProps {
   table: Table<DisplayAssets>;
@@ -250,4 +210,150 @@ const TableBodyTr = styled.tr`
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+`;
+
+export function Pagination(props: { table: Table<any> }) {
+  const { table } = props;
+  const pageListAreaRef = useRef<HTMLDivElement>(null);
+  useHorizontalScroll(pageListAreaRef);
+
+  return (
+    <PageNationWrapper>
+      <PageNationContainer>
+        <PaginationButtonCase>
+          <IconFuncButton
+            func={() => table.firstPage()}
+            disable={!table.getCanPreviousPage()}
+            icon={KeyboardDoubleArrowLeftIcon}
+          />
+          <IconFuncButton
+            func={() => table.previousPage()}
+            disable={!table.getCanPreviousPage()}
+            icon={ArrowBackIosNewIcon}
+          />
+        </PaginationButtonCase>
+        <span>
+          <PageListArea ref={pageListAreaRef}>
+            {generateNumberArray(table.getPageCount()).map((index) => {
+              return (
+                <PageList
+                  key={index}
+                  onClick={() => {
+                    table.setPageIndex(index - 1);
+                  }}
+                  isActive={table.getState().pagination.pageIndex === index - 1}
+                >
+                  {index}
+                </PageList>
+              );
+            })}
+          </PageListArea>
+          {/*<strong>*/}
+          {/*  {table.getState().pagination.pageIndex + 1} of{" "}*/}
+          {/*  {table.getPageCount().toLocaleString()}*/}
+          {/*</strong>*/}
+        </span>
+        <PaginationButtonCase>
+          <IconFuncButton
+            func={() => table.nextPage()}
+            disable={!table.getCanNextPage()}
+            icon={ArrowForwardIosIcon}
+          />
+          <IconFuncButton
+            func={() => table.lastPage()}
+            disable={!table.getCanNextPage()}
+            icon={KeyboardDoubleArrowRightIcon}
+          />
+        </PaginationButtonCase>
+      </PageNationContainer>
+      {/*<span className="flex items-center gap-1">*/}
+      {/*  <input*/}
+      {/*    css={css`*/}
+      {/*      color: white;*/}
+      {/*      border-radius: 6px;*/}
+      {/*      background-color: rgba(0, 0, 0, 0);*/}
+      {/*      border: 1px solid ${theme.colors.gold};*/}
+      {/*    `}*/}
+      {/*    max={table.getPageCount()}*/}
+      {/*    defaultValue={table.getState().pagination.pageIndex + 1}*/}
+      {/*    className="border p-1 rounded w-16"*/}
+      {/*    onChange={(e) => setPageIndex(parseInt(e.target.value))}*/}
+      {/*  />*/}
+      {/*  <button onClick={() => table.setPageIndex(pageIndex)}>이동</button>*/}
+      {/*</span>*/}
+      <PageViewSelector
+        value={table.getState().pagination.pageSize}
+        onChange={(e) => {
+          table.setPageSize(Number(e.target.value));
+        }}
+      >
+        {[10, 20, 30, 40, 50].map((pageSize) => (
+          <option key={pageSize} value={pageSize}>
+            {pageSize}
+          </option>
+        ))}
+      </PageViewSelector>
+    </PageNationWrapper>
+  );
+}
+
+export const PageNationWrapper = styled.section`
+  margin-top: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+
+  font-family: ${theme.fontStyle.archivo};
+`;
+
+export const PageNationContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  justify-content: space-around;
+  width: 40%;
+`;
+
+export const PaginationButtonCase = styled.div`
+  width: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+`;
+
+export const PageList = styled.li<{ isActive: boolean }>(
+  ({ isActive }) => css`
+    cursor: pointer;
+    color: ${isActive ? theme.colors.gold : theme.colors.white};
+    padding: 2px;
+  `,
+);
+
+export const PageListArea = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 200px;
+  overflow-x: scroll;
+`;
+
+export const PageViewSelector = styled.select`
+  border-color: ${theme.colors.basicBlack};
+  background-color: rgba(0, 0, 0, 0);
+  padding-left: 8px;
+  color: white;
+  width: 60px;
+  height: 30px;
+  border-radius: 10px;
+  font-family: ${theme.fontStyle.archivo};
 `;
