@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { TableHeader, TableBody } from "./Table/TableParticle";
+import { TableHeader, TableBody, Pagination } from "./Table/TableParticle";
 import {
   useReactTable,
   ColumnDef,
@@ -13,9 +13,9 @@ import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import { css } from "@emotion/react";
 import {
   Container,
+  EllipsisCase,
   StyledWriteButton,
   TableContainer,
-  TableTitle,
 } from "../layouts";
 import { BoardEditor } from "./BoardEditor";
 import { useQuery } from "@tanstack/react-query";
@@ -24,10 +24,13 @@ import { iso8601ToYYMMDDHHMM } from "../../utils/dateApi";
 import { useNavigate } from "react-router-dom";
 import { PageContainer } from "../layouts";
 import { Spinner } from "../Spinner";
-import { ReadyBanner } from "../Empty/ReadyBanner";
+import { ReadyBanner } from "../empty/ReadyBanner";
 import theme from "../../styles/theme";
+import { useUserContext } from "../context/UserContext";
 
 export function BoardList() {
+  const { user } = useUserContext();
+
   const { data: boardList } = useQuery({
     queryKey: ["getBoardList"],
     queryFn: () => getBoardList(),
@@ -67,13 +70,15 @@ export function BoardList() {
         header: "제목",
         accessorKey: "title",
         cell: ({ row }) => (
-          <TableTitle
-            onClick={() => {
-              navigate(`${row.original.boardId}`);
-            }}
-          >
-            {row.getValue<string>("title")}
-          </TableTitle>
+          <div onClick={() => navigate(`${row.original.boardId}`)}>
+            <EllipsisCase
+              css={css`
+                padding: 15px 0;
+              `}
+              text={row.getValue<string>("title")}
+              textAlign="left"
+            />
+          </div>
         ),
         size: 800,
       },
@@ -138,12 +143,15 @@ export function BoardList() {
             />
             <TableBody table={table} />
           </TableContainer>
-          <StyledWriteButton
-            tone={theme.colors.gradientGoldBottom}
-            onClick={() => setWriting((prev) => !prev)}
-          >
-            Write
-          </StyledWriteButton>
+          <Pagination table={table} />
+          {user?.roleType && (
+            <StyledWriteButton
+              tone={theme.colors.gradientGoldBottom}
+              onClick={() => setWriting((prev) => !prev)}
+            >
+              Write
+            </StyledWriteButton>
+          )}
         </Container>
       ) : (
         <Container

@@ -40,6 +40,11 @@ export const Container = styled.div`
   width: 100%;
 `;
 
+export const ManagementTableContainer = styled.div`
+  width: 100%;
+  overflow: scroll;
+`;
+
 export const Divider = styled.p`
   border-top: 1px solid #595a5c;
   width: 100%;
@@ -102,13 +107,42 @@ export const TableContainer = styled.table`
   width: 100%;
 `;
 
-export const TableTitle = styled.div`
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  height: 40px;
+export function EllipsisCase(props: {
+  text: string;
+  textAlign: string;
+  className?: string;
+  width?: number;
+  func?: any;
+}) {
+  const { width, text, className, textAlign, func } = props;
+  return (
+    <TextCase className={className} onClick={func}>
+      <TextArea textAlign={textAlign} width={width}>
+        {text}
+      </TextArea>
+    </TextCase>
+  );
+}
+
+export const TextCase = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 `;
+
+export const TextArea = styled.span<{ width?: number; textAlign: string }>(
+  ({ width, textAlign }) => css`
+    text-align: ${textAlign};
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: block;
+    overflow: hidden;
+    width: ${width}px;
+    height: 100%;
+  `,
+);
 
 export const StyledWriteButton = styled(Button)<{
   tone: string;
@@ -171,3 +205,23 @@ export const TableIconButtonCase = styled.div`
   align-items: center;
   flex-wrap: nowrap;
 `;
+
+export const StyledBlock = styled.div<{
+  height: number;
+  backgroundColor?: string;
+}>(
+  ({ height, backgroundColor }) => css`
+    height: ${height}px;
+    font-family: ${theme.fontStyle.roboto};
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    background-color: ${backgroundColor};
+    border: 1px solid ${theme.colors.gold};
+    border-radius: 5px;
+    padding-left: 10px;
+    margin: 10px 0;
+  `,
+);
