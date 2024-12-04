@@ -6,11 +6,145 @@ import { css } from "@emotion/react";
 import { ServiceCategory, ServiceContents } from "../../model/Service";
 import theme from "../../styles/theme";
 import { Box, Modal, Typography } from "@mui/material";
-import { ServiceContentsAsset } from "../../assets/contents/service/ServiceContents";
 import { uid } from "uid";
 import { getFile } from "../../api/file";
 import { useNavigate } from "react-router-dom";
-import { BasicModalBoxStyle } from "../layouts";
+import { BasicModalBoxStyle, PageContainer } from "../layouts";
+import { useQuery } from "@tanstack/react-query";
+import { getServiceCategoryList } from "../../api/serviceCategory";
+import { Spinner } from "../Spinner";
+import { ReadyBanner } from "../empty/ReadyBanner";
+import { error } from "../../alert/alert";
+
+export function AccordionCategory() {
+  const { data: categories } = useQuery({
+    queryKey: ["getServiceCategoryList"],
+    queryFn: () => getServiceCategoryList(),
+    refetchInterval: 5000, // Options 객체로 refetchInterval 설정
+  });
+
+  const [open, setOpen] = useState<boolean>(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  if (!categories) {
+    return <Spinner />;
+  }
+
+  if (categories.length === 0) {
+    return (
+      <PageContainer
+        css={css`
+          align-items: center;
+        `}
+      >
+        <ReadyBanner
+          type="컨텐츠 없음"
+          title="자료가 없습니다."
+          description=""
+        />
+      </PageContainer>
+    );
+  }
+
+  const handleClick = (slug: string) => {
+    setActiveIndex(categories.findIndex((cat) => cat.slug === slug));
+    setOpen(true);
+  };
+
+  const focusOff = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (!(e.target as HTMLElement).classList.contains("category--image")) {
+      setActiveIndex(0);
+      setOpen(false);
+    }
+  };
+
+  const classes = classNames({
+    focused: open,
+  });
+
+  return (
+    <CategoriesMainContainer
+      className={"categories--menu-container " + classes}
+      onClick={focusOff}
+      style={{ height: window.innerHeight }}
+    >
+      <UnitListCategories className="categories menu">
+        {categories.map((category, index) => {
+          const isLast =
+            index === categories.length - 1 || index === categories.length - 2;
+          const shiftLeft = index < activeIndex;
+
+          return (
+            <ProjectCategory
+              cat={category}
+              key={"cat-" + index}
+              handleClick={handleClick}
+              active={index === activeIndex}
+              focused={open}
+              shiftLeft={shiftLeft}
+              isLast={isLast}
+            />
+          );
+        })}
+      </UnitListCategories>
+    </CategoriesMainContainer>
+  );
+}
+
+function ProjectList(props: {
+  serviceSlug: string;
+  services: ServiceContents[];
+}) {
+  const { serviceSlug, services } = props;
+  const navigate = useNavigate();
+  const [activeContents, setActiveContents] = useState<ServiceContents>(
+    services[0],
+  );
+  const [open, setOpen] = useState<boolean>(false);
+  const handleClose = () => setOpen(false);
+
+  return (
+    <StyledProjectList className="project-list" key={uid()}>
+      <ul className="menu vertical">
+        {services.map((service, index) => (
+          <>
+            <li
+              key={"service-" + uid() + index}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setActiveContents(service);
+                if (serviceSlug === "userManual") {
+                  getFile({ file: service.contents }).catch(() =>
+                    error("다운로드 실패", "파일이 존재하지 않습니다."),
+                  );
+                } else if (service.contents.includes("/faq")) {
+                  navigate(service.contents);
+                } else {
+                  setOpen(true);
+                }
+              }}
+            >
+              <p>
+                <ProjectListClient>{service.name}</ProjectListClient>
+                <ProjectListByLine>{service.description}</ProjectListByLine>
+              </p>
+            </li>
+          </>
+        ))}
+      </ul>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        {ModalContents(activeContents)}
+      </Modal>
+    </StyledProjectList>
+  );
+}
 
 function ModalContents(contents: ServiceContents) {
   return (
@@ -47,62 +181,6 @@ function ModalContents(contents: ServiceContents) {
   );
 }
 
-function ProjectList(props: {
-  serviceSlug: string;
-  services: ServiceContents[];
-}) {
-  const { serviceSlug, services } = props;
-  const navigate = useNavigate();
-  const [activeContents, setActiveContents] = useState<ServiceContents>(
-    services[0],
-  );
-  const [open, setOpen] = useState<boolean>(false);
-  const handleClose = () => setOpen(false);
-
-  return (
-    <StyledProjectList className="project-list" key={uid()}>
-      <ul className="menu vertical">
-        {services.map((service, index) => (
-          <>
-            <li
-              key={"service-" + uid() + index}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setActiveContents(service);
-                if (serviceSlug === "userManual") {
-                  getFile({ file: service.contents });
-                } else if (service.contents.includes("/faq")) {
-                  navigate(service.contents);
-                } else {
-                  setOpen(true);
-                }
-              }}
-            >
-              <a
-                css={css`
-                  text-underline: none;
-                `}
-              >
-                <ProjectListClient>{service.name}</ProjectListClient>
-                <ProjectListByLine>{service.description}</ProjectListByLine>
-              </a>
-            </li>
-          </>
-        ))}
-      </ul>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        {ModalContents(activeContents)}
-      </Modal>
-    </StyledProjectList>
-  );
-}
-
 const ProjectListClient = styled.h3`
   font-size: 18px;
   margin-bottom: 0;
@@ -124,6 +202,8 @@ function ProjectCategory(props: {
   isLast: boolean;
 }) {
   const { cat, focused, active, isLast, shiftLeft, handleClick } = props;
+
+  const navigate = useNavigate();
 
   const setActive = () => {
     handleClick(cat.slug);
@@ -171,15 +251,15 @@ function ProjectCategory(props: {
         <h6>{cat.name}</h6>
       </CategoryName>
       <CategoryCloseButton className="category--closeButton">
-        <a
+        <div
           css={css`
             margin: -15px;
             padding: 15px;
           `}
-          href="#"
+          onClick={() => navigate(-1)}
         >
           Back
-        </a>
+        </div>
       </CategoryCloseButton>
     </ProjectCategoriesList>
   );
@@ -348,59 +428,6 @@ const CategoryImageContainer = styled.div<{
     }
   `,
 );
-
-export function AccordionCategory() {
-  const [categories] = useState<ServiceCategory[]>(ServiceContentsAsset);
-
-  const [open, setOpen] = useState<boolean>(false);
-
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const handleClick = (slug: string) => {
-    setActiveIndex(categories.findIndex((cat) => cat.slug === slug));
-    setOpen(true);
-  };
-
-  const focusOff = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    if (!(e.target as HTMLElement).classList.contains("category--image")) {
-      setActiveIndex(0);
-      setOpen(false);
-    }
-  };
-
-  const classes = classNames({
-    focused: open,
-  });
-
-  return (
-    <CategoriesMainContainer
-      className={"categories--menu-container " + classes}
-      onClick={focusOff}
-      style={{ height: window.innerHeight }}
-    >
-      <UnitListCategories className="categories menu">
-        {categories.map((category, index) => {
-          const isLast =
-            index === categories.length - 1 || index === categories.length - 2;
-          const shiftLeft = index < activeIndex;
-
-          return (
-            <ProjectCategory
-              cat={category}
-              key={"cat-" + index}
-              handleClick={handleClick}
-              active={index === activeIndex}
-              focused={open}
-              shiftLeft={shiftLeft}
-              isLast={isLast}
-            />
-          );
-        })}
-      </UnitListCategories>
-    </CategoriesMainContainer>
-  );
-}
 
 const CategoriesMainContainer = styled.div`
   position: relative;
