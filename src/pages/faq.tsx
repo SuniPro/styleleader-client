@@ -1,22 +1,46 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
 import { MainTitle, PageContainer } from "../components/layouts";
-import { ServiceContentsAsset } from "../assets/contents/service/ServiceContents";
 import { ServiceContents } from "../model/Service";
 import { Spinner } from "../components/Spinner";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import theme from "../styles/theme";
+import { useQuery } from "@tanstack/react-query";
+import { getServiceCategoryList } from "../api/serviceCategory";
+import { ReadyBanner } from "../components/empty/ReadyBanner";
 
 export function Faq() {
-  const service = ServiceContentsAsset.find(
-    (service) => service.slug === "faq",
-  );
+  const { data: categories } = useQuery({
+    queryKey: ["getServiceCategoryList"],
+    queryFn: () => getServiceCategoryList(),
+    refetchInterval: 5000, // Options 객체로 refetchInterval 설정
+  });
+
+  if (!categories) {
+    return <Spinner />;
+  }
+
+  if (categories.length === 0) {
+    return (
+      <PageContainer>
+        <ReadyBanner
+          type="컨텐츠 없음"
+          title="자료가 없습니다."
+          description=""
+        />
+      </PageContainer>
+    );
+  }
+
+  const service = categories.find((service) => service.slug === "faq");
   if (!service) return <Spinner />;
   return (
     <PageContainer width={80}>
       <MainTitle
         css={css`
+          width: 100%;
+          text-align: left;
           margin-bottom: 2rem;
         `}
       >
@@ -84,7 +108,7 @@ const CardContainer = styled.div`
     /* front tile styles go here! */
   }
   .back {
-    background: $new-white;
+    background-color: ${theme.colors.black};
     transform: rotateX(-180deg);
     padding: 20px;
     /* back tile styles go here! */
