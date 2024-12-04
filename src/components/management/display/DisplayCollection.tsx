@@ -1,10 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { useQuery } from "@tanstack/react-query";
 import { deleteDisplayAsset, getDisplayAssets } from "../../../api/admin";
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import {
   ColumnDef,
-  ColumnResizeMode,
   getCoreRowModel,
   getPaginationRowModel,
   useReactTable,
@@ -14,36 +13,37 @@ import { DisplayAssets } from "../../../model/Display";
 import { css } from "@emotion/react";
 import {
   Container,
+  EllipsisCase,
   IconFuncButton,
   PageContainer,
   StyledWriteButton,
-  TableContainer,
   TableIconButtonCase,
-  TableTitle,
 } from "../../layouts";
 import OpenInBrowserIcon from "@mui/icons-material/OpenInBrowser";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Spinner } from "../../Spinner";
-import { ReadyBanner } from "../../Empty/ReadyBanner";
-import { TableBody, TableHeader } from "../../Board/Table/TableParticle";
-import { Modal, SvgIconTypeMap } from "@mui/material";
+import { ReadyBanner } from "../../empty/ReadyBanner";
+import { Pagination } from "../../Board/Table/TableParticle";
+import { SvgIconTypeMap } from "@mui/material";
 import theme from "../../../styles/theme";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import styled from "@emotion/styled";
-import { ManageModal } from "./modal";
+import { DisplayManageTable } from "../service/serviceManage";
+import { useManagementModel } from "../hooks";
 
 export function DisplayCollection() {
   const { data: list } = useQuery({
     queryKey: ["getList"],
     queryFn: () => getDisplayAssets(),
-    refetchInterval: 3000, // Options 객체로 refetchInterval 설정
+    refetchInterval: 5000, // Options 객체로 refetchInterval 설정
   });
 
-  const [open, setOpen] = useState(false);
-  const [isAdd, setIsAdd] = useState(false);
-  const [columnResizeMode] = useState<ColumnResizeMode>("onChange");
-  const [activeId, setActiveId] = useState<number>(0);
+  const { modalState, columnResizeMode, funcState, activeIdState } =
+    useManagementModel();
+  const { isOpen, open, close } = modalState;
+  const { funcType, addOn, editOn } = funcState;
+  const { activeId, setActiveId } = activeIdState;
 
   const deleteHandler = async (id: number) => {
     adminDeleteConfirm(() => deleteDisplayAsset(id));
@@ -99,21 +99,12 @@ export function DisplayCollection() {
         header: "제목",
         accessorKey: "title",
         cell: ({ row }) => (
-          <TableTitle>{row.getValue<string>("title")}</TableTitle>
-        ),
-        size: 800,
-      },
-      {
-        id: "link",
-        header: "링크",
-        accessorKey: "link",
-        cell: ({ row }) => (
-          <BasicLinkButton
-            func={() => window.open(row.getValue<string>("link"))}
-            icon={OpenInBrowserIcon}
+          <EllipsisCase
+            text={row.getValue<string>("title")}
+            textAlign="center"
           />
         ),
-        size: 50,
+        size: 800,
       },
       {
         id: "func",
@@ -123,9 +114,9 @@ export function DisplayCollection() {
             <IconFuncButton
               icon={EditIcon}
               func={() => {
-                setIsAdd(false);
+                editOn();
                 setActiveId(row.original.id);
-                setOpen(true);
+                open();
               }}
               css={css`
                 padding: 0;
@@ -145,15 +136,16 @@ export function DisplayCollection() {
         size: 50,
       },
     ],
-    [],
+    [editOn, open, setActiveId],
   );
 
-  const brandCatalog = list?.filter(
-    (catalog) => catalog.category === "collection",
+  const collection = useMemo(
+    () => list?.filter((catalog) => catalog.category === "collection") ?? [],
+    [list],
   );
 
   const table = useReactTable<DisplayAssets>({
-    data: brandCatalog ?? [],
+    data: collection ?? [],
     columns,
     getPaginationRowModel: getPaginationRowModel(),
     getCoreRowModel: getCoreRowModel(),
@@ -162,11 +154,11 @@ export function DisplayCollection() {
     debugColumns: true,
   });
 
-  if (!brandCatalog) {
+  if (!collection) {
     return <Spinner />;
   }
 
-  if (brandCatalog.length === 0) {
+  if (collection.length === 0) {
     return (
       <PageContainer
         css={css`
@@ -189,33 +181,23 @@ export function DisplayCollection() {
         width: 90%;
       `}
     >
-      <TableContainer>
-        <TableHeader
-          table={table}
-          headerBorder={"1px solid #ffffff"}
-          columnResizeMode={columnResizeMode}
-        />
-        <TableBody table={table} />
-      </TableContainer>
-      <Modal
-        open={open}
-        onClose={() => setOpen(false)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        children={
-          <ManageModal
-            catalog={
-              brandCatalog.find((item) => item.id === activeId) as DisplayAssets
-            }
-            close={() => setOpen(false)}
-            isAdd={isAdd}
-          />
+      <DisplayManageTable
+        close={close}
+        columnResizeMode={columnResizeMode}
+        displayAsset={
+          collection.find((catalog) => catalog.id === activeId)
+            ? collection.find((catalog) => catalog.id === activeId)!
+            : collection.find((catalog) => catalog.id)!
         }
+        table={table}
+        isOpen={isOpen}
+        funcType={funcType}
       />
+      <Pagination table={table} />
       <StyledWriteButton
         onClick={() => {
-          setOpen(true);
-          setIsAdd(true);
+          open();
+          addOn();
         }}
         width={90}
         tone={theme.colors.gradientGoldBottom}

@@ -1,7 +1,10 @@
 export interface ServiceContents {
+  id: number;
   name: string;
   description: string;
   contents: string;
+  categoryId: number;
+  categoryName: string;
 }
 
 export interface ServiceCategory {

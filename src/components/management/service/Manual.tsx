@@ -1,14 +1,19 @@
 /** @jsxImportSource @emotion/react */
 import { useQuery } from "@tanstack/react-query";
-import { deleteDisplayAsset } from "../../api/admin";
+import {
+  deleteServiceContent,
+  getServiceCategoryList,
+} from "../../../api/serviceCategory";
 import React, { useMemo } from "react";
+import { ServiceCategory, ServiceContents } from "../../../model/Service";
+import { useManagementModel } from "../hooks";
+import { adminDeleteConfirm } from "../../../alert/alert";
 import {
   ColumnDef,
   getCoreRowModel,
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { adminDeleteConfirm } from "../../alert/alert";
 import { css } from "@emotion/react";
 import {
   Container,
@@ -17,26 +22,20 @@ import {
   PageContainer,
   StyledWriteButton,
   TableIconButtonCase,
-} from "../layouts";
+} from "../../layouts";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Spinner } from "../Spinner";
-import { ReadyBanner } from "../empty/ReadyBanner";
-import { Pagination } from "../Board/Table/TableParticle";
-import { SvgIconTypeMap } from "@mui/material";
-import theme from "../../styles/theme";
-import { OverridableComponent } from "@mui/material/OverridableComponent";
-import styled from "@emotion/styled";
-import { getCollections } from "../../api/collections";
-import { Collection } from "../../model/Collection";
-import { useManagementModel } from "./hooks";
-import { CollectionManageTable } from "./service/serviceManage";
+import { Spinner } from "../../Spinner";
+import { ReadyBanner } from "../../empty/ReadyBanner";
+import theme from "../../../styles/theme";
+import { Pagination } from "../../Board/Table/TableParticle";
+import { ServiceManageTable } from "./serviceManage";
 
-export function BrandCollection() {
-  const { data: list } = useQuery({
-    queryKey: ["getCollections"],
-    queryFn: () => getCollections(),
-    refetchInterval: 5000, // Options 객체로 refetchInterval 설정
+export function Manual() {
+  const { data: categories } = useQuery({
+    queryKey: ["getServiceCategoryList"],
+    queryFn: () => getServiceCategoryList(),
+    refetchInterval: 4000, // Options 객체로 refetchInterval 설정
   });
 
   const { modalState, columnResizeMode, funcState, activeIdState } =
@@ -46,14 +45,14 @@ export function BrandCollection() {
   const { activeId, setActiveId } = activeIdState;
 
   const deleteHandler = async (id: number) => {
-    adminDeleteConfirm(() => deleteDisplayAsset(id));
+    adminDeleteConfirm(() => deleteServiceContent(id));
   };
 
-  const columns = useMemo<ColumnDef<Collection>[]>(
+  const columns = useMemo<ColumnDef<ServiceContents>[]>(
     () => [
       {
         id: "id",
-        header: "ID",
+        header: "번호",
         size: 100,
         accessorKey: "id",
         cell: ({ row }) => {
@@ -70,56 +69,43 @@ export function BrandCollection() {
         },
       },
       {
-        id: "image",
-        header: "이미지",
-        accessorKey: "image",
+        id: "name",
+        header: "서비스 명",
+        accessorKey: "name",
         cell: ({ row }) => (
-          <div
+          <EllipsisCase
             css={css`
-              width: 100px;
-              height: 100px;
-              overflow: hidden;
+              padding: 20px 0;
             `}
-          >
-            <div
-              css={css`
-                background-image: url(${row.getValue<string>("image")});
-                background-size: cover;
-                background-position: center;
-                width: 100%;
-                height: 100%;
-              `}
-            />
-          </div>
+            text={row.getValue<string>("name")}
+            textAlign="center"
+          />
         ),
-        size: 100,
-      },
-      {
-        id: "category",
-        header: "카테고리",
-        accessorKey: "category",
-        cell: ({ row }) => <span>{row.getValue<string>("category")}</span>,
-        size: 200,
-      },
-      {
-        id: "title",
-        header: "모델명",
-        accessorKey: "title",
-        cell: ({ row }) => <span>{row.getValue<string>("title")}</span>,
         size: 200,
       },
       {
         id: "description",
-        header: "설명",
+        header: "참고",
         accessorKey: "description",
         cell: ({ row }) => (
           <EllipsisCase
             text={row.getValue<string>("description")}
-            width={500}
             textAlign="center"
           />
         ),
-        size: 500,
+        size: 400,
+      },
+      {
+        id: "contents",
+        header: "서비스",
+        accessorKey: "contents",
+        cell: ({ row }) => (
+          <EllipsisCase
+            text={row.getValue<string>("contents")}
+            textAlign="center"
+          />
+        ),
+        size: 400,
       },
       {
         id: "func",
@@ -151,11 +137,15 @@ export function BrandCollection() {
         size: 50,
       },
     ],
-    [editOn, open, setActiveId],
+    [deleteHandler, editOn, open, setActiveId],
   );
 
-  const table = useReactTable<Collection>({
-    data: list ?? [],
+  const manualOfServiceCategory: ServiceCategory | undefined = categories?.find(
+    (catalog) => catalog.name === "사용설명서",
+  );
+
+  const table = useReactTable<ServiceContents>({
+    data: manualOfServiceCategory?.services ?? [],
     columns,
     getPaginationRowModel: getPaginationRowModel(),
     getCoreRowModel: getCoreRowModel(),
@@ -164,11 +154,11 @@ export function BrandCollection() {
     debugColumns: true,
   });
 
-  if (!list) {
+  if (!manualOfServiceCategory) {
     return <Spinner />;
   }
 
-  if (list.length === 0) {
+  if (manualOfServiceCategory.services.length === 0) {
     return (
       <PageContainer
         css={css`
@@ -184,23 +174,26 @@ export function BrandCollection() {
     );
   }
 
+  const services = manualOfServiceCategory.services;
+
   return (
     <Container
       css={css`
-        align-items: flex-end;
         width: 90%;
+        align-items: flex-end;
       `}
     >
-      <CollectionManageTable
+      <ServiceManageTable
         table={table}
         columnResizeMode={columnResizeMode}
         isOpen={isOpen}
         close={close}
         funcType={funcType}
-        collection={
-          list.find((collection) => collection.id === activeId)
-            ? list.find((collection) => collection.id === activeId)!
-            : list.find((collection) => collection.id)!
+        category={manualOfServiceCategory}
+        service={
+          services.find((content) => content.id === activeId)
+            ? services.find((content) => content.id === activeId)!
+            : services[0]
         }
       />
       <Pagination table={table} />
@@ -217,28 +210,3 @@ export function BrandCollection() {
     </Container>
   );
 }
-
-export function BasicLinkButton(props: {
-  className?: string;
-  icon: OverridableComponent<SvgIconTypeMap> & { muiName: string };
-  func: () => Window | null;
-  text?: string;
-}) {
-  const { className, icon: Icon, func, text } = props;
-
-  return (
-    <ButtonWrapper onClick={func} className={className}>
-      <Icon />
-      <span>{text}</span>
-    </ButtonWrapper>
-  );
-}
-
-const ButtonWrapper = styled.div`
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-content: center;
-`;

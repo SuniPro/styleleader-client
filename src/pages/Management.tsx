@@ -13,21 +13,33 @@ interface activeState {
 
 const MANAGE_FUNCTION = [
   {
-    id: "brandCatalog",
+    id: "brand Catalog",
     locate: "catalog",
   },
   {
-    id: "displayCollection",
+    id: "display Collection",
     locate: "showcase",
   },
   {
-    id: "brandCollection",
+    id: "brand Collection",
     locate: "collection",
+  },
+  {
+    id: "service Manual",
+    locate: "manual",
+  },
+  {
+    id: "service Qna",
+    locate: "questions",
+  },
+  {
+    id: "service As",
+    locate: "request",
   },
 ];
 
 export function Management() {
-  const [activeId, setActiveId] = useState<string>("brandCatalog");
+  const [activeId, setActiveId] = useState<string>("brand Catalog");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,13 +54,15 @@ export function Management() {
       `}
     >
       <SectionWrapper>
-        {MANAGE_FUNCTION.map((func) => (
-          <StyledCheckBox
-            key={func.id}
-            title={func.id}
-            activeState={{ activeId, setActiveId }}
-          />
-        ))}
+        <CheckBoxContainer>
+          {MANAGE_FUNCTION.map((func) => (
+            <StyledCheckBox
+              key={func.id}
+              title={func.id}
+              activeState={{ activeId, setActiveId }}
+            />
+          ))}
+        </CheckBoxContainer>
       </SectionWrapper>
       <Outlet />
     </PageContainer>
@@ -57,7 +71,8 @@ export function Management() {
 
 const SectionWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   flex-wrap: wrap;
   width: 90%;
@@ -72,18 +87,26 @@ export function StyledCheckBox(props: {
   const { activeId, setActiveId } = activeState;
 
   return (
-    <CheckBoxContainer
+    <CheckBox
       isActive={activeId === title}
       onClick={() => {
         setActiveId(title);
       }}
     >
       <label>{title}</label>
-    </CheckBoxContainer>
+    </CheckBox>
   );
 }
 
-const CheckBoxContainer = styled.div<{ isActive: boolean }>(
+const CheckBoxContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
+const CheckBox = styled.div<{ isActive: boolean }>(
   ({ isActive }) => css`
     display: flex;
     flex-direction: row;
@@ -93,11 +116,10 @@ const CheckBoxContainer = styled.div<{ isActive: boolean }>(
     border-radius: 10px;
     height: 40px;
     color: ${isActive ? theme.colors.gold : theme.colors.gray};
-    border: 1px solid ${isActive ? theme.colors.gold : theme.colors.gray};
     font-weight: bold;
     font-size: 15px;
     font-family: ${theme.fontStyle.archivo};
-    text-transform: capitalize;
+    text-transform: uppercase;
 
     transition: all 300ms ease;
   `,

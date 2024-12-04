@@ -1,4 +1,4 @@
-import { getFormSprings } from "./base";
+import { getFormSprings, postToSprings } from "./base";
 import { Collection } from "../model/Collection";
 
 export async function getCollectionsOfBrand(
@@ -11,6 +11,22 @@ export async function getCollectionsOfBrand(
 
 export async function getCollections(): Promise<Collection[]> {
   const response = await getFormSprings(`/api/collection/get/list`);
+
+  return await response.data;
+}
+
+export async function addCollections(
+  collection: Collection,
+): Promise<Collection[]> {
+  const response = await postToSprings("/api/collection/add", collection);
+
+  return await response.data;
+}
+
+export async function editCollections(
+  collection: Collection,
+): Promise<Collection[]> {
+  const response = await postToSprings("/api/collection/edit", collection);
 
   return await response.data;
 }

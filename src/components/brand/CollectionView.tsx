@@ -70,6 +70,7 @@ export function CollectionView(props: { collectionList: Collection[] }) {
             modifier: 3,
             slideShadows: true,
           }}
+          lazy={true}
           keyboard={{ enabled: true }}
           // mousewheel={{ thresholdDelta: 70 }}
           mousewheel
@@ -184,16 +185,16 @@ const BackgroundImageCase = styled.img`
 `;
 const StyledSwiperSlide = styled(SwiperSlide)<{ index: number; image: string }>(
   ({ index, image }) => css`
-    width: 18.75rem;
-    height: 28.125rem;
+    width: 20.75rem;
+    height: 20.75rem;
     display: flex;
     flex-direction: column;
     justify-content: end;
     align-items: self-start;
 
     &.swiper-slide {
-      width: 18.75rem;
-      height: 28.125rem;
+      width: 20.75rem;
+      height: 20.75rem;
       display: flex;
       flex-direction: column;
       justify-content: end;
