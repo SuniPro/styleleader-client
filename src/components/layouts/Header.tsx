@@ -6,16 +6,17 @@ import { css } from "@emotion/react";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SettingsIcon from "@mui/icons-material/Settings";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import DescriptionIcon from "@mui/icons-material/Description";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { checkMe, signOut } from "../../api/user";
+import { signOut } from "../../api/user";
 import theme from "../../styles/theme";
 import { StyledIconButton } from "./LayoutLayer";
 import { error, success } from "../../alert/alert";
+import { useUserContext } from "../context/UserContext";
 
 export function Header() {
+  const { user } = useUserContext();
   const location = useLocation();
   const navigate = useNavigate();
   const [position, setPosition] = useState(0);
@@ -28,12 +29,6 @@ export function Header() {
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
-
-  const { data: user } = useQuery({
-    queryKey: ["checkMe"],
-    queryFn: () => checkMe(),
-    refetchInterval: 5000,
-  });
 
   function logout() {
     signOut()
@@ -49,11 +44,15 @@ export function Header() {
       case "admin":
         return (
           <>
-            <StyledIconButton icon={ManageAccountsIcon} />
+            {/*<StyledIconButton icon={ManageAccountsIcon} />*/}
             <StyledIconButton
               icon={SettingsIcon}
               func={() => navigate("/manage")}
             />
+            <StyledIconButton
+              icon={DescriptionIcon}
+              func={() => navigate("/description")}
+            ></StyledIconButton>
             <StyledIconButton icon={LogoutIcon} func={logout} />
           </>
         );
