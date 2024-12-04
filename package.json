@@ -31,6 +31,7 @@
     "react-aws-s3": "^1.5.0",
     "react-aws-s3-typescript": "^1.1.5",
     "react-dom": "^18.3.1",
+    "react-intersection-observer": "^9.13.1",
     "react-kakao-maps-sdk": "^1.1.27",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.26.2",
@@ -50,7 +51,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:8080",
+  "proxy": "http://54.180.230.22:8080",
   "eslintConfig": {
     "extends": [
       "react-app",
