@@ -168,6 +168,7 @@ function CollectionItems(props: {
             <h4
               css={css`
                 text-transform: uppercase;
+                text-align: center;
               `}
             >
               {item.title}

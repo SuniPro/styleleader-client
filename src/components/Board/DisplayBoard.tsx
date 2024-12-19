@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { IconTypcnChevronLeftOutline } from "../../assets/Icons/ChevronOutlineArrow";
 import { IconTypcnChevronRightOutline } from "../../assets/Icons/ChevronOutlineArrow";
 import React, { Children, useEffect, useRef, useState } from "react";
-import { css, Theme, useTheme } from "@emotion/react";
+import { css, useTheme } from "@emotion/react";
 import { SectionTitle } from "../layouts";
 import theme from "../../styles/theme";
 

@@ -300,6 +300,14 @@ const CategoryContents = styled.div<{
       text-transform: uppercase;
       font-weight: bold;
     }
+
+    @media ${theme.windowSize.middle} {
+      transform: translateX(-10%);
+    }
+
+    @media ${theme.windowSize.small} {
+      transform: translateX(-10%);
+    }
   `,
 );
 
@@ -431,19 +439,8 @@ const CategoryImageContainer = styled.div<{
 
 const CategoriesMainContainer = styled.div`
   position: relative;
-  height: 100%;
   height: calc(100vh - 150px);
   width: 100%;
-
-  a,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: white;
-  }
 
   a:hover,
   a:hover > * {

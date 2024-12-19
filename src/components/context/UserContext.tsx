@@ -14,16 +14,14 @@ export function UserContextProvider({ children }: { children: ReactNode }) {
     data: user,
     isLoading,
     isError,
-  } = useQuery({
+  } = useQuery<User | null>({
     queryKey: ["checkMe"],
     queryFn: () => checkMe(),
     refetchInterval: 5000,
   });
 
-  if (!user) return null;
-
   return (
-    <UserContext.Provider value={{ user, isLoading, isError }}>
+    <UserContext.Provider value={{ user: user ?? null, isLoading, isError }}>
       {children}
     </UserContext.Provider>
   );

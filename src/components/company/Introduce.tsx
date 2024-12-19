@@ -130,7 +130,7 @@ export function Introduce() {
         <BlogPart className="blog-part is-menu" isMenu={true}>
           {CONNECT_LIST.map((connect, index) => {
             return (
-              <>
+              <React.Fragment key={index}>
                 <div
                   css={css`
                     width: 100%;
@@ -159,16 +159,16 @@ export function Introduce() {
                     `}
                     fill="none"
                     stroke="currentColor"
-                    stroke-width=".7"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth=".7"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     className="feather feather-arrow-up-right"
                     viewBox="0 0 24 24"
                   >
                     <path d="M7 17L17 7M7 7h10v10" />
                   </svg>
                 </div>
-              </>
+              </React.Fragment>
             );
           })}
         </BlogPart>
@@ -189,6 +189,7 @@ export function Introduce() {
         <div className="blog-header-container">
           {BANNER_LIST.map((banner, index) => (
             <div
+              key={index}
               className="blog-header"
               onMouseEnter={() => {
                 setActiveBanner(index);
@@ -211,7 +212,9 @@ export function Introduce() {
               </div>
 
               <BlogArticle className="blog-article">
-                <BannerCase>{banner.thumbnail}</BannerCase>
+                <BannerCase onMouseEnter={() => newsPaperPin()}>
+                  {banner.thumbnail}
+                </BannerCase>
                 <div
                   css={css`
                     padding: 0 10px;
@@ -232,9 +235,9 @@ export function Introduce() {
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     className="feather feather-corner-down-right"
                     viewBox="0 0 24 24"
                   >
@@ -262,7 +265,7 @@ export function Introduce() {
             <div className="blog-right-title">Store List</div>
           </BlogRightTitleContainer>
           <div className="blog-right">
-            <div className="blog-right-container" onMouseEnter={newsPaperPin}>
+            <div className="blog-right-container">
               <div className="blog-title-date">
                 <Map
                   center={{ lat: 37.5097068966865, lng: 127.024670188825 }}
@@ -291,11 +294,7 @@ export function Introduce() {
               <div className="blog-right-page-subtitle"></div>
             </div>
             {STORE_LIST.map((store, index) => (
-              <div
-                className="blog-right-container"
-                key={index}
-                onMouseEnter={newsPaperPin}
-              >
+              <div className="blog-right-container" key={index}>
                 <div className="blog-title-date">
                   <div
                     className="blog-right-page"
@@ -330,14 +329,13 @@ export function Introduce() {
                 </div>
               </div>
             ))}
-            <CirCle className="circle">
-              <div className="circle-title">Leave Your Old Life Behind</div>
-              <div className="circle-subtitle">
-                Don't try to be like someone else, be yourself. Be secure with
-                yourself.
-              </div>
-              <div className="circle-footer">Explore</div>
-            </CirCle>
+            {/*<CirCle className="circle">*/}
+            {/*  <div className="circle-title">See More</div>*/}
+            {/*  <div className="circle-subtitle">*/}
+            {/*    페이지 하단의 전화번호를 참고해주세요.*/}
+            {/*  </div>*/}
+            {/*  <div className="circle-footer"></div>*/}
+            {/*</CirCle>*/}
           </div>
         </BlogPart>
       </IntroduceWrapper>
@@ -488,8 +486,6 @@ const PageNumber = styled.div`
 `;
 
 const IntroduceWrapper = styled.div`
-  @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,500&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap");
-
   img {
     max-width: 100%;
   }

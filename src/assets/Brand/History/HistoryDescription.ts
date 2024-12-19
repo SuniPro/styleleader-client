@@ -7,10 +7,21 @@ import FC_2000 from "./FC/FC_WEB_History_Page_Pictures_2000.jpg";
 import FC_2001 from "./FC/FC_WEB_History_Page_Pictures_2001.jpg";
 import FC_2002 from "./FC/FC_WEB_History_Page_Pictures_2002.jpg";
 import FC_2004 from "./FC/FC_WEB_History_Page_Pictures_2004.jpg";
+import FC_2006 from "./FC/FC_WEB_History_Page_Pictures_2006.jpg";
+import FC_2007 from "./FC/FC_WEB_History_Page_Pictures_2007.jpg";
+import FC_2008_A from "./FC/FC_WEB_History_Page_Pictures_2008_A.jpg";
+import FC_2008_B from "./FC/FC_WEB_History_Page_Pictures_2008_B.jpg";
 import FC_2009 from "./FC/FC_WEB_History_Page_Pictures_2009.jpg";
 import FC_2012 from "./FC/FC_WEB_History_Page_Pictures_2012.jpg";
 import FC_2015 from "./FC/FC_WEB_History_Page_Pictures_2015.jpg";
 import FC_2016 from "./FC/FC_WEB_History_Page_Pictures_2016.jpg";
+import FC_2017 from "./FC/FC_WEB_History_Page_Pictures_2017.jpg";
+import FC_2018_A from "./FC/FC_WEB_History_Page_Pictures_2018_A.jpg";
+import FC_2018_B from "./FC/FC_WEB_History_Page_Pictures_2018_B.jpg";
+import FC_2019 from "./FC/FC_WEB_History_Page_Pictures_2019.jpg";
+import FC_2020 from "./FC/FC_WEB_History_Page_Pictures_2020.jpg";
+import FC_2021 from "./FC/FC_WEB_History_Page_Pictures_2021.jpg";
+import FC_2023 from "./FC/FC_WEB_History_Page_Pictures_2023.jpg";
 
 import DOXA_1889 from "./DOXA/1889.webp";
 import DOXA_1890 from "./DOXA/1890.webp";
@@ -36,7 +47,7 @@ export const HistoryDescription: BrandHistory[] = [
   {
     historyTitle: "brand Extends, For Affordable LUXURY",
     historyDate: "1988 ~ 2023",
-    collectionSlogan: "Affordable LUXURY, For YOU",
+    collectionSlogan: "Live your passion, Frederique Constant",
     collectionList: "MANUFACTURE · HIGHLIFE · CLASSICS",
     timeLine: [
       {
@@ -95,10 +106,39 @@ export const HistoryDescription: BrandHistory[] = [
       },
       {
         image: FC_2004,
-        time: "2002",
+        time: "2004",
         title: "첫 번째 매뉴팩처 칼리버",
         description:
           "브랜드의 첫 번째 매뉴팩처 칼리버인 FC-910이 완전히 자체 개발 및 조립되어 출시되었습니다. 이를 기념하기 위해, 이 첫 매뉴팩처 무브먼트는 6시 방향에 상징적인 하트 비트 오프닝을 특징으로 합니다.",
+      },
+      {
+        image: FC_2006,
+        time: "2006",
+        title: "Plan-les-Ouates에서 매뉴팩처 건물 건설 ",
+        description: "Plan-les-Ouates에 새롭게 설립된 매뉴팩처 건물의 준공식.",
+      },
+      {
+        image: FC_2007,
+        time: "2007",
+        title: "빈티지 랠리 컬렉션 출시",
+        description:
+          "영국 자동차 브랜드 오스틴-힐리와의 파트너십 시작 및 전용 빈티지 랠리 컬렉션 제작.",
+      },
+      {
+        image: FC_2008_A,
+        time: "2008",
+        title: "투르비용 매뉴팩처 리미티드 에디션 출시",
+        description:
+          "프레드릭 콘스탄트, FC-980 매뉴팩처 칼리버와 실리콘 이스케이프먼트를 장착한 첫 번째 투르비용 매뉴팩처 리미티드 에디션 공개. \n" +
+          "6시 방향에 위치한 투르비용은 다이얼의 프레데릭 콘스탄트 상징인 하트 비트 오픈워크를 연상시킵니다.",
+      },
+      {
+        image: FC_2008_B,
+        time: "2008",
+        title: "첫 번째 매뉴팩처 칼리버",
+        description:
+          "같은 해, 피터 스타스, 핌 쿠슬라그, 그리고 로버트 반 파펠렌담은 프레드릭 콘스탄트 그룹 내에 새로운 브랜드인 아틀리에 드 모나코(Ateliers deMonaco)를 설립했습니다. \n" +
+          "이 브랜드는 고급 소재로 제작되고 미닛 리피터와 같은 매우 복잡한 메커니즘을 갖춘 파인 워치메이킹 타임피스를 제공합니다.",
       },
       {
         image: FC_2009,
@@ -130,13 +170,77 @@ export const HistoryDescription: BrandHistory[] = [
         description:
           "Aletta와 Peter Stas는 프레드릭 콘스탄트 그룹의 미래에 대해 생각하기 시작하고 시티즌의 인수 제안을 수락하기로 결정합니다. ",
       },
+      {
+        image: FC_2017,
+        time: "2017",
+        title: "플라이백 크로노그래프 매뉴팩처 출시",
+        description:
+          "전통적인 플라이백 메커니즘은 클러치 시스템으로 작동하는 여러 개의 칼럼 휠로 구성되어 있습니다.\n" +
+          "플라이백 크로노그래프 매뉴팩처를 작동시키는 FC-760 매뉴팩처 칼리버는 이러한 복잡성을 없애고, 표준 칼럼 휠 대신에 별 모양의 휠(특허받음)을 사용합니다. 이로 인해 더 얇은 무브먼트와 더 적은 부품 및 작동으로 이루어집니다.",
+      },
+      {
+        image: FC_2018_A,
+        time: "2017",
+        title: "클래식 하이브리드 매뉴팩처 타임피스 출시",
+        description:
+          "독점적인 카펜터스 갤러리에서 공개된 클래식 하이브리드 매뉴팩처 타임피스는 연결된 기능을 갖추고 있으며,\n" +
+          "시계 제조 역사상 처음으로 쿼츠 칼리버와 기계식 무브먼트를 결합합니다.",
+      },
+      {
+        image: FC_2018_B,
+        time: "2018",
+        title: "전무 이사로 Niels Eggerding 임명 ",
+        description:
+          "Niels Eggerding는 2012년 그룹에 부영업 이사로 합류하기 전, 시계 제조업계에서 11년 동안 근무했습니다. \n" +
+          "2014년에는 판매 부사장으로 승진하였고, 그의 강력한 비즈니스 능력 덕분에 2018년에 그룹의 전무 이사로 임명되었습니다.",
+      },
+      {
+        image: FC_2019,
+        time: "2019",
+        title: "매뉴팩처 확장 및 매뉴팩처 체험 창설",
+        description:
+          "생산 능력을 높이고 그룹의 성장하는 수요와 확장을 지원하기 위해, 매뉴팩처 총 면적이 6200 m²로 확장되었습니다.  \n" +
+          "또한, 그룹의 역사를 되짚어보는 대중 개방형 박물관인 매뉴팩처 체험관도 만들어졌습니다.",
+      },
+      {
+        image: FC_2020,
+        time: "2020",
+        title: "스마트워치 바이탈리티 라인 출시",
+        description:
+          "연결된 시계 분야에서 지속적으로 나아가며,  \n" +
+          "요청 시 디지털 화면을 표시하고 통합된 심박수 센서가 장착된 스마트워치 바이탈리티 라인을 출시합니다.",
+      },
+      {
+        image: FC_2021,
+        time: "2021",
+        title: "세계 최초, 슬림라인 모노리식 매뉴팩처",
+        description:
+          "기계식 시계 조정의 원칙 재정의 \n" +
+          "\n" +
+          "표준 구성의 26개 부품을 대체하는 단일 실리콘 발진기\n" +
+          "표준 무브먼트 구성에 맞는 크기의 혁신적인 디자인\n" +
+          "놀라운 40Hz의 높은 주파수\n" +
+          "80시간의 파워 리저브\n" +
+          "\n" +
+          "메종의 30번째 자체 제작 무브먼트: FC-810  \n",
+      },
+      {
+        image: FC_2023,
+        time: "2023",
+        title: "프레드릭 콘스탄트 35주년 기념",
+        description:
+          "• 세계에서 가장 권위 있는 고급 시계 전시회인 워치스 앤 원더스에서 처음 선보임 \n" +
+          "• 메종은 자랑스럽게 현대적인 스타일, 슬림한 라인, 다양한 소재 선택으로 투르비용 매뉴팩처를 재구성함\n" +
+          " • 새로운 매뉴팩처 무브먼트 출시\n" +
+          "메종의 31번째 자체 제작 무브먼트\n",
+      },
     ],
   },
   {
     historyTitle: "Your call to adventure",
     historyDate: "1889 ~ 2019",
-    collectionSlogan: "Call to adventure For YOU",
-    collectionList: "SUB200 · SUB300 · LIMITED EDITION",
+    collectionSlogan: "The adventure continues.",
+    collectionList: "DOXA SUB. THE LEGEND LIVES ON.",
     timeLine: [
       {
         image: DOXA_1889,
